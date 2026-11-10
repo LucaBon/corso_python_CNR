@@ -1,0 +1,38 @@
+# Ambiente del corso "Python e Analisi Dati per Ricercatori CNR": installazione con uv
+#
+#   1. installare uv (una riga, senza permessi di amministratore):
+#        Mac / Linux:  curl -LsSf https://astral.sh/uv/install.sh | sh
+#        Windows:      powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+#   2. dalla cartella del corso:
+#        uv sync                       (scarica Python 3.12 e tutte le librerie in .venv/)
+#        uv run python verifica_ambiente.py     -> deve stampare "tutto ok"
+#        uv run jupyter lab
+#
+# Piano B (se uv non funziona): Miniforge + environment.yml, vedi README.
+[project]
+name = "corso-python-cnr"
+version = "1.0.0"
+description = "Materiali del corso Python e Analisi Dati per Ricercatori CNR"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    # versioni minime allineate a uv.lock e agli "output attesi" (pandas 3: il testo compare come `str`)
+    "numpy>=2.2",
+    "pandas>=3.0,<4",
+    "matplotlib>=3.10",
+    "scipy>=1.14",
+    "scikit-learn>=1.6",
+    "seaborn>=0.13",
+    "openpyxl>=3.1",
+    "pillow>=10",
+    "jupyterlab>=4.2",
+    "ipykernel>=6.29",
+    "nbformat>=5.10",
+    "nbclient>=0.10",
+]
+
+[tool.uv]
+package = false
+# Tutti i pacchetti del lock devono avere una versione GIA' COMPILATA (wheel) per Windows, Mac
+# (Apple Silicon e Intel) e Linux: niente compilazione sul computer dei partecipanti.
+# argon2-cffi-bindings 26.x (dipendenza di JupyterLab) non ha wheel per Mac Intel: si resta alla 25.1.
+constraint-dependencies = ["argon2-cffi-bindings<26"]
