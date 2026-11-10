@@ -1,0 +1,15 @@
+# ambiente e cache
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.omc/
+
+# pacchetti da distribuire (si rigenerano con: python strumenti/nb_tools.py pacchetto)
+dist/
+
+# file prodotti eseguendo i notebook (csv, xlsx, figure)
+docente/*
+!docente/*.ipynb
+studenti/*
+!studenti/*.ipynb
+*-Copy*.ipynb

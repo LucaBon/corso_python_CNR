@@ -1,0 +1,24 @@
+# Ambiente del corso "Python e Analisi Dati per Ricercatori CNR"
+# Installazione con Miniforge (https://github.com/conda-forge/miniforge):
+#     conda env create -f environment.yml
+#     conda activate corso-cnr
+#     python verifica_ambiente.py
+#     jupyter lab
+name: corso-cnr
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  # stesse versioni minime di pyproject.toml (gli "output attesi" sono prodotti con pandas 3)
+  - numpy>=2.2
+  - pandas>=3.0,<4
+  - matplotlib>=3.10
+  - scipy>=1.14
+  - scikit-learn>=1.6
+  - seaborn>=0.13
+  - openpyxl
+  - pillow
+  - jupyterlab
+  - ipykernel
+  - nbformat
+  - nbclient
