@@ -317,7 +317,7 @@ plt.show()
 # %%
 controlla_font("Arial")     # su questo computer probabilmente manca: Matplotlib ripiega su DejaVu Sans
 stile_rivista(base_font=8)
-mpl.rcParams["axes.prop_cycle"] = cycler(color=OKABE_ITO)     # lo stile resetta il ciclo colori: lo rimettiamo
+# stile_rivista() non tocca i colori: resta attiva la palette Okabe-Ito impostata nella sezione 4
 
 fig, ax = plt.subplots(figsize=(LARGHEZZE["elsevier_singola"], 2.6))
 ax.plot(x, m * x + q, "-", zorder=1, label="regressione")
