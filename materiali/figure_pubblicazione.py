@@ -12,8 +12,10 @@ Uso tipico in un notebook:
     salva_figura(fig, 'figura1', formati=('pdf', 'tif'), dpi=600)
 """
 
+import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from matplotlib.colors import to_rgb
 from pathlib import Path
 
 # --------------------------------------------------------------------------
@@ -151,8 +153,63 @@ def controlla_font(nome='Arial'):
     return True
 
 
-def verifica_figura(fig, larghezza_max=7.0, font_min=4.5, linea_min=0.5):
-    """Controllo rapido prima della sottomissione: dimensioni, font, spessori."""
+# Pesi della luminanza (ITU-R BT.709): come appare un colore stampato in bianco e nero
+_PESI_LUMINANZA = np.array([0.2126, 0.7152, 0.0722])
+
+
+def _luminanza(colore):
+    return float(np.dot(to_rgb(colore), _PESI_LUMINANZA))
+
+
+def in_grigi(fig):
+    """Restituisce una copia della figura in scala di grigi, per controllo visivo.
+
+    Se due curve spariscono l'una nell'altra, servono tratteggi o marcatori diversi.
+    """
+    fig.canvas.draw()
+    rgba = np.asarray(fig.canvas.buffer_rgba(), dtype=float) / 255
+    lum = rgba[..., :3] @ _PESI_LUMINANZA
+    g = plt.figure(figsize=fig.get_size_inches(), layout='none')
+    ax = g.add_axes([0, 0, 1, 1])
+    ax.axis('off')
+    ax.imshow(lum, cmap='gray', vmin=0, vmax=1)
+    return g
+
+
+def _curve_confondibili(ax, soglia=0.12):
+    """Coppie di curve con stesso tratteggio, stesso marcatore e grigio quasi uguale."""
+    # i cappucci delle barre d'errore non sono curve da distinguere
+    cappucci = {id(c) for cont in ax.containers if hasattr(cont, 'has_xerr')
+                for c in (cont.lines[1] or ())}
+    curve = []
+    for l in ax.get_lines():
+        if id(l) in cappucci:
+            continue
+        ls, mk = l.get_linestyle(), l.get_marker()
+        visibile_linea = ls not in ('None', '', ' ')
+        visibile_marker = mk not in (None, 'None', '', ' ')
+        if not (visibile_linea or visibile_marker):
+            continue
+        nome = l.get_label()
+        if nome.startswith('_'):
+            nome = f'curva {len(curve) + 1}'
+        firma = (ls if visibile_linea else None, mk if visibile_marker else None)
+        curve.append((nome, firma, to_rgb(l.get_color())))
+    coppie = []
+    for i in range(len(curve)):
+        for j in range(i + 1, len(curve)):
+            (n1, f1, c1), (n2, f2, c2) = curve[i], curve[j]
+            # stesso colore = stessa serie (voluto); colori diversi ma stesso grigio = problema
+            if f1 == f2 and c1 != c2 and abs(_luminanza(c1) - _luminanza(c2)) < soglia:
+                coppie.append((n1, n2))
+    return coppie
+
+
+def verifica_figura(fig, larghezza_max=7.0, font_min=4.5, linea_min=0.5, grigi=False):
+    """Controllo rapido prima della sottomissione: dimensioni, font, spessori, bianco e nero.
+
+    grigi=True mostra anche la versione in scala di grigi (vedi in_grigi) e la restituisce.
+    """
     w, h = fig.get_size_inches()
     print(f'Dimensioni: {w:.2f} x {h:.2f} in  ({w*2.54:.1f} x {h*2.54:.1f} cm)')
     if w > larghezza_max:
@@ -183,7 +240,16 @@ def verifica_figura(fig, larghezza_max=7.0, font_min=4.5, linea_min=0.5):
         print(f'  ATTENZIONE: {len(sottili)} linee sotto {linea_min} pt')
     else:
         print('  Linee: ok')
+    confondibili = [c for ax in fig.axes for c in _curve_confondibili(ax)]
+    if confondibili:
+        a, b = confondibili[0]
+        print(f'  ATTENZIONE: {len(confondibili)} coppie di curve indistinguibili in bianco e nero '
+              f'(es. "{a}" e "{b}"): usare tratteggi o marcatori diversi')
+    else:
+        print('  Bianco e nero: ok')
     print(f'  Pixel a 600 dpi: {int(w*600)} x {int(h*600)}')
+    if grigi:
+        return in_grigi(fig)
 
 
 if __name__ == '__main__':
