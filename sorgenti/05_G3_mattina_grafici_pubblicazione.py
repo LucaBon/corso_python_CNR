@@ -34,7 +34,7 @@ def trova_dati():
 DATI = trova_dati()
 MATERIALI = DATI.parent / "materiali"
 sys.path.insert(0, str(MATERIALI.resolve()))
-from figure_pubblicazione import stile_rivista, LARGHEZZE, CM, salva_figura, controlla_font, verifica_figura
+from figure_pubblicazione import stile_rivista, stile_rivista_ctx, LARGHEZZE, CM, salva_figura, controlla_font, verifica_figura
 print("matplotlib", mpl.__version__, "| materiali:", MATERIALI.resolve())
 
 # %% [markdown]
@@ -432,7 +432,7 @@ a2.set_title("regplot: retta e banda al 95 %")
 plt.show()
 
 # %%
-# Matrice di grafici a coppie: la prima cosa da fare su una tabella multivariata (giovedì)
+# Matrice di grafici a coppie: la prima cosa da fare su una tabella multivariata (giorno 4)
 mat = pd.read_csv(DATI / "sensori_matrice.csv")
 g = sns.pairplot(mat[["pH", "conducibilita_uS", "clorofilla", "fenoli_tot", "classe"]], hue="classe", height=1.8)
 plt.show()
@@ -447,6 +447,8 @@ plt.show()
 # 4. La larghezza si fissa alla creazione; font ≥ 8 pt; PDF vettoriale; leggibile in b/n.
 # 5. `stile_rivista()`, `LARGHEZZE`, `salva_figura()` e `verifica_figura()` fanno il lavoro ripetitivo.
 # 6. La scheda `personalizzazione_grafici.ipynb` è il posto dove cercare quando serve "quel dettaglio".
+# 7. Da R: la cosa più vicina a `ggplot2` è seaborn (`data=`, `x=`, `y=`, `hue=`, formato lungo);
+#    per la rifinitura da rivista si passa `ax=` a seaborn e si finisce con i metodi di Matplotlib.
 #
 # Nel pomeriggio: la retta di taratura fatta come si deve (incertezze sui parametri, bande di
 # confidenza e di predizione), poi fit non lineari, residui e statistica di base.

@@ -150,24 +150,26 @@ plt.show()
 # scrivono in due righe di codice, dichiarando sempre quale formula avete usato.
 
 # %% [markdown]
-# ### Esercizio 6.1 (E3.1): un report di regressione completo, e un anomalo nascosto (livello 3)
+# ### Dimostrazione: un report di regressione completo, e un anomalo nascosto
 #
-# Mettete insieme tutto in una funzione `report_regressione(x, y, nome)` che stampa un rapporto
-# e restituisce un dizionario con: `m`, `sm`, `q`, `sq` (errori standard), `ic_m`, `ic_q`
-# (semi-ampiezze degli IC al 95 %), `r2`, `s_yx`, `n`. Poi una seconda funzione per la figura:
-# punti, retta, bande di confidenza e di predizione (riusate `bande_retta`), equazione e R² nel riquadro.
+# Il codice qui sotto è già scritto: eseguitelo e leggetelo. Mette insieme tutto in una funzione
+# `report_regressione(x, y, nome)`, che stampa un rapporto e restituisce un dizionario con `m`, `sm`,
+# `q`, `sq` (errori standard), `ic_m`, `ic_q` (semi-ampiezze degli IC al 95 %), `r2`, `s_yx`, `n`, e una
+# seconda funzione per la figura (punti, retta, bande, equazione e R² nel riquadro).
 #
-# Usatela due volte: sui dati originali e su una copia `tar_err` in cui una sola replica a 20 µM
-# è sbagliata del 30 % (già preparata nella cella). Domande, da rispondere in un commento:
-# quanto cambiano pendenza, $s_{y/x}$ e la semi-ampiezza della banda di predizione a 20 µM?
-# L'R² vi avverte che qualcosa non va? E il grafico?
+# La usiamo due volte: sui dati originali e su una copia `tar_err` in cui **una sola** replica a 20 µM
+# è sbagliata del 30 %. Le domande, da discutere: quanto cambiano pendenza, $s_{y/x}$ e la banda di
+# predizione a 20 µM? L'R² vi avverte che qualcosa non va? E il grafico?
+#
+# > *Estensione facoltativa*: riscrivete `report_regressione` da soli, senza guardare, e controllate
+# > di ottenere gli stessi numeri.
 
 # %%
-# ESERCIZIO 6.1 (livello 3)
+# DIMOSTRAZIONE (codice completo, da eseguire e leggere)
 tar_err = tar.copy()
 k_err = tar_err.index[tar_err["conc_uM"] == 20][0]
 tar_err.loc[k_err, "i_uA"] *= 1.3          # una replica sbagliata del 30 % (es. errore di trascrizione)
-# --- SOLUZIONE ---
+
 def report_regressione(x, y, nome="regressione", alpha=0.05):
     x, y = np.asarray(x, float), np.asarray(y, float)
     reg = stats.linregress(x, y)
@@ -521,19 +523,24 @@ print(f"Kruskal-Wallis: H = {H:.1f}, p = {p_kw:.2g}")
 # ---
 # ## Riepilogo del giorno 3
 #
-# | Serve… | Funzione |
-# |---|---|
-# | retta con errori sui parametri | `stats.linregress` → `.slope, .stderr, .intercept, .intercept_stderr` |
-# | intervallo al 95 % | ± `stats.t.ppf(0.975, n-2)` × errore standard |
-# | bande di confidenza / predizione | formule con $s_{y/x}$ e $S_{xx}$ (funzione `bande_retta`) |
-# | report completo di una retta | `report_regressione` (Es. 6.1), e guardare il grafico: l'R² non avverte |
-# | fit non lineare | `curve_fit(f, x, y, p0=, bounds=)` → `np.sqrt(np.diag(pcov))` |
-# | il fit è giusto? | residui senza struttura, non R² |
-# | due gruppi | `stats.ttest_ind(a, b, equal_var=False)` + d di Cohen |
-# | tre o più gruppi | `stats.f_oneway` poi `stats.tukey_hsd`; controllo non parametrico `stats.kruskal` |
-# | repliche dello stesso campione | un valore per campione prima del test (niente pseudo-repliche) |
-# | concentrazioni (positive, asimmetriche) | test in log10, effetti come rapporti |
-# | tanti test | correggere, o meglio: decidere prima |
+# | Serve… | In R | In Python |
+# |---|---|---|
+# | retta con errori sui parametri | `summary(lm(y ~ x))` | `stats.linregress` → `.slope, .stderr, .intercept, .intercept_stderr` |
+# | intervallo al 95 % | `confint()` | ± `stats.t.ppf(0.975, n-2)` × errore standard |
+# | bande di confidenza / predizione | `predict(..., interval = "confidence" / "prediction")` | formule con $s_{y/x}$ e $S_{xx}$ (funzione `bande_retta`) |
+# | report completo di una retta | – | `report_regressione` (la dimostrazione), e guardare il grafico: l'R² non avverte |
+# | fit non lineare | `nls()` | `curve_fit(f, x, y, p0=, bounds=)` → `np.sqrt(np.diag(pcov))` |
+# | il fit è giusto? | `plot(residuals())` | residui senza struttura, non R² |
+# | due gruppi | `t.test()` (Welch di default), `wilcox.test()` | `stats.ttest_ind(a, b, equal_var=False)` + d di Cohen; `stats.mannwhitneyu` |
+# | due misure sugli stessi campioni | `t.test(paired = TRUE)` | `stats.ttest_rel(a, b)`; non parametrico `stats.wilcoxon` |
+# | tre o più gruppi | `aov()`, `TukeyHSD()`, `kruskal.test()` | `stats.f_oneway` poi `stats.tukey_hsd`; controllo non parametrico `stats.kruskal` |
+# | repliche dello stesso campione | idem: un valore per campione (o un modello misto, `lme4`) | un valore per campione prima del test (niente pseudo-repliche) |
+# | concentrazioni (positive, asimmetriche) | idem | test in log10, effetti come rapporti |
+# | tanti test | `p.adjust()` | correggere, o meglio: decidere prima |
+#
+# Una differenza da sapere: scipy non usa le formule (`y ~ x`) e non produce la tabella ANOVA "alla R".
+# Per i modelli con formula, l'ANOVA a più fattori e i modelli misti in Python esiste `statsmodels`
+# (non installato nel nostro ambiente); per quei casi, se R lo usate già, R resta una scelta ottima.
 #
 # Domani: PCA e un modello predittivo, e come capire quando il risultato non vale niente.
 #

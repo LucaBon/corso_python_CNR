@@ -443,15 +443,26 @@ plt.show()
 # ---
 # ## Riepilogo della mattina
 #
-# | In Excel | In pandas |
-# |---|---|
-# | Apri file | `pd.read_csv(...)`, `pd.read_excel(...)`, con i parametri giusti per il formato |
-# | Guarda il foglio | `head()`, `info()`, `describe()`, `value_counts()` |
-# | Filtro automatico | `df[maschera]`, `.isin()`, `.between()` |
-# | Formula trascinata | `df["nuova"] = espressione` |
-# | `=SE()` | `np.where`, `pd.cut`, `apply` |
-# | Trova e sostituisci | `.str.replace()`, `.map({...})` |
-# | Salva con nome | `to_csv(index=False)`, `to_excel(index=False)` |
+# | In Excel | In R (base / dplyr) | In pandas |
+# |---|---|---|
+# | Apri file | `read.csv()`, `readxl::read_excel()` | `pd.read_csv(...)`, `pd.read_excel(...)`, con i parametri giusti per il formato |
+# | Guarda il foglio | `head()`, `str()`, `summary()`, `table()` | `head()`, `info()`, `describe()`, `value_counts()` |
+# | Filtro automatico | `filter()`, `%in%` | `df[maschera]`, `.isin()`, `.between()` |
+# | Formula trascinata | `mutate()` | `df["nuova"] = espressione` |
+# | `=SE()` | `ifelse()`, `case_when()`, `cut()` | `np.where`, `pd.cut`, `apply` |
+# | Trova e sostituisci | `gsub()`, `recode()` | `.str.replace()`, `.map({...})` |
+# | Salva con nome | `write.csv()` | `to_csv(index=False)`, `to_excel(index=False)` |
+#
+# ### Trappole per chi viene da R
+#
+# - **I mancanti**: `df["x"].mean()` di pandas *ignora* i NaN senza dirlo (in R `mean()` restituisce
+#   `NA` se non scrivete `na.rm = TRUE`). Un array NumPy invece si comporta come R
+#   (`arr.mean()` dà `nan`). Prima di una media, contate i mancanti.
+# - **L'indice**: un DataFrame ha sempre un'etichetta di riga (l'*index*) e le operazioni fra colonne
+#   si allineano su quella, non sulla posizione. Dopo un filtro le etichette restano quelle di prima.
+# - **Modificare un sottoinsieme**: `df[df["analita"] == "Cu"]["conc_ug_L"] = 0` **non modifica
+#   `df`** (pandas 3 dà solo un avviso). Si scrive in un passo solo: `df.loc[df["analita"] == "Cu", "conc_ug_L"] = 0`.
+# - `.loc[0:4]` include il 4, `.iloc[0:4]` no; in R non esiste né l'uno né l'altro.
 #
 # Tre abitudini da prendere:
 # 1. Prima di `read_csv`, guardate il file come testo.

@@ -135,7 +135,7 @@ print(np.__version__, pd.__version__)
 # %%
 import math
 print(math.sqrt(2), np.sqrt(2))
-print(np.mean(correnti), np.std(correnti, ddof=1))   # ddof=1 -> campionaria (n-1)
+print(np.mean(correnti), np.std(correnti, ddof=1))   # ddof=1 -> campionaria (n-1), come sd() in R; il default di NumPy è n
 
 # %% [markdown]
 # ---
@@ -318,6 +318,9 @@ print(parti, float(parti[0]), float(parti[1]))
 # %% [markdown]
 # ### Esercizio 2.3 (E1.2): parsing di un file di strumento (livello 2)
 #
+# > *Facoltativo: si può saltare se si è in ritardo.* Chi lo salta trova la funzione già pronta
+# > prima dell'esercizio 2.4.
+#
 # Scrivete una funzione `leggi_dpv(percorso)` che restituisce tre cose: un dizionario
 # di metadati (chiave → valore, come testo), la lista dei potenziali `E` e la lista delle
 # correnti `i`.
@@ -374,8 +377,9 @@ print(np.sqrt(a))
 print(a.dtype, a.shape, a.size)
 
 # %%
-# Se NON avete finito l'esercizio 2.3, eseguite questa cella: NumPy sa leggere da solo un file a
-# colonne, basta dirgli quante righe di testa saltare. (Se l'avete finito, sovrascrive E e i con gli stessi valori.)
+# Eseguite questa cella IN OGNI CASO: NumPy sa leggere da solo un file a colonne, basta dirgli
+# quante righe di testa saltare. Le celle seguenti vogliono E e i come array NumPy (con le liste
+# dell'esercizio 2.3, i.min() darebbe errore).
 E, i = np.loadtxt(file, skiprows=9, unpack=True)
 print(E.shape, i.dtype)
 
@@ -470,7 +474,7 @@ print(f"fondo = {fondo:.3f} µA, picco netto = {i_picco:.3f} µA")
 # > nell'estensione facoltativa 3 dell'esercizio 2.4; le regressioni vere e proprie: giorno 3).
 
 # %% [markdown]
-# ### Esercizio 2.4 (E1.3): ciclo su una cartella e tabella riassuntiva (livello 3)
+# ### Esercizio 2.4 (E1.3): ciclo su una cartella e tabella riassuntiva (livello 2)
 #
 # Qui si vede a cosa serve Python. A mano fareste: apri il file, leggi il massimo, copia in
 # Excel, ripeti dodici volte. Qui:
@@ -492,7 +496,37 @@ print(f"fondo = {fondo:.3f} µA, picco netto = {i_picco:.3f} µA")
 # la codifica: su Windows il default non è UTF-8).
 
 # %%
-# ESERCIZIO 2.4 (livello 3)
+# Chi ha saltato l'esercizio 2.3 esegua questa cella: definisce leggi_dpv già pronta.
+# (Chi l'ha fatto può eseguirla lo stesso: la sostituisce con una versione equivalente.)
+def leggi_dpv(percorso):
+    """Legge un file DPV: restituisce (metadati, E, i)."""
+    metadati, E, i = {}, [], []
+    for riga in percorso.read_text(encoding="utf-8").splitlines():
+        if riga.startswith("#"):
+            chiave, valore = riga.split(":", 1)
+            metadati[chiave.strip("# ")] = valore.strip()
+        elif riga.strip() == "" or riga.startswith("E("):
+            continue
+        else:
+            e, c = riga.split("\t")
+            E.append(float(e))
+            i.append(float(c))
+    return metadati, E, i
+
+# %%
+# ESERCIZIO 2.4 (livello 2): sostituisci i ____
+#> righe_csv = ["campione,matrice,conc_nominale_uM,E_picco_V,i_picco_uA"]    # l'intestazione
+#> for f in sorted((DATI / "strumento").glob(____)):
+#>     meta, E, i = leggi_dpv(f)
+#>     E, i = np.array(E), np.array(i)
+#>     fondo = i[E < ____].mean()
+#>     k = i.argmax()                      # posizione del massimo
+#>     riga = [meta["Campione"], meta["Matrice"], meta["Concentrazione nominale (uM)"],
+#>             f"{E[k]:.3f}", f"{____:.3f}"]
+#>     righe_csv.append(",".join(riga))
+#>
+#> Path("riassunto_dpv.csv").write_text("\n".join(righe_csv) + "\n", encoding="utf-8")
+#> print("\n".join(righe_csv))
 # --- SOLUZIONE ---
 righe_csv = ["campione,matrice,conc_nominale_uM,E_picco_V,i_picco_uA"]
 for f in sorted((DATI / "strumento").glob("DPV_S??.txt")):

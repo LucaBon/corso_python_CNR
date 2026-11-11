@@ -26,7 +26,7 @@ corso_python_CNR/
 | 01 | G1 mattina: Python essenziale | benvenuto, fuori scope, Jupyter, tipi, f-string, liste, dizionari, for/if, range/enumerate/zip, comprehension |
 | 02 | G1 pomeriggio: Funzioni, errori, file, NumPy | funzioni, import, traceback vero e i 6 errori, try/except, E1.1 caccia al bug, pathlib, E1.2 parsing file strumento, array/maschere/NaN, primo grafico, picco su linea di base, E1.3 ciclo su cartella → CSV |
 | 03 | G2 mattina: Pandas essenziale | DataFrame/Series, read_csv su CSV "italiano" sporco, info/describe (`str` = testo), rename, date, Excel, loc/iloc/filtri, colonne derivate |
-| 04 | G2 pomeriggio: Pulizia e progetto | mancanti, duplicati, anomali IQR per gruppo (sui log), groupby/agg/transform, merge/join, pivot/melt, resample (facoltativo), **Progetto wrangling con report** |
+| 04 | G2 pomeriggio: Pulizia e progetto | mancanti, duplicati, anomali IQR per gruppo (sui log), groupby/agg/transform, merge/join, **API UniProt → JSON → merge (facoltativo, copia offline)**, pivot/melt, **Progetto wrangling con report (60')**, resample (per casa) |
 | 05 | G3 mattina: Grafici per la pubblicazione | API a oggetti, tipi, barre d'errore, personalizzazione, subplot, standard rivista con `figure_pubblicazione.py` (`stile_rivista` / `stile_rivista_ctx`, `verifica_figura` su font e linee), controllo in b/n, figura multipannello PDF/TIF, seaborn (facoltativo) |
 | 06 | G3 pomeriggio: SciPy e statistica | linregress con incertezze, Anscombe, bande di confidenza/predizione, report di regressione con un anomalo, curve_fit (decadimento, sigmoide a 4 parametri), residui, t-test/Cohen, ANOVA/Tukey, Kruskal-Wallis, una media per campione (pseudoreplicazione) e scala log, confronti multipli |
 | 07 | G4 mattina: Preprocessing e PCA | workflow, X/y, imputazione, richiamo NumPy (axis, broadcasting) → scaling (demo senza), fit/transform, PCA con loadings interpretati, k-means vs classi note, normalizzazione per campione, gerarchico (facoltativo), esercizio facoltativo sulle repliche (prepara il progetto finale) |
@@ -82,13 +82,14 @@ notebook, quindi si vedono anche lì).
 | `strumento/DPV_S01..S12.txt` (+ `S13_malformato`) | G1 | voltammogrammi DPV con header di metadati; picco ∝ concentrazione |
 | `misure_sporche.csv` | G2, G3 | 311 righe: 40 campioni (ognuno con **una** matrice: foglia/frutto/suolo) × Cu/Pb/Cd × 2-3 repliche, analizzati 5-39 giorni dopo il campionamento; `;`, virgola decimale, latin-1, `n.d.`, date gg/mm/aaaa, 10 NaN, 6 duplicati esatti, 4 anomali ×20, operatori non uniformi. Concentrazioni lognormali, repliche dello stesso campione correlate (→ media per campione nel nb 06) |
 | `metadati_campioni.xlsx` | G2 | sito/quota/data di campionamento per 37 dei 40 campioni (3 senza → NaN nel merge: 25 righe) |
+| `uniprot_esempio.json` | G2 (sezione API) | risposta salvata dell'API REST di UniProt per 10 geni umani (11 risultati: FBF1 entra perché "ALB" è un suo sinonimo). **Non** è generato da `genera_dati.py`: non cancellatelo. Si usa con `USA_RETE = False` (default) |
 | `sensore_serie.csv` | G2 | 1 settimana ogni 10 min, un buco di acquisizione (resample) |
 | `taratura.csv` | G3 | 6 livelli × 3 repliche → retta, bande di confidenza e predizione |
 | `dose_risposta.csv`, `cinetica.csv` | G3 | curva di Hill, decadimento esponenziale con plateau |
 | `confronto_gruppi.csv` | G3 | 3 trattamenti × 8 repliche (t-test, ANOVA) |
 | `sensori_matrice.csv` | G3, G4 | 60 campioni × (15 correnti + 5 chimico-fisiche) + sito; deriva strumentale su PC1; CV RF ≈ 0.92 ± 0.09 |
 | `rumore_puro.csv` | G4 | 30 × 200 variabili casuali + etichetta 15/15 senza legame con le variabili: la demo dell'overfitting |
-| `dataset_features_campioni.csv` | G4 (es. 7.3 facoltativo, progetto finale) | derivato da un dataset reale (nomi anonimizzati): 36 campioni × 3 repliche (108 righe), 45 variabili `feature_01..45`, 3 classi da 12 campioni. **Non** è generato da `genera_dati.py`: non cancellatelo. numeri trasformati colonna per colonna (non corrispondono a misure reali). CV per campione (`StratifiedGroupKFold`) ≈ 0.44 ± 0.09, non distinguibile dal caso (p ≈ 0.25); CV che ignora le repliche ≈ 0.65 |
+| `dataset_features_campioni.csv` | G4 (es. 7.2 facoltativo, progetto finale) | derivato da un dataset reale (nomi anonimizzati): 36 campioni × 3 repliche (108 righe), 45 variabili `feature_01..45`, 3 classi da 12 campioni. **Non** è generato da `genera_dati.py`: non cancellatelo. numeri trasformati colonna per colonna (non corrispondono a misure reali). CV per campione (`StratifiedGroupKFold`) ≈ 0.44 ± 0.09, non distinguibile dal caso (p ≈ 0.25); CV che ignora le repliche ≈ 0.65 |
 
 Tutti gli altri file sono sintetici e si rigenerano con `genera_dati.py`.
 

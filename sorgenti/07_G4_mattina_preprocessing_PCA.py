@@ -335,7 +335,7 @@ for k in (0, 1):
 # > al 48 %: è lo stesso spostamento comune visto prima, ancora più dominante senza le variabili
 # > chimico-fisiche. Succede spesso con segnali multicanale (spettri, sensori, array), e la soluzione
 # > tipica è una **normalizzazione per campione**: sottrarre a ogni riga la sua media (centering per
-# > riga) prima della PCA. Lo faremo nell'esercizio 7.2: `X_c.sub(X_c.mean(axis=1), axis=0)`.
+# > riga) prima della PCA. La provate nell'esercizio per casa C7.1: `X_c.sub(X_c.mean(axis=1), axis=0)`.
 
 # %% [markdown]
 # ---
@@ -402,28 +402,7 @@ print(pd.crosstab(y, etichette_h, rownames=["sito vero"], colnames=["cluster ger
 print(f"ARI: {adjusted_rand_score(y, etichette_h):.2f}")
 
 # %% [markdown]
-# ### Esercizio 7.2: clustering dopo la normalizzazione per campione (livello 2)
-#
-# Ripetete k-means (k = 3) sulle sole correnti, dopo aver sottratto a ogni campione la
-# media dei suoi 15 canali (normalizzazione per campione, *centering per riga*: toglie lo
-# spostamento comune di PC1), poi standardizzazione. Confrontate
-# con i siti veri: la tabella di contingenza e l'ARI migliorano?
-
-# %%
-# ESERCIZIO 7.2 (livello 2)
-# 1. X_cd = df[correnti] imputato; sottrai la media per riga (centering per riga: .sub(..., axis=0))
-# 2. standardizza
-# 3. KMeans(3) -> crosstab con y, ARI
-# --- SOLUZIONE ---
-X_cd = pd.DataFrame(SimpleImputer(strategy="median").fit_transform(df[correnti]), columns=correnti)
-X_cd = X_cd.sub(X_cd.mean(axis=1), axis=0)
-X_cd = StandardScaler().fit_transform(X_cd)
-km2 = KMeans(n_clusters=3, n_init=10, random_state=0).fit(X_cd)
-print(pd.crosstab(y, km2.labels_, rownames=["sito vero"], colnames=["cluster"]))
-print(f"ARI: {adjusted_rand_score(y, km2.labels_):.2f}")
-
-# %% [markdown]
-# ### Esercizio 7.3 (facoltativo): campioni con repliche (livello 2)
+# ### Esercizio 7.2 (facoltativo): campioni con repliche (livello 2)
 #
 # > *Facoltativo: si può saltare se si è in ritardo. È il dataset del progetto di oggi pomeriggio.*
 #
@@ -439,7 +418,7 @@ print(f"ARI: {adjusted_rand_score(y, km2.labels_):.2f}")
 # un'altra nel test? Scrivetelo in un commento: oggi pomeriggio lo verificheremo.
 
 # %%
-# ESERCIZIO 7.3 (facoltativo, livello 2)
+# ESERCIZIO 7.2 (facoltativo, livello 2)
 from scipy.spatial.distance import pdist, squareform
 dr = pd.read_csv(DATI / "dataset_features_campioni.csv")
 feat = [c for c in dr.columns if c.startswith("feature_")]
@@ -460,6 +439,7 @@ feat = [c for c in dr.columns if c.startswith("feature_")]
 #> fuori_diag = ~np.eye(len(dr), dtype=bool)
 #> print("repliche dello stesso campione:      ", D[stesso_camp & fuori_diag].mean().round(2))
 #> print("campioni diversi, stessa classe:     ", D[____ & ~stesso_camp].mean().round(2))
+#> print("campioni di classi diverse:          ", D[~stessa_cl].mean().round(2))
 # --- SOLUZIONE ---
 Zr = StandardScaler().fit_transform(dr[feat])
 pca_r = PCA(n_components=2).fit(Zr)
@@ -505,6 +485,34 @@ print("campioni di classi diverse:          ", D[~stessa_cl].mean().round(2))
 #    quella che vi interessa; la normalizzazione per campione la toglie.
 # 6. Clustering: bello, ma i cluster non sono le classi; verificate con ARI quando potete.
 # 7. Una PCA o un clustering che "separa bene" non è una prova: nel pomeriggio vedremo come si valuta onestamente.
+
+# %% [markdown]
+# ---
+# ## Esercizi per casa (facoltativi)
 #
+# Per chi vuole più pratica. Sotto ogni esercizio c'è l'output atteso.
+
+# %% [markdown]
+# ### Esercizio C7.1: clustering dopo la normalizzazione per campione (livello 2)
+#
+# Ripetete k-means (k = 3) sulle sole correnti, dopo aver sottratto a ogni campione la
+# media dei suoi 15 canali (normalizzazione per campione, *centering per riga*: toglie lo
+# spostamento comune di PC1), poi standardizzazione. Confrontate
+# con i siti veri: la tabella di contingenza e l'ARI migliorano?
+
+# %%
+# ESERCIZIO C7.1 (livello 2)
+# 1. X_cd = df[correnti] imputato; sottrai la media per riga (centering per riga: .sub(..., axis=0))
+# 2. standardizza
+# 3. KMeans(3) -> crosstab con y, ARI
+# --- SOLUZIONE ---
+X_cd = pd.DataFrame(SimpleImputer(strategy="median").fit_transform(df[correnti]), columns=correnti)
+X_cd = X_cd.sub(X_cd.mean(axis=1), axis=0)
+X_cd = StandardScaler().fit_transform(X_cd)
+km2 = KMeans(n_clusters=3, n_init=10, random_state=0).fit(X_cd)
+print(pd.crosstab(y, km2.labels_, rownames=["sito vero"], colnames=["cluster"]))
+print(f"ARI: {adjusted_rand_score(y, km2.labels_):.2f}")
+
+# %% [markdown]
 # ---
 # *Riferimento: Scientific Python Lectures, capitolo scikit-learn (CC-BY 4.0).*
