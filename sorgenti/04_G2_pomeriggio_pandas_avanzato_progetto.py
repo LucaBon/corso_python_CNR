@@ -298,6 +298,176 @@ stesso = df.join(meta.set_index("campione"), on="campione")
 print(len(stesso), "righe con join (equivale a merge how='left')")
 
 # %% [markdown]
+# ### Scaricare dati da un'API e unirli ai propri
+#
+# > *Facoltativo: si può saltare se si è in ritardo (circa 30').*
+#
+# Molte banche dati (UniProt, Ensembl, NCBI…) si interrogano con un indirizzo web: si chiede un URL
+# con dei parametri e si riceve una risposta, quasi sempre in **JSON**, cioè dizionari e liste uno
+# dentro l'altro (quelli del giorno 1). Lo schema è sempre lo stesso:
+#
+# 1. la vostra tabella, con una colonna chiave (qui il nome del gene);
+# 2. la chiamata all'API, con `requests`;
+# 3. dal JSON a una tabella;
+# 4. `merge`, e i controlli di sempre: quante righe prima e dopo, chi non ha trovato corrispondenza.
+#
+# L'esempio: 10 geni umani con un valore misurato (inventato), a cui aggiungiamo da UniProt il nome
+# della proteina e la sua lunghezza.
+
+# %%
+misurati = pd.DataFrame({
+    "gene": ["TP53", "BRCA1", "EGFR", "MYC", "Gapdh", "ACTB", "INS", "ALB", "CFTR", "HBB"],
+    "log2FC": [1.8, -0.6, 2.3, 1.1, 0.1, -0.2, -1.5, 0.4, -2.1, 0.7],      # valori inventati
+})
+misurati
+
+# %% [markdown]
+# La chiamata. I parametri dicono a UniProt cosa cercare (`query`), quali campi restituire
+# (`fields`) e in che formato. Tre buone abitudini:
+# - `timeout`: se il server non risponde, dopo 30 secondi ci si arrende invece di restare bloccati;
+# - `raise_for_status()`: trasforma una risposta di errore (404, 500…) in un errore Python, invece di
+#   continuare con una risposta vuota;
+# - **salvare la risposta** in un file: l'analisi diventa ripetibile anche quando la banca dati cambia
+#   (e nel metodo si scrive la data di accesso).
+#
+# Qui `USA_RETE = False` usa una copia salvata nella cartella dei dati, così la cella funziona anche
+# senza Internet o dietro il proxy dell'ente. Mettete `True` per fare la chiamata vera.
+
+# %%
+import json
+import requests
+
+URL = "https://rest.uniprot.org/uniprotkb/search"
+query = "(" + " OR ".join(f"gene_exact:{g}" for g in misurati["gene"]) + ") AND organism_id:9606 AND reviewed:true"
+parametri = {"query": query,
+             "fields": "accession,gene_primary,organism_name,length,protein_name",
+             "format": "json", "size": 50}
+print(query)
+
+USA_RETE = False          # True = chiamata vera; False = copia salvata in dati/
+if USA_RETE:
+    try:
+        r = requests.get(URL, params=parametri, timeout=30)
+        r.raise_for_status()
+        Path("uniprot_risposta.json").write_text(r.text, encoding="utf-8")    # la risposta, salvata
+        risposta = r.json()
+    except requests.RequestException as errore:
+        print("Chiamata non riuscita:", errore, "-> uso la copia salvata")
+        USA_RETE = False
+if not USA_RETE:
+    copia = DATI / "uniprot_esempio.json"
+    if not copia.exists():
+        raise FileNotFoundError("Copia salvata non trovata: mettete USA_RETE = True")
+    risposta = json.loads(copia.read_text(encoding="utf-8"))
+
+print(type(risposta), list(risposta.keys()))
+print(len(risposta["results"]), "risultati per", len(misurati), "geni")
+
+# %% [markdown]
+# 11 risultati per 10 geni: teniamolo a mente. Ogni risultato è un dizionario annidato: si scende
+# chiave per chiave, con `[0]` quando si incontra una lista.
+
+# %%
+primo = risposta["results"][0]
+print(list(primo.keys()))
+print(primo["primaryAccession"])
+print(primo["genes"][0]["geneName"]["value"])
+print(primo["sequence"]["length"])
+print(primo["proteinDescription"]["recommendedName"]["fullName"]["value"])
+
+# %% [markdown]
+# `pd.json_normalize` appiattisce da solo i dizionari annidati (le chiavi diventano colonne con il
+# punto, `sequence.length`), ma non le liste: la colonna `genes` resta una lista di dizionari.
+# Quando la struttura è così, conviene scrivere una piccola funzione che estrae solo quello che serve.
+
+# %%
+pd.json_normalize(risposta["results"]).columns.tolist()
+
+# %% [markdown]
+# La funzione qui sotto è **già pronta**: leggetela riga per riga e confrontatela con la cella di
+# prima, è la stessa discesa chiave per chiave. Una lista di dizionari "piatti" diventa direttamente
+# un DataFrame.
+
+# %%
+def estrai(rec):
+    """Da un risultato di UniProt a un dizionario con accession, gene, proteina, lunghezza."""
+    return {
+        "accession": rec["primaryAccession"],
+        "gene": rec["genes"][0]["geneName"]["value"],
+        "proteina": rec["proteinDescription"]["recommendedName"]["fullName"]["value"],
+        "lunghezza_aa": rec["sequence"]["length"],
+    }
+
+uniprot = pd.DataFrame([estrai(r) for r in risposta["results"]])
+uniprot
+
+# %% [markdown]
+# ### Esercizio 4.3: unire e controllare (livello 2)
+#
+# Ora la parte che conta: unire `misurati` e `uniprot` sulla colonna `gene` **senza perdere niente
+# per strada**.
+#
+# 1. Fate un merge con `how="outer"` e `indicator=True`. `indicator=True` aggiunge la colonna `_merge`,
+#    che per ogni riga dice dove stava la chiave: `both` (in entrambe), `left_only` (solo in
+#    `misurati`), `right_only` (solo in `uniprot`). Contate i valori di `_merge`.
+# 2. Stampate le righe che non sono `both`. Quali geni sono? Guardateli bene e scrivete in un
+#    commento **perché** non hanno trovato corrispondenza (sono due motivi diversi).
+# 3. Correggete il problema che dipende da voi: normalizzate la chiave di `misurati` (metodi `.str`
+#    di stamattina) e rifate il merge con `how="left"` e `validate="one_to_one"`. Stampate le righe
+#    prima e dopo e quanti geni sono rimasti senza dati UniProt (dovrebbero essere 0).
+
+# %%
+# ESERCIZIO 4.3 (livello 2): sostituisci i ____
+#> controllo = pd.merge(misurati, uniprot, on="gene", how=____, indicator=____)
+#> print(controllo["_merge"].value_counts())
+#> print(controllo[controllo["_merge"] != ____][["gene", "log2FC", "accession", "_merge"]])
+#> # Perché questi geni non hanno trovato corrispondenza?
+#> # 1. ...
+#> # 2. ...
+#>
+#> misurati["gene"] = misurati["gene"].____          # normalizzate la chiave
+#> unito_api = pd.merge(misurati, uniprot, on="gene", how=____, validate="one_to_one")
+#> print(f"righe prima {len(misurati)}, dopo {len(unito_api)}; senza dati UniProt: {unito_api['accession'].isna().sum()}")
+# --- SOLUZIONE ---
+controllo = pd.merge(misurati, uniprot, on="gene", how="outer", indicator=True)
+print(controllo["_merge"].value_counts())
+print(controllo[controllo["_merge"] != "both"][["gene", "log2FC", "accession", "_merge"]])
+# 1. Gapdh (left_only) e GAPDH (right_only): stessa chiave scritta in modo diverso.
+# 2. FBF1 (right_only): UniProt l'ha restituito per un sinonimo ("ALB"); non l'abbiamo misurato.
+
+misurati["gene"] = misurati["gene"].str.upper()
+unito_api = pd.merge(misurati, uniprot, on="gene", how="left", validate="one_to_one")
+print(f"righe prima {len(misurati)}, dopo {len(unito_api)}; senza dati UniProt: {unito_api['accession'].isna().sum()}")
+
+# %% [markdown]
+# Cosa c'era da trovare, due problemi entrambi tipici:
+#
+# - **`Gapdh` non trova `GAPDH`**: la stessa chiave scritta in modo diverso (maiuscole, spazi, versioni
+#   come `ENSG00000141510.17` contro `ENSG00000141510`). Il merge confronta i testi esattamente.
+# - **Un risultato in più, FBF1**: UniProt l'ha restituito perché "ALB" è anche un suo *sinonimo*.
+#   L'API ha risposto alla domanda che le abbiamo fatto, non a quella che avevamo in mente. Con
+#   `how="left"` sparisce senza avvisare: va bene solo perché l'abbiamo visto prima con `outer`.
+#
+# La regola è quella di stamattina: dopo ogni unione si controlla chi non ha trovato corrispondenza.
+# `validate="one_to_one"` aggiunge un controllo gratis: fa fallire il merge se la chiave non è
+# univoca da una delle due parti.
+
+# %%
+fig, ax = plt.subplots(figsize=(6, 3.5))
+ordinato = unito_api.sort_values("log2FC")
+ax.barh(ordinato["gene"] + " (" + ordinato["lunghezza_aa"].astype(str) + " aa)", ordinato["log2FC"])
+ax.axvline(0, color="black", lw=0.6)
+ax.set_xlabel("log2 fold change (valori inventati)")
+plt.show()
+
+# %% [markdown]
+# > *Estensione facoltativa*: aggiungete a `misurati` un gene a vostra scelta (es. `"KRAS"`, con un
+# > valore inventato), fate la chiamata vera (`USA_RETE = True`), rifate estrazione e merge e
+# > controllate con `indicator=True` che sia entrato. Quando si interrogano molti identificativi,
+# > si fanno poche richieste con molti geni ciascuna (come qui, con `OR`), non una richiesta per gene
+# > in un ciclo: le banche dati limitano il numero di richieste al secondo.
+
+# %% [markdown]
 # ---
 # ## 5. Tabelle pivot: da "lunga" a "larga"
 #
@@ -323,42 +493,7 @@ larga.reset_index().melt(id_vars="matrice", var_name="analita", value_name="medi
 
 # %% [markdown]
 # ---
-# ## 6. Cenni: serie temporali, `DatetimeIndex` e `resample`
-#
-# > *Facoltativo: si può saltare se si è in ritardo.*
-#
-# Se avete un sensore che registra ogni 10 minuti, prima o poi vorrete la media oraria o
-# giornaliera. Con un indice di tipo data, `resample("1h")` raggruppa per intervallo di tempo:
-# in pratica è un `groupby` sul tempo.
-
-# %%
-serie = pd.read_csv(DATI / "sensore_serie.csv", parse_dates=["timestamp"])
-serie = serie.set_index("timestamp")
-print(serie.shape, serie.index.min(), serie.index.max())
-print("mancanti:", serie["segnale_uA"].isna().sum())
-serie.head(3)
-
-# %%
-oraria = serie.resample("1h").mean()
-giornaliera = serie.resample("1D").agg(["mean", "min", "max"])
-print(giornaliera.round(2))
-
-# %%
-fig, ax = plt.subplots(figsize=(8, 3))
-ax.plot(serie.index, serie["segnale_uA"], lw=0.5, alpha=0.5, label="10 min")
-ax.plot(oraria.index, oraria["segnale_uA"], lw=1.5, label="media oraria")
-ax.set_ylabel("segnale / µA")
-ax.legend()
-plt.show()
-
-# %%
-# Media mobile, selezione per intervallo di date con .loc sull'indice temporale
-serie["mobile_1h"] = serie["segnale_uA"].rolling("1h").mean()
-serie.loc["2026-03-04 08:00":"2026-03-04 09:00"].head(4)
-
-# %% [markdown]
-# ---
-# ## 7. Progetto: data wrangling (75')
+# ## 6. Progetto: data wrangling (60')
 #
 # Dal file grezzo alla tabella pulita e aggregata, con report. Da soli o in coppia. Il
 # risultato è una cella (o poche) che parte da `misure_sporche.csv` e produce:
@@ -536,16 +671,20 @@ plt.show()
 # ---
 # ## Riepilogo del giorno 2
 #
-# | Problema | Strumento |
-# |---|---|
-# | mancanti | `isna().sum()` → capire perché → `dropna(subset=)` / `fillna()` |
-# | duplicati | `duplicated()`, `drop_duplicates(subset=)` |
-# | anomali | box plot per gruppo, regola IQR per gruppo (sui log se la coda è a destra), e buon senso |
-# | statistiche per gruppo | `groupby(...).agg(...)`, `reset_index()` |
-# | valore di gruppo su ogni riga | `transform` |
-# | unire tabelle | `merge(on=, how=)`, e poi controllare il numero di righe |
-# | da lungo a largo | `pivot_table`; inverso `melt` |
-# | tempo | `set_index("timestamp")`, `resample("1h").mean()`, `rolling` |
+# | Problema | In R (dplyr / tidyr) | In pandas |
+# |---|---|---|
+# | mancanti | `is.na()`, `drop_na()`, `replace_na()` | `isna().sum()` → capire perché → `dropna(subset=)` / `fillna()` |
+# | duplicati | `duplicated()`, `distinct()` | `duplicated()`, `drop_duplicates(subset=)` |
+# | anomali | – | box plot per gruppo, regola IQR per gruppo (sui log se la coda è a destra), e buon senso |
+# | statistiche per gruppo | `group_by() %>% summarise()` | `groupby(...).agg(...)`, `reset_index()` |
+# | valore di gruppo su ogni riga | `group_by() %>% mutate()` | `transform` |
+# | unire tabelle | `left_join()`, `inner_join()` | `merge(on=, how=)`, e poi controllare il numero di righe |
+# | dati da un'API | `httr2`, `jsonlite` | `requests.get(...).json()`, poi una funzione che estrae, poi `merge` |
+# | da lungo a largo | `pivot_wider()`; inverso `pivot_longer()` | `pivot_table`; inverso `melt` |
+# | tempo (per casa) | `lubridate`, `slider` | `set_index("timestamp")`, `resample("1h").mean()`, `rolling` |
+#
+# La catena `%>%` di R ha un equivalente: i metodi di pandas si concatenano con il punto,
+# `df.dropna(subset=["x"]).groupby("g")["x"].mean()`, anche su più righe dentro parentesi tonde.
 #
 # Ogni scelta di pulizia (cosa avete scartato, con quale criterio, cosa avete riempito) deve
 # restare **scritta nel codice e nel report**. Così fra sei mesi un revisore, o voi stessi,
@@ -578,3 +717,36 @@ print(con_sito.groupby(["sito", "analita"])["conc_ug_L"].mean().round(2))
 con_sito["giorni_da_campionamento"] = (con_sito["data"] - con_sito["data_campionamento"]).dt.days
 print("ritardo analisi: min", con_sito["giorni_da_campionamento"].min(),
       "max", con_sito["giorni_da_campionamento"].max(), "giorni")
+
+# %% [markdown]
+# ---
+# ## Approfondimento per casa: serie temporali, `DatetimeIndex` e `resample`
+#
+# Se avete un sensore che registra ogni 10 minuti, prima o poi vorrete la media oraria o
+# giornaliera. Con un indice di tipo data, `resample("1h")` raggruppa per intervallo di tempo:
+# in pratica è un `groupby` sul tempo.
+
+# %%
+serie = pd.read_csv(DATI / "sensore_serie.csv", parse_dates=["timestamp"])
+serie = serie.set_index("timestamp")
+print(serie.shape, serie.index.min(), serie.index.max())
+print("mancanti:", serie["segnale_uA"].isna().sum())
+serie.head(3)
+
+# %%
+oraria = serie.resample("1h").mean()
+giornaliera = serie.resample("1D").agg(["mean", "min", "max"])
+print(giornaliera.round(2))
+
+# %%
+fig, ax = plt.subplots(figsize=(8, 3))
+ax.plot(serie.index, serie["segnale_uA"], lw=0.5, alpha=0.5, label="10 min")
+ax.plot(oraria.index, oraria["segnale_uA"], lw=1.5, label="media oraria")
+ax.set_ylabel("segnale / µA")
+ax.legend()
+plt.show()
+
+# %%
+# Media mobile, selezione per intervallo di date con .loc sull'indice temporale
+serie["mobile_1h"] = serie["segnale_uA"].rolling("1h").mean()
+serie.loc["2026-03-04 08:00":"2026-03-04 09:00"].head(4)

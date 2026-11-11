@@ -68,6 +68,13 @@ print(X.shape, y.value_counts().to_dict())
 # una misura dell'importanza di ogni variabile. Perché non basta: con 60 campioni qualunque
 # modello può imparare a memoria, ed è qui che serve la validazione.
 
+# %% [markdown] tags=["solo-docente"]
+# #### Nota per il docente: i tempi del pomeriggio
+#
+# Sezioni 1-5 in circa 90', poi il progetto (60') e la chiusura (15'). Le parti segnate *Facoltativo*
+# nella sezione 6 si saltano senza problemi. Regola pratica: **se alle 15:30 non avete finito la
+# sezione 4, passate direttamente al progetto** (la sezione 5 si recupera a voce nel progetto, punto 4).
+
 # %% [markdown]
 # ---
 # ## 2. Train e test
@@ -274,14 +281,17 @@ pipe = Pipeline([("imputer", SimpleImputer(strategy="median")),
                  ("rf", RandomForestClassifier(n_estimators=500, random_state=0))])
 pipe.fit(X, y)
 
-imp = pd.Series(pipe.named_steps["rf"].feature_importances_, index=variabili).sort_values()
+importanze = pd.Series(pipe.named_steps["rf"].feature_importances_, index=variabili).sort_values()
+top3 = importanze.sort_values(ascending=False).head(3).index      # le 3 più importanti (servono più avanti)
 fig, ax = plt.subplots(figsize=(6, 5))
-ax.barh(imp.index, imp.values)
+ax.barh(importanze.index, importanze.values)
 ax.set_xlabel("importanza (riduzione media dell'impurità)")
 ax.set_title("Importanza delle variabili (random forest)", fontsize=10)
 plt.show()
 
 # %% [markdown]
+# > *Facoltativo: si può saltare se si è in ritardo (fino a "Usare il modello su un campione nuovo" compreso).*
+#
 # Attenzione all'importanza "da impurità" (`feature_importances_`): è calcolata sui dati di
 # addestramento e favorisce le variabili continue con molti valori diversi; con variabili
 # correlate si divide in modo arbitrario. Un'alternativa più affidabile è l'**importanza per
@@ -295,16 +305,15 @@ pipe_pi = Pipeline([("imputer", SimpleImputer(strategy="median")),
 pi = permutation_importance(pipe_pi, X_b, y_b, n_repeats=20, random_state=0, n_jobs=-1)
 imp_perm = pd.Series(pi.importances_mean, index=variabili).sort_values()
 fig, (a1, a2) = plt.subplots(1, 2, figsize=(10, 5), sharey=False, constrained_layout=True)
-a1.barh(imp.index, imp.values); a1.set_title("impurità (sul train)", fontsize=9)
+a1.barh(importanze.index, importanze.values); a1.set_title("impurità (sul train)", fontsize=9)
 a2.barh(imp_perm.index, imp_perm.values, xerr=pd.Series(pi.importances_std, index=variabili)[imp_perm.index], color="#D55E00")
 a2.set_title("permutazione (sul test, 20 ripetizioni)", fontsize=9); a2.set_xlabel("calo di accuratezza")
 plt.show()
-print("top 5 per impurità:   ", list(imp.sort_values(ascending=False).head(5).index))
+print("top 5 per impurità:   ", list(importanze.sort_values(ascending=False).head(5).index))
 print("top 5 per permutazione:", list(imp_perm.sort_values(ascending=False).head(5).index))
 
 # %%
 # La direzione: box plot delle 3 variabili più importanti (per impurità), per classe
-top3 = imp.sort_values(ascending=False).head(3).index
 fig, axs = plt.subplots(1, 3, figsize=(10, 3.2), constrained_layout=True)
 for ax, v in zip(axs, top3):
     dati = [df.loc[df["classe"] == cl, v].dropna().values for cl in ["Cascine", "Vallombrosa", "Maremma"]]
@@ -315,6 +324,8 @@ plt.show()
 
 # %% [markdown]
 # ### Usare il modello su un campione nuovo
+#
+# > *Facoltativo: si può saltare se si è in ritardo.*
 
 # %%
 nuovo = X.iloc[[7]].copy()          # facciamo finta che sia nuovo
@@ -323,40 +334,18 @@ print("previsione:", pipe.predict(nuovo)[0], "| vero:", y.iloc[7])
 print("probabilità per classe:", {cl: round(float(p), 2) for cl, p in zip(pipe.classes_, pipe.predict_proba(nuovo)[0])})
 
 # %% [markdown]
-# ### Esercizio 8.1: il modello regge con meno variabili? (livello 2)
-#
-# Un sensore che deve leggere 15 potenziali è più lento e costoso di uno che ne legge 3.
-# Valutate in CV (5-fold, stessa `cv`) la pipeline usando:
-# 1. tutte le 20 variabili;
-# 2. solo le 15 correnti;
-# 3. solo le 5 chimico-fisiche;
-# 4. le 3 variabili più importanti (`top3`). Attenzione: `top3` è stata scelta guardando tutto
-#    il dataset. È un problema? Quanto, qui? Scrivetelo in un commento.
-#
-# Stampate media ± sd per ciascun caso.
-
-# %%
-# ESERCIZIO 8.1 (livello 2)
-correnti = [c for c in variabili if c.startswith("i_")]
-chimfis = [c for c in variabili if not c.startswith("i_")]
-insiemi = {"tutte (20)": variabili, "correnti (15)": correnti, "chimico-fisiche (5)": chimfis, "top3 (scelte su tutto)": list(top3)}
-# per ogni insieme: cross_val_score(pipe, X[cols], y, cv=cv)
-# --- SOLUZIONE ---
-for nome, cols in insiemi.items():
-    p = cross_val_score(pipe, X[cols], y, cv=cv)
-    print(f"{nome:26s}: {p.mean():.3f} ± {p.std():.3f}")
-# Commento: top3 è stata selezionata con le etichette di TUTTO il dataset, quindi la sua CV è
-# leggermente ottimista. Con 3 variabili su 20 e 60 campioni l'effetto è piccolo (non siamo nel
-# caso 200 variabili / 30 campioni), ma in un articolo la selezione andrebbe messa dentro la pipeline.
-
-# %% [markdown]
 # ---
-# ## 7. Progetto finale (75')
+# ## 7. Progetto finale (60')
 #
 # **Dataset: `dati/dataset_features_campioni.csv`.** 36 campioni, ciascuno misurato in **3 repliche**
 # (108 righe), 45 variabili numeriche (`feature_01` … `feature_45`) e 3 classi (`Classe_A`,
 # `Classe_B`, `Classe_C`, 12 campioni ciascuna). La domanda: dalle variabili si riconosce la classe
 # di un campione?
+#
+# È un **dataset pilota**: pochi campioni, raccolti per esplorare, non per dimostrare. È la situazione
+# più comune all'inizio di un progetto, e la domanda giusta non è solo "funziona?", ma anche
+# "**quanto possiamo fidarci di quello che vediamo, e quanti campioni servirebbero per saperlo?**".
+# Qualunque risultato esca, anche "non si distingue dal caso", è un'informazione utile per pianificare.
 #
 # **La novità: le repliche.** Le tre repliche di uno stesso campione si somigliano molto più fra
 # loro che a qualunque altro campione. Se la validazione crociata mette una replica nel train e
@@ -366,7 +355,7 @@ for nome, cols in insiemi.items():
 #
 # ```python
 # cv_g = StratifiedGroupKFold(n_splits=5, shuffle=True, random_state=0)
-# cross_val_score(modello, X, y, cv=cv_g, groups=d["campione"])
+# cross_val_score(modello, X, y, cv=cv_g, groups=gruppi)     # gruppi = la colonna "campione"
 # ```
 #
 # È la pseudoreplicazione del giorno 3, vista dal lato del machine learning: l'unità
@@ -376,16 +365,15 @@ for nome, cols in insiemi.items():
 #
 # 1. Caricamento: `X`, `y`, `gruppi`; controllate mancanti, campioni per classe, repliche per
 #    campione (5').
-# 2. Esplorazione: PCA standardizzata, scores colorati per classe (10').
+# 2. Esplorazione: PCA standardizzata, scores colorati per classe (5').
 # 3. Modello: pipeline imputer → random forest. Validazione crociata a 5 fold **due volte**:
 #    `StratifiedKFold` (sbagliata: ignora le repliche) e `StratifiedGroupKFold` con
 #    `groups=campione` (giusta). Media ± sd di entrambe (15').
-# 4. Matrice di confusione con la CV per gruppi (`cross_val_predict(..., groups=...)`) (10').
-# 5. Controllo di sanità: test di permutazione. Attenzione: le etichette vanno mescolate **fra
-#    campioni**, non fra righe (le tre repliche restano con la stessa classe). La cella qui sotto vi
-#    dà la funzione già pronta: confrontate il punteggio vero con la distribuzione dei mescolati,
-#    con la CV per gruppi e con quella senza gruppi (15').
-# 6. Conclusione onesta (15'), 5-8 righe in Markdown: con che accuratezza e incertezza si
+# 4. Matrice di confusione con la CV per gruppi (`cross_val_predict(..., groups=...)`) (5').
+# 5. *Facoltativo: si può saltare se si è in ritardo.* Controllo di sanità con un test di
+#    permutazione, in una cella a parte dopo quella del progetto (15'). Il resto del progetto
+#    funziona anche senza.
+# 6. Conclusione onesta (10'), 5-8 righe in Markdown: con che accuratezza e incertezza si
 #    riconoscono le classi, quanti campioni *indipendenti* avete, cosa **non** potete concludere,
 #    cosa servirebbe per fidarsi di più.
 #
@@ -396,26 +384,11 @@ for nome, cols in insiemi.items():
 FILE = DATI / "dataset_features_campioni.csv"
 COL_ID, COL_CLASSE = "campione", "classe"
 
-def permutazioni_per_campione(modello, X, y, gruppi, cv, usa_gruppi=True, n=50, seme=0):
-    """Accuratezza in CV con le classi mescolate FRA CAMPIONI (le repliche restano insieme).
-    usa_gruppi=False per una CV che non conosce i gruppi (StratifiedKFold).
-    Restituisce un array di n punteggi: la distribuzione "a etichette casuali"."""
-    rng = np.random.default_rng(seme)
-    classe_campione = y.groupby(gruppi).first()
-    punteggi = []
-    for _ in range(n):
-        mescolate = dict(zip(classe_campione.index, rng.permutation(classe_campione.values)))
-        y_mescolata = gruppi.map(mescolate)
-        punteggi.append(cross_val_score(modello, X, y_mescolata, cv=cv,
-                                         groups=gruppi if usa_gruppi else None).mean())
-    return np.array(punteggi)
-
 # 1. carica; X (solo le colonne feature_), y, gruppi; mancanti, campioni per classe, repliche per campione
 # 2. PCA (imputer -> scaler -> PCA): scores per classe
 # 3. pipeline imputer -> RF; CV senza gruppi (StratifiedKFold) e con gruppi (StratifiedGroupKFold); media ± sd
 # 4. matrice di confusione con cross_val_predict(..., cv=cv_g, groups=gruppi)
-# 5. permutazioni_per_campione(...) con cv_g e con cv_n (usa_gruppi=False); p-value = (1 + quanti mescolati >= vero) / (n + 1)
-# 6. conclusione in una cella Markdown sotto
+# 6. conclusione in una cella Markdown sotto (il punto 5, facoltativo, è nella cella dopo)
 # --- SOLUZIONE ---
 from sklearn.decomposition import PCA
 d = pd.read_csv(FILE)
@@ -446,6 +419,37 @@ print(f"   CV per campione: {sc_g.mean():.3f} ± {sc_g.std():.3f}   (il caso: {1
 pred = cross_val_predict(pipe_f, Xp, yp, cv=cv_g, groups=gruppi)
 print("4)"); print(pd.crosstab(yp, pred, rownames=["vero"], colnames=["previsto"]))
 
+# %% [markdown]
+# **5) Facoltativo: test di permutazione.** Si può saltare se si è in ritardo.
+#
+# Le etichette vanno mescolate **fra campioni**, non fra righe: le tre repliche restano con la
+# stessa classe. La funzione qui sotto è già pronta. Confrontate il punteggio vero con la
+# distribuzione dei mescolati, con la CV per gruppi e con quella senza gruppi.
+#
+# Il calcolo rifà la CV 50 volte per ciascuna delle due versioni: su un portatile può richiedere
+# alcuni minuti. Se è lento, usate `n=20`: la conclusione non cambia. Per velocità qui la random
+# forest ha 100 alberi invece di 300, quindi il punteggio "vero" esce leggermente diverso da quello
+# del punto 3 (0.42 contro 0.44): è normale, conta il confronto con i mescolati fatto con lo stesso modello.
+
+# %%
+# PROGETTO FINALE, punto 5 (facoltativo)
+def permutazioni_per_campione(modello, X, y, gruppi, cv, usa_gruppi=True, n=50, seme=0):
+    """Accuratezza in CV con le classi mescolate FRA CAMPIONI (le repliche restano insieme).
+    usa_gruppi=False per una CV che non conosce i gruppi (StratifiedKFold).
+    Restituisce un array di n punteggi: la distribuzione "a etichette casuali"."""
+    rng = np.random.default_rng(seme)
+    classe_campione = y.groupby(gruppi).first()
+    punteggi = []
+    for _ in range(n):
+        mescolate = dict(zip(classe_campione.index, rng.permutation(classe_campione.values)))
+        y_mescolata = gruppi.map(mescolate)
+        punteggi.append(cross_val_score(modello, X, y_mescolata, cv=cv,
+                                         groups=gruppi if usa_gruppi else None).mean())
+    return np.array(punteggi)
+
+# 5. permutazioni_per_campione(...) con cv_g e con cv_n (usa_gruppi=False);
+#    p-value = (1 + quanti mescolati >= vero) / (n + 1)
+# --- SOLUZIONE ---
 pipe_veloce = Pipeline([("imputer", SimpleImputer(strategy="median")),
                         ("rf", RandomForestClassifier(n_estimators=100, random_state=0, n_jobs=-1))])
 vero_g = cross_val_score(pipe_veloce, Xp, yp, cv=cv_g, groups=gruppi).mean()
@@ -467,11 +471,11 @@ plt.show()
 #
 # > Con la validazione per campione (5 fold, le repliche di un campione sempre dalla stessa parte)
 # > l'accuratezza è 0.44 ± 0.09, contro 0.33 attesa per il caso, su 36 campioni indipendenti
-# > (108 misure). Il test di permutazione con le classi mescolate fra campioni dà p ≈ 0.25: con
-# > questi numeri il risultato non si distingue ancora dal caso. Classe_C è riconosciuta un po'
+# > (108 misure). Il test di permutazione (punto 5) con le classi mescolate fra campioni dà
+# > p ≈ 0.25: con questi numeri il risultato non si distingue ancora dal caso. Classe_C è riconosciuta un po'
 # > meglio (20 misure su 36); Classe_A e Classe_B si confondono di più.
 # > La validazione che ignora le repliche dà 0.65 ± 0.15, ma arriva a 0.62 anche con le classi
-# > mescolate: quel numero misura soprattutto quanto si somigliano le repliche di uno stesso
+# > mescolate (punto 5): quel numero misura soprattutto quanto si somigliano le repliche di uno stesso
 # > campione, quindi non va usato per giudicare il modello.
 # > La domanda resta aperta: 12 campioni per classe sono pochi per vedere un effetto moderato,
 # > e le repliche non contano come campioni nuovi. Per rispondere servirebbero più campioni
@@ -531,8 +535,35 @@ ax.set_title("Selezione fuori dalla CV su puro rumore", fontsize=9)
 plt.show()
 
 # %% [markdown]
+# ### Esercizio C8.2: il modello regge con meno variabili? (livello 2)
+#
+# Un sensore che deve leggere 15 potenziali è più lento e costoso di uno che ne legge 3.
+# Valutate in CV (5-fold, stessa `cv`) la pipeline usando:
+# 1. tutte le 20 variabili;
+# 2. solo le 15 correnti;
+# 3. solo le 5 chimico-fisiche;
+# 4. le 3 variabili più importanti (`top3`). Attenzione: `top3` è stata scelta guardando tutto
+#    il dataset. È un problema? Quanto, qui? Scrivetelo in un commento.
+#
+# Stampate media ± sd per ciascun caso.
+
+# %%
+# ESERCIZIO C8.2 (livello 2)
+correnti = [c for c in variabili if c.startswith("i_")]
+chimfis = [c for c in variabili if not c.startswith("i_")]
+insiemi = {"tutte (20)": variabili, "correnti (15)": correnti, "chimico-fisiche (5)": chimfis, "top3 (scelte su tutto)": list(top3)}
+# per ogni insieme: cross_val_score(pipe, X[cols], y, cv=cv)
+# --- SOLUZIONE ---
+for nome, cols in insiemi.items():
+    p = cross_val_score(pipe, X[cols], y, cv=cv)
+    print(f"{nome:26s}: {p.mean():.3f} ± {p.std():.3f}")
+# Commento: top3 è stata selezionata con le etichette di TUTTO il dataset, quindi la sua CV è
+# leggermente ottimista. Con 3 variabili su 20 e 60 campioni l'effetto è piccolo (non siamo nel
+# caso 200 variabili / 30 campioni), ma in un articolo la selezione andrebbe messa dentro la pipeline.
+
+# %% [markdown]
 # ---
-# ## 8. Chiusura del corso (30')
+# ## 8. Chiusura del corso (15')
 #
 # ### Cosa fare la settimana prossima
 #
@@ -542,6 +573,13 @@ plt.show()
 #    l'esercizio più utile che possiate fare.
 # 3. Rifate una figura di un vostro articolo con `figure_pubblicazione.py`. Confrontatela con
 #    l'originale in scala di grigi.
+#
+# ### Python e R: cosa farete con cosa? (5', discussione)
+#
+# Riprendiamo la tabella del primo giorno. Ognuno pensi al proprio lavoro: quali passaggi farebbe
+# in Python (procurarsi e unire i dati, pulizia ripetuta, automazione, ML, figure in serie) e quali
+# resteranno in R (modelli statistici, Bioconductor)? Le due cose convivono: un CSV scritto da pandas
+# si legge in R con `read.csv`, e viceversa.
 #
 # ### Dove cercare (tutto libero, CC-BY)
 #
@@ -571,11 +609,6 @@ plt.show()
 # giusti vi fa risparmiare cinque minuti; uno che vi scrive una CV con la selezione fuori dalla
 # pipeline vi fa pubblicare un risultato falso, e lo fa con molta sicurezza. Usateli come un
 # collega veloce e distratto: utile, mai da fidarsi sulla parola.
-#
-# ### Questionario finale
-#
-# Cinque minuti, anonimo. Ci interessa soprattutto: cosa userete davvero la settimana prossima,
-# e cosa non avete capito.
 #
 # ---
 # Grazie. In questi quattro giorni avete scritto codice che legge file, pulisce dati, fa figure

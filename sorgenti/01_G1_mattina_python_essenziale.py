@@ -15,7 +15,7 @@
 #
 # ### Una cosa da dire subito
 #
-# Tutti voi analizzate dati da anni. Sapete cosa sono un filtro, una media per gruppo, una
+# Tutti voi lavorate con i dati da anni. Sapete cosa sono un filtro, una media per gruppo, una
 # regressione. Non dovete imparare a ragionare sui dati, ma una **lingua nuova** per dire cose
 # che già sapete. Nei prossimi giorni vi capiterà di sapere esattamente cosa volete ottenere
 # e di non riuscire a scriverlo: è normale, e passa con la pratica. Per questo gran parte
@@ -29,6 +29,24 @@
 # | Assistenti LLM per il codice | Prima bisogna saper leggere e verificare il codice; ne riparliamo alla fine |
 # | Git, VS Code | Restiamo su Jupyter tutti e quattro i giorni |
 # | Dati geospaziali, NetCDF | Non servono su matrici biologiche |
+# | Bioinformatica specifica (FASTA, VCF, Biopython, scanpy) | Ogni formato ha le sue librerie; pandas e NumPy di questi giorni sono la base comune |
+#
+# ### Python o R?
+#
+# Molti di voi usano già R. Non si tratta di sostituirlo, ma di aggiungere uno strumento: i due
+# convivono benissimo (si passano file CSV, e si chiamano a vicenda con `rpy2` e `reticulate`).
+#
+# | Python è più comodo per… | R resta più comodo per… |
+# |---|---|
+# | procurarsi e preparare i dati: molti file, API e database, automatizzare | statistica classica e modelli misti (`lm`, `lme4`), con la sintassi a formula |
+# | machine learning e deep learning (scikit-learn, PyTorch), analisi di immagini | Bioconductor (DESeq2, limma, edgeR: espressione differenziale) |
+# | pipeline e strumenti (Snakemake è Python), dati single-cell molto grandi (scanpy) | ggplot2, report in RMarkdown/Quarto |
+# | un linguaggio generale: lo stesso codice diventa uno script, un servizio, uno strumento per il laboratorio | molti metodi statistici nuovi escono prima come pacchetti R |
+#
+# Un criterio pratico: se il vostro tempo va soprattutto in modelli statistici su tabelle già
+# pulite, R va benissimo; se va nel procurarvi, unire e pulire i dati, nell'automazione, nell'ML o nelle
+# pipeline, Python vi farà risparmiare tempo. Il test migliore: nei prossimi giorni rifate in Python
+# un'analisi che fate già in R, e confrontate.
 #
 # ### Regole d'aula
 #
@@ -427,16 +445,27 @@ print(conc_nM)
 # ---
 # ## Riepilogo della mattina
 #
-# | Volevo… | In Excel | In Python |
-# |---|---|---|
-# | tenere un valore | cella `B3` | `conc = 25.4` |
-# | una colonna di valori | colonna | lista `[...]` (oggi pomeriggio: array NumPy) |
-# | il terzo valore | `B4` | `misure[2]` (si conta da 0) |
-# | somma, media | `=SOMMA()`, `=MEDIA()` | `sum()`, `sum()/len()` |
-# | fare qualcosa per ogni riga | trascinare la formula | `for x in lista:` |
-# | solo se… | `=SE()` | `if condizione:` |
-# | conta per categoria | `=CONTA.SE()` / pivot | dizionario + `for` (domani: `groupby`) |
-# | testo con numeri dentro | `=CONCATENA()` | `f"...{x:.2f}..."` |
+# | Volevo… | In Excel | In R | In Python |
+# |---|---|---|---|
+# | tenere un valore | cella `B3` | `conc <- 25.4` | `conc = 25.4` |
+# | una colonna di valori | colonna | `c(...)` | lista `[...]` (oggi pomeriggio: array NumPy) |
+# | il terzo valore | `B4` | `misure[3]` | `misure[2]` (si conta da 0) |
+# | somma, media | `=SOMMA()`, `=MEDIA()` | `sum()`, `mean()` | `sum()`, `sum()/len()` |
+# | fare qualcosa per ogni elemento | trascinare la formula | `for (x in v) {...}` | `for x in lista:` |
+# | solo se… | `=SE()` | `if (...) {...}` | `if condizione:` |
+# | conta per categoria | `=CONTA.SE()` / pivot | `table()` | dizionario + `for` (domani: `value_counts`, `groupby`) |
+# | testo con numeri dentro | `=CONCATENA()` | `sprintf()`, `paste()` | `f"...{x:.2f}..."` |
+# | una lista con etichette | – | `list(a = 1, b = 2)` | dizionario `{"a": 1, "b": 2}` |
+#
+# ### Trappole per chi viene da R
+#
+# - Si conta da 0, e `v[1:4]` prende gli elementi 1, 2, 3 (l'estremo finale è escluso). In R `v[1:4]`
+#   prende i primi quattro.
+# - I blocchi non hanno graffe: li decide l'indentazione.
+# - `b = a` con una lista **non fa una copia**: `a` e `b` sono la stessa lista, e modificarne una
+#   modifica l'altra. Per una copia: `b = a.copy()`. In R ogni modifica crea una copia, quindi non
+#   ve lo aspettate.
+# - I tipi non si convertono da soli: `"3" + 2` è un errore (come in R), ma `"3" * 2` dà `"33"` senza nessun avviso.
 #
 # Gli errori che farete tutti questa settimana (ed è normale):
 # 1. `=` al posto di `==`

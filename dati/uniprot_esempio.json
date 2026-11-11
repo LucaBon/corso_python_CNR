@@ -1,0 +1,848 @@
+{
+ "results": [
+  {
+   "entryType": "UniProtKB reviewed (Swiss-Prot)",
+   "primaryAccession": "P01308",
+   "organism": {
+    "scientificName": "Homo sapiens",
+    "commonName": "Human",
+    "taxonId": 9606,
+    "lineage": [
+     "Eukaryota",
+     "Metazoa",
+     "Chordata",
+     "Craniata",
+     "Vertebrata",
+     "Euteleostomi",
+     "Mammalia",
+     "Eutheria",
+     "Euarchontoglires",
+     "Primates",
+     "Haplorrhini",
+     "Catarrhini",
+     "Hominidae",
+     "Homo"
+    ]
+   },
+   "proteinDescription": {
+    "recommendedName": {
+     "fullName": {
+      "value": "Insulin"
+     }
+    },
+    "contains": [
+     {
+      "recommendedName": {
+       "fullName": {
+        "value": "Insulin B chain"
+       }
+      }
+     },
+     {
+      "recommendedName": {
+       "fullName": {
+        "value": "Insulin A chain"
+       }
+      }
+     }
+    ],
+    "flag": "Precursor"
+   },
+   "genes": [
+    {
+     "geneName": {
+      "value": "INS"
+     }
+    }
+   ],
+   "sequence": {
+    "length": 110
+   },
+   "extraAttributes": {
+    "uniParcId": "UPI00000017EA"
+   }
+  },
+  {
+   "entryType": "UniProtKB reviewed (Swiss-Prot)",
+   "primaryAccession": "P00533",
+   "organism": {
+    "scientificName": "Homo sapiens",
+    "commonName": "Human",
+    "taxonId": 9606,
+    "lineage": [
+     "Eukaryota",
+     "Metazoa",
+     "Chordata",
+     "Craniata",
+     "Vertebrata",
+     "Euteleostomi",
+     "Mammalia",
+     "Eutheria",
+     "Euarchontoglires",
+     "Primates",
+     "Haplorrhini",
+     "Catarrhini",
+     "Hominidae",
+     "Homo"
+    ]
+   },
+   "proteinDescription": {
+    "recommendedName": {
+     "fullName": {
+      "evidences": [
+       {
+        "evidenceCode": "ECO:0000305"
+       }
+      ],
+      "value": "Epidermal growth factor receptor"
+     },
+     "ecNumbers": [
+      {
+       "evidences": [
+        {
+         "evidenceCode": "ECO:0000269",
+         "source": "PubMed",
+         "id": "32926474"
+        }
+       ],
+       "value": "2.7.10.1"
+      }
+     ]
+    },
+    "alternativeNames": [
+     {
+      "fullName": {
+       "value": "Proto-oncogene c-ErbB-1"
+      }
+     },
+     {
+      "fullName": {
+       "value": "Receptor tyrosine-protein kinase erbB-1"
+      }
+     }
+    ],
+    "flag": "Precursor"
+   },
+   "genes": [
+    {
+     "geneName": {
+      "evidences": [
+       {
+        "evidenceCode": "ECO:0000303",
+        "source": "PubMed",
+        "id": "32926474"
+       },
+       {
+        "evidenceCode": "ECO:0000312",
+        "source": "HGNC",
+        "id": "HGNC:3236"
+       }
+      ],
+      "value": "EGFR"
+     }
+    }
+   ],
+   "sequence": {
+    "length": 1210
+   },
+   "extraAttributes": {
+    "uniParcId": "UPI000003E750"
+   }
+  },
+  {
+   "entryType": "UniProtKB reviewed (Swiss-Prot)",
+   "primaryAccession": "P04637",
+   "organism": {
+    "scientificName": "Homo sapiens",
+    "commonName": "Human",
+    "taxonId": 9606,
+    "lineage": [
+     "Eukaryota",
+     "Metazoa",
+     "Chordata",
+     "Craniata",
+     "Vertebrata",
+     "Euteleostomi",
+     "Mammalia",
+     "Eutheria",
+     "Euarchontoglires",
+     "Primates",
+     "Haplorrhini",
+     "Catarrhini",
+     "Hominidae",
+     "Homo"
+    ]
+   },
+   "proteinDescription": {
+    "recommendedName": {
+     "fullName": {
+      "value": "Cellular tumor antigen p53"
+     }
+    },
+    "alternativeNames": [
+     {
+      "fullName": {
+       "value": "Antigen NY-CO-13"
+      }
+     },
+     {
+      "fullName": {
+       "value": "Phosphoprotein p53"
+      }
+     },
+     {
+      "fullName": {
+       "value": "Tumor suppressor p53"
+      }
+     }
+    ]
+   },
+   "genes": [
+    {
+     "geneName": {
+      "value": "TP53"
+     }
+    }
+   ],
+   "sequence": {
+    "length": 393
+   },
+   "extraAttributes": {
+    "uniParcId": "UPI000002ED67"
+   }
+  },
+  {
+   "entryType": "UniProtKB reviewed (Swiss-Prot)",
+   "primaryAccession": "P01106",
+   "organism": {
+    "scientificName": "Homo sapiens",
+    "commonName": "Human",
+    "taxonId": 9606,
+    "lineage": [
+     "Eukaryota",
+     "Metazoa",
+     "Chordata",
+     "Craniata",
+     "Vertebrata",
+     "Euteleostomi",
+     "Mammalia",
+     "Eutheria",
+     "Euarchontoglires",
+     "Primates",
+     "Haplorrhini",
+     "Catarrhini",
+     "Hominidae",
+     "Homo"
+    ]
+   },
+   "proteinDescription": {
+    "recommendedName": {
+     "fullName": {
+      "value": "Myc proto-oncogene protein"
+     }
+    },
+    "alternativeNames": [
+     {
+      "fullName": {
+       "value": "Class E basic helix-loop-helix protein 39"
+      },
+      "shortNames": [
+       {
+        "value": "bHLHe39"
+       }
+      ]
+     },
+     {
+      "fullName": {
+       "value": "Proto-oncogene c-Myc"
+      }
+     },
+     {
+      "fullName": {
+       "value": "Transcription factor p64"
+      }
+     }
+    ]
+   },
+   "genes": [
+    {
+     "geneName": {
+      "value": "MYC"
+     }
+    }
+   ],
+   "sequence": {
+    "length": 454
+   },
+   "extraAttributes": {
+    "uniParcId": "UPI0000576839"
+   }
+  },
+  {
+   "entryType": "UniProtKB reviewed (Swiss-Prot)",
+   "primaryAccession": "Q8TES7",
+   "organism": {
+    "scientificName": "Homo sapiens",
+    "commonName": "Human",
+    "taxonId": 9606,
+    "lineage": [
+     "Eukaryota",
+     "Metazoa",
+     "Chordata",
+     "Craniata",
+     "Vertebrata",
+     "Euteleostomi",
+     "Mammalia",
+     "Eutheria",
+     "Euarchontoglires",
+     "Primates",
+     "Haplorrhini",
+     "Catarrhini",
+     "Hominidae",
+     "Homo"
+    ]
+   },
+   "proteinDescription": {
+    "recommendedName": {
+     "fullName": {
+      "value": "Fas-binding factor 1"
+     },
+     "shortNames": [
+      {
+       "value": "FBF-1"
+      }
+     ]
+    },
+    "alternativeNames": [
+     {
+      "fullName": {
+       "value": "Protein albatross"
+      }
+     }
+    ]
+   },
+   "genes": [
+    {
+     "geneName": {
+      "value": "FBF1"
+     }
+    }
+   ],
+   "sequence": {
+    "length": 1133
+   },
+   "extraAttributes": {
+    "uniParcId": "UPI0001596A09"
+   }
+  },
+  {
+   "entryType": "UniProtKB reviewed (Swiss-Prot)",
+   "primaryAccession": "P68871",
+   "organism": {
+    "scientificName": "Homo sapiens",
+    "commonName": "Human",
+    "taxonId": 9606,
+    "lineage": [
+     "Eukaryota",
+     "Metazoa",
+     "Chordata",
+     "Craniata",
+     "Vertebrata",
+     "Euteleostomi",
+     "Mammalia",
+     "Eutheria",
+     "Euarchontoglires",
+     "Primates",
+     "Haplorrhini",
+     "Catarrhini",
+     "Hominidae",
+     "Homo"
+    ]
+   },
+   "proteinDescription": {
+    "recommendedName": {
+     "fullName": {
+      "value": "Hemoglobin subunit beta"
+     }
+    },
+    "alternativeNames": [
+     {
+      "fullName": {
+       "value": "Beta-globin"
+      }
+     },
+     {
+      "fullName": {
+       "value": "Hemoglobin beta chain"
+      }
+     }
+    ],
+    "contains": [
+     {
+      "recommendedName": {
+       "fullName": {
+        "value": "LVV-hemorphin-7"
+       }
+      }
+     },
+     {
+      "recommendedName": {
+       "fullName": {
+        "value": "Spinorphin"
+       }
+      }
+     }
+    ]
+   },
+   "genes": [
+    {
+     "geneName": {
+      "value": "HBB"
+     }
+    }
+   ],
+   "sequence": {
+    "length": 147
+   },
+   "extraAttributes": {
+    "uniParcId": "UPI00000015C9"
+   }
+  },
+  {
+   "entryType": "UniProtKB reviewed (Swiss-Prot)",
+   "primaryAccession": "P02768",
+   "organism": {
+    "scientificName": "Homo sapiens",
+    "commonName": "Human",
+    "taxonId": 9606,
+    "lineage": [
+     "Eukaryota",
+     "Metazoa",
+     "Chordata",
+     "Craniata",
+     "Vertebrata",
+     "Euteleostomi",
+     "Mammalia",
+     "Eutheria",
+     "Euarchontoglires",
+     "Primates",
+     "Haplorrhini",
+     "Catarrhini",
+     "Hominidae",
+     "Homo"
+    ]
+   },
+   "proteinDescription": {
+    "recommendedName": {
+     "fullName": {
+      "value": "Albumin"
+     }
+    },
+    "flag": "Precursor"
+   },
+   "genes": [
+    {
+     "geneName": {
+      "value": "ALB"
+     }
+    }
+   ],
+   "sequence": {
+    "length": 609
+   },
+   "extraAttributes": {
+    "uniParcId": "UPI000002C1AC"
+   }
+  },
+  {
+   "entryType": "UniProtKB reviewed (Swiss-Prot)",
+   "primaryAccession": "P60709",
+   "organism": {
+    "scientificName": "Homo sapiens",
+    "commonName": "Human",
+    "taxonId": 9606,
+    "lineage": [
+     "Eukaryota",
+     "Metazoa",
+     "Chordata",
+     "Craniata",
+     "Vertebrata",
+     "Euteleostomi",
+     "Mammalia",
+     "Eutheria",
+     "Euarchontoglires",
+     "Primates",
+     "Haplorrhini",
+     "Catarrhini",
+     "Hominidae",
+     "Homo"
+    ]
+   },
+   "proteinDescription": {
+    "recommendedName": {
+     "fullName": {
+      "value": "Actin, cytoplasmic 1"
+     },
+     "ecNumbers": [
+      {
+       "evidences": [
+        {
+         "evidenceCode": "ECO:0000250",
+         "source": "UniProtKB",
+         "id": "P68137"
+        }
+       ],
+       "value": "3.6.4.-"
+      }
+     ]
+    },
+    "alternativeNames": [
+     {
+      "fullName": {
+       "value": "Beta-actin"
+      }
+     }
+    ],
+    "contains": [
+     {
+      "recommendedName": {
+       "fullName": {
+        "value": "Actin, cytoplasmic 1, N-terminally processed"
+       }
+      }
+     }
+    ]
+   },
+   "genes": [
+    {
+     "geneName": {
+      "value": "ACTB"
+     }
+    }
+   ],
+   "sequence": {
+    "length": 375
+   },
+   "extraAttributes": {
+    "uniParcId": "UPI000000082D"
+   }
+  },
+  {
+   "entryType": "UniProtKB reviewed (Swiss-Prot)",
+   "primaryAccession": "P13569",
+   "organism": {
+    "scientificName": "Homo sapiens",
+    "commonName": "Human",
+    "taxonId": 9606,
+    "lineage": [
+     "Eukaryota",
+     "Metazoa",
+     "Chordata",
+     "Craniata",
+     "Vertebrata",
+     "Euteleostomi",
+     "Mammalia",
+     "Eutheria",
+     "Euarchontoglires",
+     "Primates",
+     "Haplorrhini",
+     "Catarrhini",
+     "Hominidae",
+     "Homo"
+    ]
+   },
+   "proteinDescription": {
+    "recommendedName": {
+     "fullName": {
+      "evidences": [
+       {
+        "evidenceCode": "ECO:0000305"
+       }
+      ],
+      "value": "Cystic fibrosis transmembrane conductance regulator"
+     },
+     "shortNames": [
+      {
+       "value": "CFTR"
+      }
+     ]
+    },
+    "alternativeNames": [
+     {
+      "fullName": {
+       "value": "ATP-binding cassette sub-family C member 7"
+      }
+     },
+     {
+      "fullName": {
+       "value": "Channel conductance-controlling ATPase"
+      },
+      "ecNumbers": [
+       {
+        "evidences": [
+         {
+          "evidenceCode": "ECO:0000269",
+          "source": "PubMed",
+          "id": "11524016"
+         },
+         {
+          "evidenceCode": "ECO:0000269",
+          "source": "PubMed",
+          "id": "15284228"
+         },
+         {
+          "evidenceCode": "ECO:0000269",
+          "source": "PubMed",
+          "id": "26627831"
+         },
+         {
+          "evidenceCode": "ECO:0000269",
+          "source": "PubMed",
+          "id": "8910473"
+         }
+        ],
+        "value": "5.6.1.6"
+       }
+      ]
+     },
+     {
+      "fullName": {
+       "value": "cAMP-dependent chloride channel"
+      }
+     }
+    ]
+   },
+   "genes": [
+    {
+     "geneName": {
+      "evidences": [
+       {
+        "evidenceCode": "ECO:0000312",
+        "source": "HGNC",
+        "id": "HGNC:1884"
+       }
+      ],
+      "value": "CFTR"
+     }
+    }
+   ],
+   "sequence": {
+    "length": 1480
+   },
+   "extraAttributes": {
+    "uniParcId": "UPI000013C4D4"
+   }
+  },
+  {
+   "entryType": "UniProtKB reviewed (Swiss-Prot)",
+   "primaryAccession": "P38398",
+   "organism": {
+    "scientificName": "Homo sapiens",
+    "commonName": "Human",
+    "taxonId": 9606,
+    "lineage": [
+     "Eukaryota",
+     "Metazoa",
+     "Chordata",
+     "Craniata",
+     "Vertebrata",
+     "Euteleostomi",
+     "Mammalia",
+     "Eutheria",
+     "Euarchontoglires",
+     "Primates",
+     "Haplorrhini",
+     "Catarrhini",
+     "Hominidae",
+     "Homo"
+    ]
+   },
+   "proteinDescription": {
+    "recommendedName": {
+     "fullName": {
+      "value": "Breast cancer type 1 susceptibility protein"
+     },
+     "ecNumbers": [
+      {
+       "evidences": [
+        {
+         "evidenceCode": "ECO:0000269",
+         "source": "PubMed",
+         "id": "10500182"
+        },
+        {
+         "evidenceCode": "ECO:0000269",
+         "source": "PubMed",
+         "id": "12887909"
+        },
+        {
+         "evidenceCode": "ECO:0000269",
+         "source": "PubMed",
+         "id": "12890688"
+        },
+        {
+         "evidenceCode": "ECO:0000269",
+         "source": "PubMed",
+         "id": "16818604"
+        },
+        {
+         "evidenceCode": "ECO:0000269",
+         "source": "PubMed",
+         "id": "18056443"
+        },
+        {
+         "evidenceCode": "ECO:0000269",
+         "source": "PubMed",
+         "id": "20351172"
+        }
+       ],
+       "value": "2.3.2.27"
+      }
+     ]
+    },
+    "alternativeNames": [
+     {
+      "fullName": {
+       "value": "RING finger protein 53"
+      }
+     },
+     {
+      "fullName": {
+       "evidences": [
+        {
+         "evidenceCode": "ECO:0000305"
+        }
+       ],
+       "value": "RING-type E3 ubiquitin transferase BRCA1"
+      }
+     }
+    ]
+   },
+   "genes": [
+    {
+     "geneName": {
+      "value": "BRCA1"
+     }
+    }
+   ],
+   "sequence": {
+    "length": 1863
+   },
+   "extraAttributes": {
+    "uniParcId": "UPI0000126AC8"
+   }
+  },
+  {
+   "entryType": "UniProtKB reviewed (Swiss-Prot)",
+   "primaryAccession": "P04406",
+   "organism": {
+    "scientificName": "Homo sapiens",
+    "commonName": "Human",
+    "taxonId": 9606,
+    "lineage": [
+     "Eukaryota",
+     "Metazoa",
+     "Chordata",
+     "Craniata",
+     "Vertebrata",
+     "Euteleostomi",
+     "Mammalia",
+     "Eutheria",
+     "Euarchontoglires",
+     "Primates",
+     "Haplorrhini",
+     "Catarrhini",
+     "Hominidae",
+     "Homo"
+    ]
+   },
+   "proteinDescription": {
+    "recommendedName": {
+     "fullName": {
+      "evidences": [
+       {
+        "evidenceCode": "ECO:0000303",
+        "source": "PubMed",
+        "id": "6096136"
+       }
+      ],
+      "value": "Glyceraldehyde-3-phosphate dehydrogenase"
+     },
+     "shortNames": [
+      {
+       "evidences": [
+        {
+         "evidenceCode": "ECO:0000303",
+         "source": "PubMed",
+         "id": "2987855"
+        }
+       ],
+       "value": "GAPDH"
+      }
+     ],
+     "ecNumbers": [
+      {
+       "evidences": [
+        {
+         "evidenceCode": "ECO:0000269",
+         "source": "PubMed",
+         "id": "3170585"
+        }
+       ],
+       "value": "1.2.1.12"
+      }
+     ]
+    },
+    "alternativeNames": [
+     {
+      "fullName": {
+       "evidences": [
+        {
+         "evidenceCode": "ECO:0000305"
+        }
+       ],
+       "value": "Peptidyl-cysteine S-nitrosylase GAPDH"
+      },
+      "ecNumbers": [
+       {
+        "evidences": [
+         {
+          "evidenceCode": "ECO:0000250",
+          "source": "UniProtKB",
+          "id": "P04797"
+         }
+        ],
+        "value": "2.6.99.-"
+       }
+      ]
+     }
+    ]
+   },
+   "genes": [
+    {
+     "geneName": {
+      "evidences": [
+       {
+        "evidenceCode": "ECO:0000303",
+        "source": "PubMed",
+        "id": "2987855"
+       },
+       {
+        "evidenceCode": "ECO:0000312",
+        "source": "HGNC",
+        "id": "HGNC:4141"
+       }
+      ],
+      "value": "GAPDH"
+     }
+    }
+   ],
+   "sequence": {
+    "length": 335
+   },
+   "extraAttributes": {
+    "uniParcId": "UPI000013C8ED"
+   }
+  }
+ ]
+}
