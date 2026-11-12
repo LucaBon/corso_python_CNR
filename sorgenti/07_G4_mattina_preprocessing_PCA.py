@@ -5,8 +5,8 @@
 # riconoscere quando il risultato non vale niente.
 #
 # Stamattina l'analisi non supervisionata: nessuna etichetta, si cerca la struttura nei dati.
-# È la tecnica più usata su matrici biologiche e dati da sensore, ed è quella che vi chiedono
-# i revisori quando avete 20 variabili per campione.
+# È la tecnica più usata su matrici biologiche e dati da sensore, quando si hanno 20 variabili
+# per campione.
 #
 # ## 0. Cella di avvio
 
@@ -42,8 +42,8 @@ print("scikit-learn", sklearn.__version__)
 #
 # ![workflow](../img/workflow_ml.png)
 #
-# Ogni tappa ha una decisione dentro, e ogni decisione va scritta. La tappa che manca quasi
-# sempre nei manoscritti è l'ultima: una conclusione onesta su quanto ci si può fidare.
+# Ogni tappa ha una decisione dentro, e ogni decisione va scritta. L'ultima tappa è una
+# conclusione su quanto ci si può fidare del risultato.
 #
 # ### Il dataset: campioni × variabili
 #
