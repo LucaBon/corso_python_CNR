@@ -169,9 +169,8 @@ plt.show()
 # ---
 # ## 3. Barre d'errore e rappresentazione dell'incertezza
 #
-# `ax.errorbar(x, y, yerr=...)`. Nella didascalia va sempre detto **cosa rappresenta la barra**:
-# deviazione standard, errore standard della media e intervallo di confidenza sono cose
-# diverse (scheda § 5.1). Per una curva continua si usa una banda con `fill_between` (§ 5.2).
+# `ax.errorbar(x, y, yerr=...)`. In `yerr` si passa la grandezza scelta: deviazione standard,
+# errore standard della media o intervallo di confidenza (scheda § 5.1). Per una curva continua si usa una banda con `fill_between` (§ 5.2).
 
 # %%
 stat = tar.groupby("conc_uM")["i_uA"].agg(["mean", "std", "count"]).reset_index()
@@ -268,7 +267,7 @@ plt.show()
 # ## 5. Pannelli multipli e assi condivisi
 #
 # `plt.subplots(righe, colonne, sharex=, sharey=)`. `sharey=True` impone gli stessi limiti
-# (confronto onesto) e toglie le etichette ripetute. `constrained_layout=True` sistema gli
+# (stessa scala per tutti i pannelli) e toglie le etichette ripetute. `constrained_layout=True` sistema gli
 # spazi. Le lettere (a) (b) (c) si mettono in ciclo con `transAxes` (scheda § 3.4).
 
 # %%
@@ -293,17 +292,17 @@ plt.show()
 # ---
 # ## 6. Standard per la pubblicazione
 #
-# Le riviste chiedono cose precise, e vanno impostate quando si crea la figura, non dopo:
+# Le impostazioni che contano per la figura finale vanno fissate quando la si crea, non dopo:
 #
 # 1. **Larghezza fissata** alla colonna della rivista: ~8.5-9 cm (singola), ~17-19 cm (doppia).
 #    Matplotlib ragiona in pollici: `figsize=(9*CM, 6*CM)` con `CM = 1/2.54`, oppure il
-#    dizionario `LARGHEZZE` del modulo. Se disegnate a 15 cm e poi rimpicciolite nel manoscritto,
-#    il testo diventa illeggibile.
+#    dizionario `LARGHEZZE` del modulo. Se disegnate a 15 cm e poi rimpicciolite, il testo si
+#    rimpicciolisce con la figura.
 # 2. Font ≥ 6-8 pt nella figura finale; sans-serif (Arial/Helvetica).
 # 3. Linee ≥ 0.5 pt.
 # 4. Formato vettoriale (PDF, SVG, EPS) quando si può; raster (TIFF) a 300-600 dpi.
-# 5. Font incorporati come TrueType (`pdf.fonttype = 42`): il default di Matplotlib (Type 3)
-#    viene rifiutato da molti editori.
+# 5. Font incorporati come TrueType (`pdf.fonttype = 42`): con il default di Matplotlib (Type 3)
+#    i caratteri diventano disegni e il testo del PDF non si seleziona.
 # 6. Leggibile in bianco e nero e per chi è daltonico: tratteggi e marcatori diversi, non solo colori.
 # 7. `savefig` prima di `plt.show()`, e mai `bbox_inches="tight"` per le figure definitive
 #    (cambia la larghezza finale).
@@ -332,7 +331,6 @@ plt.show()
 
 # %% [markdown]
 # > Aprite `figure/taratura_singola.pdf`: è largo esattamente 9 cm, e ingrandendo non si sgrana.
-# > Il PNG a 300 dpi serve per la presentazione, non per la rivista.
 #
 # ### Controllo in scala di grigi
 #
@@ -403,8 +401,8 @@ plt.show()
 #
 # ### Confronto finale
 #
-# Riguardate la vostra figura (a), da soli o con il vicino se vi va. Domande da farsi: si capisce senza
-# leggere la didascalia? Si distinguono le curve in bianco e nero? Il testo è leggibile a 9 cm?
+# Riguardate la vostra figura (a), da soli o con il vicino se vi va. Domande da farsi: si
+# distinguono le curve in bianco e nero? Il testo è leggibile a 9 cm?
 # C'è un `1e6` sull'asse? Lo zero delle barre è visibile?
 
 # %% [markdown]
@@ -442,7 +440,7 @@ plt.show()
 # ## Riepilogo della mattina
 #
 # 1. `fig, ax = plt.subplots(figsize=...)`, poi solo metodi di `ax`.
-# 2. Dati = marcatori, modello = linea. Per le barre d'errore si dichiara sempre cosa sono.
+# 2. Dati = marcatori, modello = linea. `yerr` per le barre d'errore, `fill_between` per le bande.
 # 3. Pochi campioni → box plot con i punti.
 # 4. La larghezza si fissa alla creazione; font ≥ 8 pt; PDF vettoriale; leggibile in b/n.
 # 5. `stile_rivista()`, `LARGHEZZE`, `salva_figura()` e `verifica_figura()` fanno il lavoro ripetitivo.

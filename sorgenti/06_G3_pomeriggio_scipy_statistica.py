@@ -40,8 +40,8 @@ print(tar.groupby("conc_uM")["i_uA"].agg(["mean", "std"]).round(3))
 # ---
 # ## 1. Regressione lineare: pendenza, intercetta e le loro incertezze
 #
-# `np.polyfit` dà i coefficienti; `scipy.stats.linregress` dà anche gli **errori standard**,
-# che sono quello che serve in un articolo. La regressione si fa sui punti singoli (18 misure),
+# `np.polyfit` dà i coefficienti; `scipy.stats.linregress` dà anche gli **errori standard**
+# di pendenza e intercetta. La regressione si fa sui punti singoli (18 misure),
 # non sulle medie per livello: le repliche portano informazione sulla dispersione.
 
 # %%

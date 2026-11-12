@@ -473,7 +473,7 @@ plt.show()
 # ## 5. Tabelle pivot: da "lunga" a "larga"
 #
 # La tabella con una riga per misura è nel formato **lungo** (*tidy*), quello giusto per
-# analizzare. Quella che si mette in un articolo, con gli analiti in colonna e le matrici in
+# analizzare. Quella da leggere a colpo d'occhio, con gli analiti in colonna e le matrici in
 # riga, è **larga**. `pivot_table` fa la conversione (e aggrega, se ci sono più valori per cella).
 
 # %%
@@ -728,7 +728,7 @@ plt.show()
 # `df.dropna(subset=["x"]).groupby("g")["x"].mean()`, anche su più righe dentro parentesi tonde.
 #
 # Ogni scelta di pulizia (cosa avete scartato, con quale criterio, cosa avete riempito) deve
-# restare **scritta nel codice e nel report**. Così fra sei mesi un revisore, o voi stessi,
+# restare **scritta nel codice e nel report**. Così fra sei mesi voi stessi, o un collega,
 # potrete rifarla.
 #
 # Domani: figure per la pubblicazione, poi regressione con le incertezze, fit non lineari e statistica.

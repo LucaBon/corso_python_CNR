@@ -146,8 +146,8 @@ print("accuratezza per fold:", np.round(punteggi, 3))
 print(f"CV 5-fold: {punteggi.mean():.3f} ± {punteggi.std():.3f}")
 
 # %% [markdown]
-# > Da riportare in un articolo: *"accuratezza 0.92 ± 0.09 (validazione crociata stratificata
-# > a 5 fold, n = 60)"*. Non "accuratezza 100 %" senza dire come è stata misurata.
+# > In sintesi: *accuratezza 0.92 ± 0.09 (validazione crociata stratificata a 5 fold, n = 60)*.
+# > Un'accuratezza senza il metodo con cui è stata misurata non dice molto.
 #
 # ### Esercizio 8.1: quanto è stabile la CV? (livello 1, 5')
 #
@@ -155,8 +155,7 @@ print(f"CV 5-fold: {punteggi.mean():.3f} ± {punteggi.std():.3f}")
 # 1. `random_state=1` invece di 0 (cioè un'altra divisione in 5 fold);
 # 2. `n_splits=10` invece di 5.
 #
-# Stampate media ± sd in entrambi i casi. La media cambia di molto? E la sd? Che cosa
-# riportereste in un articolo?
+# Stampate media ± sd in entrambi i casi. La media cambia di molto? E la sd?
 
 # %%
 # ESERCIZIO 8.1 (livello 1)
@@ -208,8 +207,8 @@ p = cross_val_score(RandomForestClassifier(n_estimators=300, random_state=0), Xr
 print(f"accuratezza in CV (rumore puro): {p.mean():.2f} ± {p.std():.2f}   <- il caso: ~0.5")
 
 # %% [markdown]
-# La CV ha fatto il suo lavoro: 0.5 è il lancio di una moneta. Ora l'errore più sottile, quello
-# che finisce negli articoli: selezionare le variabili "migliori" guardando tutti i dati, e solo
+# La CV ha fatto il suo lavoro: 0.5 è il lancio di una moneta. Ora l'errore più sottile, e molto
+# diffuso: selezionare le variabili "migliori" guardando tutti i dati, e solo
 # dopo fare la validazione crociata.
 
 # %%
@@ -573,7 +572,7 @@ plt.show()
 #    l'ambiente è a posto.
 # 2. Prendete un vostro file reale e rifate il progetto del giorno 2 (pulizia + report). È
 #    l'esercizio più utile che possiate fare.
-# 3. Rifate una figura di un vostro articolo con `figure_pubblicazione.py`. Confrontatela con
+# 3. Rifate una vostra figura con `figure_pubblicazione.py`. Confrontatela con
 #    l'originale in scala di grigi.
 #
 # ### Python e R: cosa farete con cosa? (5', discussione)
@@ -676,7 +675,7 @@ for nome, cols in insiemi.items():
     print(f"{nome:26s}: {p.mean():.3f} ± {p.std():.3f}")
 # Commento: top3 è stata selezionata con le etichette di TUTTO il dataset, quindi la sua CV è
 # leggermente ottimista. Con 3 variabili su 20 e 60 campioni l'effetto è piccolo (non siamo nel
-# caso 200 variabili / 30 campioni), ma in un articolo la selezione andrebbe messa dentro la pipeline.
+# caso 200 variabili / 30 campioni), ma per una stima corretta la selezione va messa dentro la pipeline.
 
 # %% [markdown]
 # ---
