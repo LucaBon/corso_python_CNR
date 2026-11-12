@@ -157,6 +157,8 @@ X_std = pd.DataFrame(scaler.fit_transform(X_imp), columns=variabili)
 print("varianza per colonna PRIMA (le 5 più grandi):")
 print(X_imp.var().sort_values(ascending=False).head(5).round(1))
 print("\nvarianza per colonna DOPO:", X_std.var().round(2).unique())
+# 1.02 e non 1.00: pandas .var() divide per n-1 (59), lo scaler per n (60). 60/59 = 1.017.
+print("con ddof=0, come lo scaler:", X_std.var(ddof=0).round(2).unique())
 
 # %%
 # Verifica: lo scaler è il broadcasting di sopra, nient'altro

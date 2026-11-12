@@ -24,7 +24,7 @@ corso_python_CNR/
 | # | Notebook | Contenuto |
 |---|---|---|
 | 01 | G1 mattina: Python essenziale | benvenuto, fuori scope, Jupyter, tipi, f-string, liste, dizionari, for/if, range/enumerate/zip, comprehension |
-| 02 | G1 pomeriggio: Funzioni, errori, file, NumPy | funzioni, import, traceback vero e i 6 errori, try/except, E1.1 caccia al bug, pathlib, E1.2 parsing file strumento, array/maschere/NaN, primo grafico, picco su linea di base, E1.3 ciclo su cartella → CSV |
+| 02 | G1 pomeriggio: Funzioni, errori, file, NumPy | funzioni, import, traceback vero e i 6 errori, try/except, 2.2 caccia al bug, pathlib, 2.3 parsing file strumento, array/maschere/NaN, primo grafico, picco su linea di base, 2.4 ciclo su cartella → CSV |
 | 03 | G2 mattina: Pandas essenziale | DataFrame/Series, read_csv su CSV "italiano" sporco, info/describe (`str` = testo), rename, date, Excel, loc/iloc/filtri, colonne derivate |
 | 04 | G2 pomeriggio: Pulizia e progetto | mancanti, duplicati, anomali IQR per gruppo (sui log), groupby/agg/transform, merge/join, **API UniProt → JSON → merge (facoltativo, copia offline)**, pivot/melt, **Progetto wrangling con report (60')**, resample (per casa) |
 | 05 | G3 mattina: Grafici per la pubblicazione | API a oggetti, tipi, barre d'errore, personalizzazione, subplot, standard rivista con `figure_pubblicazione.py` (`stile_rivista` / `stile_rivista_ctx`, `verifica_figura` su font e linee), controllo in b/n, figura multipannello PDF/TIF, seaborn (facoltativo) |
@@ -128,8 +128,10 @@ python verifica_ambiente.py
 jupyter lab
 ```
 
-**Piano C: Google Colab**: caricare lo zip del corso, `!unzip corso_python_CNR.zip`, aprire i notebook
-da `studenti/` (Colab ha già tutte le librerie; le immagini `../img` non si vedono, i dati sì).
+**Piano C: Google Colab**: caricare lo zip del corso, `!unzip corso_python_CNR.zip`, poi aprire il
+notebook da `studenti/` con *File → Carica notebook* (Colab non apre direttamente i `.ipynb` scompattati
+nella macchina virtuale). Colab ha già tutte le librerie; le immagini sono incorporate nei notebook e la
+cella di avvio trova i dati in `corso_python_CNR/dati`.
 
 I due ambienti hanno le stesse librerie e le stesse versioni minime (pandas ≥ 3), Python 3.12. Gli
 "output attesi" sono prodotti con le versioni esatte di `uv.lock`; con Miniforge possono differire

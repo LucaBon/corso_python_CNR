@@ -184,7 +184,7 @@ for testo in ["3.2", "4,1", "n.d."]:
         print(testo, "-> non è un numero:", errore)
 
 # %% [markdown]
-# ### Esercizio 2.2 (E1.1): caccia al bug
+# ### Esercizio 2.2: caccia al bug
 #
 # Cinque celle, cinque frammenti rotti. Eseguitele una alla volta, leggete il messaggio e
 # riparate. Prima leggete l'errore, poi guardate il codice: l'obiettivo è allenare il metodo.
@@ -316,7 +316,7 @@ parti = r.split("\t")
 print(parti, float(parti[0]), float(parti[1]))
 
 # %% [markdown]
-# ### Esercizio 2.3 (E1.2): parsing di un file di strumento (livello 2)
+# ### Esercizio 2.3: parsing di un file di strumento (livello 2)
 #
 # > *Facoltativo: si può saltare se si è in ritardo.* Chi lo salta trova la funzione già pronta
 # > prima dell'esercizio 2.4.
@@ -356,8 +356,11 @@ def leggi_dpv(percorso):
 
 meta, E, i = leggi_dpv(file)
 print(meta)
-print(len(E), "punti; primo:", E[0], i[0], "; ultimo:", E[-1], i[-1])
-print("corrente massima:", max(i))
+if E:      # se la funzione non è ancora completa, E è vuota: niente da mostrare
+    print(len(E), "punti; primo:", E[0], i[0], "; ultimo:", E[-1], i[-1])
+    print("corrente massima:", max(i))
+else:
+    print("E è vuota: completate la funzione (o saltate l'esercizio: la versione pronta è più avanti)")
 
 # %% [markdown]
 # ---
@@ -474,7 +477,7 @@ print(f"fondo = {fondo:.3f} µA, picco netto = {i_picco:.3f} µA")
 # > nell'estensione facoltativa 3 dell'esercizio 2.4; le regressioni vere e proprie: giorno 3).
 
 # %% [markdown]
-# ### Esercizio 2.4 (E1.3): ciclo su una cartella e tabella riassuntiva (livello 2)
+# ### Esercizio 2.4: ciclo su una cartella e tabella riassuntiva (livello 2)
 #
 # Qui si vede a cosa serve Python. A mano fareste: apri il file, leggi il massimo, copia in
 # Excel, ripeti dodici volte. Qui:

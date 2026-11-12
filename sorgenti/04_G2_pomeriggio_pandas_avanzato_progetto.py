@@ -186,10 +186,11 @@ print(mancanti["analita"].value_counts())
 # ![groupby](../img/groupby.png)
 #
 # La sintassi si legge da sinistra a destra: *"raggruppa per matrice, prendi la colonna
-# concentrazione, calcola la media"*.
+# concentrazione, calcola la media"*. Prima filtriamo un solo analita: una media che mescola
+# Cu, Pb e Cd (scale diverse di un fattore 20) sarebbe un numero senza significato.
 
 # %%
-df.groupby("matrice")["conc_ug_L"].mean()
+df[df["analita"] == "Cu"].groupby("matrice")["conc_ug_L"].mean()
 
 # %% [markdown]
 # Torniamo alla diagnosi dell'esercizio 4.1. Con `groupby` si fa in un colpo solo, e con il
@@ -335,7 +336,6 @@ misurati
 
 # %%
 import json
-import requests
 
 URL = "https://rest.uniprot.org/uniprotkb/search"
 query = "(" + " OR ".join(f"gene_exact:{g}" for g in misurati["gene"]) + ") AND organism_id:9606 AND reviewed:true"
@@ -346,6 +346,7 @@ print(query)
 
 USA_RETE = False          # True = chiamata vera; False = copia salvata in dati/
 if USA_RETE:
+    import requests       # serve solo per la chiamata vera
     try:
         r = requests.get(URL, params=parametri, timeout=30)
         r.raise_for_status()
@@ -541,6 +542,46 @@ report = {}
 # 8. riassunto per GRUPPI_RIASSUNTO: n, media, sd, % fuori limite -> riassunto.csv
 #    (attenzione: groupby scarta i gruppi con chiave NaN, a meno di dropna=False)
 # 9. stampa il report
+#
+# Traccia: sostituite i ____ (chi vuole una sfida cancelli la traccia e scriva da zero).
+#> d = carica_misure(____)
+#> report["righe lette"] = len(d)
+#>
+#> d = d.dropna(subset=[____])
+#> report["senza valore"] = report["righe lette"] - len(d)
+#>
+#> n = len(d); d = d.____()
+#> report["duplicati"] = n - len(d)
+#>
+#> anom = anomali_iqr(d, col=COL_VALORE, per=GRUPPI_ANOMALI, k=____)
+#> report["anomali (>3 IQR, log)"] = int(anom.sum())
+#> d = d[____anom]                                   # tenere le righe NON anomale
+#>
+#> d = pd.merge(d, pd.read_excel(METADATI), on=____, how=____)
+#> report["senza metadati sito (tenute)"] = int(d["sito"].____().sum())
+#>
+#> mm = {"Cu": 63.55, "Pb": 207.2, "Cd": 112.41}
+#> d["conc_nM"] = d[COL_VALORE] / d["analita"].map(____) * 1000
+#> d["limite"] = d["analita"].map(LIMITI)
+#> d["fuori_limite"] = d[COL_VALORE] > d[____]
+#> d.to_csv("misure_pulite.csv", index=____)
+#> report["righe finali"] = len(d)
+#>
+#> riassunto = d.groupby(GRUPPI_RIASSUNTO, dropna=False).agg(
+#>     n=(COL_VALORE, "size"),
+#>     media=(COL_VALORE, ____),
+#>     sd=(COL_VALORE, ____),
+#>     pct_fuori_limite=("fuori_limite", "mean"),      # media di True/False = frazione di True
+#> ).reset_index()
+#> riassunto["pct_fuori_limite"] = (100 * riassunto["pct_fuori_limite"]).round(1)
+#> riassunto = riassunto.round(2)
+#> riassunto.to_csv(____, index=False)
+#>
+#> print(f"REPORT PULIZIA {FILE.name}")
+#> for k, v in report.items():
+#>     print(f"  {k + ':':32s}{v:5d}")
+#> print()
+#> print(riassunto.head(10))
 # --- SOLUZIONE ---
 d = carica_misure(FILE)
 report["righe lette"] = len(d)
