@@ -312,7 +312,7 @@ axs[1, 1].set_title("residui senza struttura", fontsize=9)
 plt.show()
 
 # %% [markdown]
-# ### Esercizio 6.2 (E3.2): fit non lineare con incertezze e residui (livello 2)
+# ### Esercizio 6.1: fit non lineare con incertezze e residui (livello 2)
 #
 # Sulla curva sigmoide (`dose_risposta.csv`):
 # 1. fittate anche un modello sbagliato ma plausibile: la retta in `log10(dose)`
@@ -323,7 +323,7 @@ plt.show()
 #    quale modello scegliete e perché (non per l'R²).
 
 # %%
-# ESERCIZIO 6.2 (livello 2)
+# ESERCIZIO 6.1 (livello 2)
 # 1. reg_log = linregress su log10(d)
 # 2. residui e R² dei due modelli
 # 3. figura 2 righe x 1 colonna, sharex
@@ -451,10 +451,11 @@ print(f"'significativi' (p < 0.05): {sum(p < 0.05 for p in p_vals)}   con Bonfer
 # - Il test non sostituisce il grafico: se dal box plot non si vede niente, con n = 8 un p < 0.05 va preso con le pinze.
 
 # %% [markdown]
-# ### Esercizio 6.3: confronto fra matrici, fatto bene (livello 2)
+# ### Esercizio 6.2: confronto fra matrici, fatto bene (livello 2)
 #
-# Con `misure_pulite.csv` di ieri (o il file grezzo pulito al volo con la stessa regola del
-# giorno 2): il rame ha concentrazione diversa nelle tre matrici?
+# Sui dati di ieri (`misure_sporche.csv`, ripulito qui sotto al volo con la stessa regola del
+# progetto del giorno 2, così tutti partono dalla stessa tabella): il rame ha concentrazione
+# diversa nelle tre matrici?
 #
 # Due trappole da evitare prima di lanciare qualsiasi test:
 #
@@ -472,17 +473,16 @@ print(f"'significativi' (p < 0.05): {sum(p < 0.05 for p in p_vals)}   con Bonfer
 # controllo. Scrivete in un commento la conclusione in una frase, con effetto e intervallo, non solo p.
 
 # %%
-# ESERCIZIO 6.3 (livello 2)
-if Path("misure_pulite.csv").exists():
-    misure = pd.read_csv("misure_pulite.csv")
-else:   # pulizia al volo, con la stessa regola del giorno 2 (anomali: > 3 IQR in log10, per analita x matrice)
-    misure = pd.read_csv(DATI / "misure_sporche.csv", sep=";", decimal=",", encoding="latin-1",
-                         comment="#", na_values=["n.d."])
-    misure = misure.rename(columns={"concentrazione (µg/L)": "conc_ug_L"}).dropna(subset=["conc_ug_L"]).drop_duplicates()
-    lc = np.log10(misure["conc_ug_L"])
-    g = lc.groupby([misure["analita"], misure["matrice"]])
-    q1, q3 = g.transform(lambda s: s.quantile(0.25)), g.transform(lambda s: s.quantile(0.75))
-    misure = misure[(lc >= q1 - 3 * (q3 - q1)) & (lc <= q3 + 3 * (q3 - q1))]
+# ESERCIZIO 6.2 (livello 2)
+# pulizia al volo, con la stessa regola del giorno 2 (anomali: > 3 IQR in log10, per analita x matrice).
+# Non rileggiamo il vostro misure_pulite.csv: ognuno l'ha fatto a modo suo, e l'output atteso non tornerebbe.
+misure = pd.read_csv(DATI / "misure_sporche.csv", sep=";", decimal=",", encoding="latin-1",
+                     comment="#", na_values=["n.d."])
+misure = misure.rename(columns={"concentrazione (µg/L)": "conc_ug_L"}).dropna(subset=["conc_ug_L"]).drop_duplicates()
+lc = np.log10(misure["conc_ug_L"])
+g = lc.groupby([misure["analita"], misure["matrice"]])
+q1, q3 = g.transform(lambda s: s.quantile(0.25)), g.transform(lambda s: s.quantile(0.75))
+misure = misure[(lc >= q1 - 3 * (q3 - q1)) & (lc <= q3 + 3 * (q3 - q1))]
 cu = misure[misure["analita"] == "Cu"].copy()
 cu["log_conc"] = np.log10(cu["conc_ug_L"])
 # 1. un valore per campione: cu.groupby(["campione", "matrice"])["log_conc"].mean().reset_index()

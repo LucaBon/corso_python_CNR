@@ -92,7 +92,7 @@ print(f"train: {len(X_tr)}  test: {len(X_te)}")
 print(y_te.value_counts().to_dict())
 
 # %%
-# Le random forest di scikit-learn non accettano NaN in modo affidabile in tutte le versioni: imputiamo.
+# Le random forest recenti accettano i NaN, ma molti altri modelli no: imputiamo, così lo schema vale per tutti.
 imp = SimpleImputer(strategy="median").fit(X_tr)         # fit SOLO sul train
 X_tr_i = imp.transform(X_tr)
 X_te_i = imp.transform(X_te)
@@ -148,6 +148,36 @@ print(f"CV 5-fold: {punteggi.mean():.3f} ± {punteggi.std():.3f}")
 # %% [markdown]
 # > Da riportare in un articolo: *"accuratezza 0.92 ± 0.09 (validazione crociata stratificata
 # > a 5 fold, n = 60)"*. Non "accuratezza 100 %" senza dire come è stata misurata.
+#
+# ### Esercizio 8.1: quanto è stabile la CV? (livello 1, 5')
+#
+# Rifate la stessa validazione crociata cambiando due cose, una alla volta:
+# 1. `random_state=1` invece di 0 (cioè un'altra divisione in 5 fold);
+# 2. `n_splits=10` invece di 5.
+#
+# Stampate media ± sd in entrambi i casi. La media cambia di molto? E la sd? Che cosa
+# riportereste in un articolo?
+
+# %%
+# ESERCIZIO 8.1 (livello 1)
+#> cv_1 = StratifiedKFold(n_splits=5, shuffle=True, random_state=____)
+#> p_1 = cross_val_score(modello, X, y, cv=____, scoring="accuracy")
+#> print(f"5 fold, altro seme: {p_1.mean():.3f} ± {p_1.std():.3f}")
+#>
+#> cv_10 = StratifiedKFold(n_splits=____, shuffle=True, random_state=0)
+#> p_10 = cross_val_score(modello, X, y, cv=cv_10, scoring="accuracy")
+#> print(f"10 fold:            {p_10.mean():.3f} ± {p_10.std():.3f}")
+# --- SOLUZIONE ---
+cv_1 = StratifiedKFold(n_splits=5, shuffle=True, random_state=1)
+p_1 = cross_val_score(modello, X, y, cv=cv_1, scoring="accuracy")
+print(f"5 fold, altro seme: {p_1.mean():.3f} ± {p_1.std():.3f}")
+
+cv_10 = StratifiedKFold(n_splits=10, shuffle=True, random_state=0)
+p_10 = cross_val_score(modello, X, y, cv=cv_10, scoring="accuracy")
+print(f"10 fold:            {p_10.mean():.3f} ± {p_10.std():.3f}")
+# Commento: la media si sposta di qualche punto, la sd cambia di più (con 10 fold ogni test ha solo
+# 6 campioni, quindi ogni fold è più rumoroso). Si riporta il metodo insieme al numero, e se il numero
+# dipende dal seme si fa la media su più ripetizioni (RepeatedStratifiedKFold, sezione 4).
 
 # %% [markdown]
 # ---
@@ -259,7 +289,8 @@ print(classification_report(y, y_pred_cv, digits=3))
 # %% [markdown]
 # Leggete: *precision* = di quelli che ho chiamato "Vallombrosa", quanti lo erano; *recall* =
 # dei veri "Vallombrosa", quanti ne ho presi. Gli errori stanno quasi tutti fra Cascine e
-# Vallombrosa, mentre Maremma non viene mai sbagliata: è un'informazione che l'accuratezza da
+# Vallombrosa, mentre i campioni di Maremma vengono sempre riconosciuti (recall 1.00; uno solo di un
+# altro sito viene scambiato per Maremma, da cui la precision 0.95): è un'informazione che l'accuratezza da
 # sola non dà, e coincide con quanto visto nella PCA di stamattina.
 
 # %% [markdown]
@@ -389,6 +420,39 @@ COL_ID, COL_CLASSE = "campione", "classe"
 # 3. pipeline imputer -> RF; CV senza gruppi (StratifiedKFold) e con gruppi (StratifiedGroupKFold); media ± sd
 # 4. matrice di confusione con cross_val_predict(..., cv=cv_g, groups=gruppi)
 # 6. conclusione in una cella Markdown sotto (il punto 5, facoltativo, è nella cella dopo)
+#
+# Traccia: sostituite i ____ (chi vuole una sfida cancelli la traccia e scriva da zero).
+#> from sklearn.decomposition import PCA
+#> d = pd.read_csv(FILE)
+#> cols = [c for c in d.columns if c.startswith(____)]
+#> Xp, yp, gruppi = d[cols], d[COL_CLASSE], d[____]
+#> print("1)", Xp.shape, "| mancanti:", int(Xp.isna().sum().sum()))
+#> print("   campioni per classe:", d.groupby(COL_CLASSE)[COL_ID].____().to_dict(),
+#>       "| repliche per campione:", gruppi.value_counts().unique())
+#>
+#> # 2) PCA: prima imputer e scaler (come stamattina), poi gli scores colorati per classe
+#> pre = Pipeline([("imputer", SimpleImputer(strategy="median")), ("scaler", ____)])
+#> Z = pre.fit_transform(Xp)
+#> pca = PCA().fit(Z); S = pca.transform(Z)
+#> fig, ax = plt.subplots(figsize=(5.5, 4))
+#> for cl in sorted(yp.unique()):
+#>     ax.plot(S[yp == cl, 0], S[yp == cl, 1], "o", ms=5, label=cl)
+#> ax.set_xlabel("PC1"); ax.set_ylabel("PC2"); ax.legend(frameon=False, fontsize=8)
+#> plt.show()
+#>
+#> # 3) la stessa pipeline, valutata con due CV diverse
+#> pipe_f = Pipeline([("imputer", SimpleImputer(strategy="median")),
+#>                    ("rf", RandomForestClassifier(n_estimators=300, random_state=0, n_jobs=-1))])
+#> cv_n = StratifiedKFold(n_splits=5, shuffle=True, random_state=0)
+#> cv_g = ____(n_splits=5, shuffle=True, random_state=0)
+#> sc_n = cross_val_score(pipe_f, Xp, yp, cv=cv_n)
+#> sc_g = cross_val_score(pipe_f, Xp, yp, cv=cv_g, groups=____)
+#> print(f"3) CV senza gruppi: {sc_n.mean():.3f} ± {sc_n.std():.3f}")
+#> print(f"   CV per campione: {sc_g.mean():.3f} ± {sc_g.std():.3f}   (il caso: {1/yp.nunique():.2f})")
+#>
+#> # 4) matrice di confusione con la CV per gruppi
+#> pred = cross_val_predict(pipe_f, Xp, yp, cv=____, groups=gruppi)
+#> print(pd.crosstab(yp, pred, rownames=["vero"], colnames=["previsto"]))
 # --- SOLUZIONE ---
 from sklearn.decomposition import PCA
 d = pd.read_csv(FILE)
@@ -501,6 +565,59 @@ plt.show()
 
 # %% [markdown]
 # ---
+# ## 8. Chiusura del corso (15')
+#
+# ### Cosa fare la settimana prossima
+#
+# 1. Riaprite un notebook del corso e rieseguitelo da capo (*Restart & Run All*). Se gira,
+#    l'ambiente è a posto.
+# 2. Prendete un vostro file reale e rifate il progetto del giorno 2 (pulizia + report). È
+#    l'esercizio più utile che possiate fare.
+# 3. Rifate una figura di un vostro articolo con `figure_pubblicazione.py`. Confrontatela con
+#    l'originale in scala di grigi.
+#
+# ### Python e R: cosa farete con cosa? (5', discussione)
+#
+# Riprendiamo la tabella del primo giorno. Ognuno pensi al proprio lavoro: quali passaggi farebbe
+# in Python (procurarsi e unire i dati, pulizia ripetuta, automazione, ML, figure in serie) e quali
+# resteranno in R (modelli statistici, Bioconductor)? Le due cose convivono: un CSV scritto da pandas
+# si legge in R con `read.csv`, e viceversa.
+#
+# ### Dove cercare (tutto libero, CC-BY)
+#
+# - Software Carpentry, *Plotting and Programming in Python*: per ripassare le basi.
+# - Aalto Scientific Computing, *Python for Scientific Computing*: pandas, NumPy, buone pratiche.
+# - Scientific Python Lectures (lectures.scientific-python.org): SciPy, statistica, scikit-learn.
+# - La documentazione ufficiale di pandas ("10 minutes to pandas"), Matplotlib (galleria degli
+#   esempi: cercate la figura simile e copiate il codice), scikit-learn (*User Guide*, non l'API).
+# - La scheda `personalizzazione_grafici.ipynb` e il modulo `figure_pubblicazione.py`.
+#
+# ### Gli errori tipici della prima settimana da soli
+#
+# | Sintomo | Probabile causa |
+# |---|---|
+# | `FileNotFoundError` | Python cerca nella cartella sbagliata: `Path.cwd()`, percorsi relativi |
+# | `NameError` | cella non eseguita, kernel riavviato |
+# | `read_csv` dà una colonna sola, o numeri come testo | `sep`, `decimal`, `encoding` |
+# | Il merge raddoppia le righe | chiave non univoca |
+# | La PCA "dice" solo una variabile | non avete standardizzato |
+# | Accuratezza 100 % | avete valutato sul train, o l'etichetta è finita in `X`, o selezione fuori dalla CV |
+#
+# ### Assistenti automatici per il codice
+#
+# Non li abbiamo usati, di proposito. Ora però avete l'unica cosa che serve per usarli bene:
+# saper leggere il codice che producono e verificarlo, con un test piccolo, un output
+# atteso, un grafico di controllo. Un assistente che vi scrive `read_csv` con i parametri
+# giusti vi fa risparmiare cinque minuti; uno che vi scrive una CV con la selezione fuori dalla
+# pipeline vi fa pubblicare un risultato falso, e lo fa con molta sicurezza. Usateli come un
+# collega veloce e distratto: utile, mai da fidarsi sulla parola.
+#
+# ---
+# Grazie. In questi quattro giorni avete scritto codice che legge file, pulisce dati, fa figure
+# da rivista, rette di taratura con le incertezze, PCA e un classificatore validato.
+
+# %% [markdown]
+# ---
 # ## Esercizi per casa (facoltativi)
 #
 # ### Esercizio C8.1: quanti campioni servono perché l'inganno smetta di funzionare? (livello 2)
@@ -562,58 +679,6 @@ for nome, cols in insiemi.items():
 # caso 200 variabili / 30 campioni), ma in un articolo la selezione andrebbe messa dentro la pipeline.
 
 # %% [markdown]
-# ---
-# ## 8. Chiusura del corso (15')
-#
-# ### Cosa fare la settimana prossima
-#
-# 1. Riaprite un notebook del corso e rieseguitelo da capo (*Restart & Run All*). Se gira,
-#    l'ambiente è a posto.
-# 2. Prendete un vostro file reale e rifate il progetto del giorno 2 (pulizia + report). È
-#    l'esercizio più utile che possiate fare.
-# 3. Rifate una figura di un vostro articolo con `figure_pubblicazione.py`. Confrontatela con
-#    l'originale in scala di grigi.
-#
-# ### Python e R: cosa farete con cosa? (5', discussione)
-#
-# Riprendiamo la tabella del primo giorno. Ognuno pensi al proprio lavoro: quali passaggi farebbe
-# in Python (procurarsi e unire i dati, pulizia ripetuta, automazione, ML, figure in serie) e quali
-# resteranno in R (modelli statistici, Bioconductor)? Le due cose convivono: un CSV scritto da pandas
-# si legge in R con `read.csv`, e viceversa.
-#
-# ### Dove cercare (tutto libero, CC-BY)
-#
-# - Software Carpentry, *Plotting and Programming in Python*: per ripassare le basi.
-# - Aalto Scientific Computing, *Python for Scientific Computing*: pandas, NumPy, buone pratiche.
-# - Scientific Python Lectures (lectures.scientific-python.org): SciPy, statistica, scikit-learn.
-# - La documentazione ufficiale di pandas ("10 minutes to pandas"), Matplotlib (galleria degli
-#   esempi: cercate la figura simile e copiate il codice), scikit-learn (*User Guide*, non l'API).
-# - La scheda `personalizzazione_grafici.ipynb` e il modulo `figure_pubblicazione.py`.
-#
-# ### Gli errori tipici della prima settimana da soli
-#
-# | Sintomo | Probabile causa |
-# |---|---|
-# | `FileNotFoundError` | Python cerca nella cartella sbagliata: `Path.cwd()`, percorsi relativi |
-# | `NameError` | cella non eseguita, kernel riavviato |
-# | `read_csv` dà una colonna sola, o numeri come testo | `sep`, `decimal`, `encoding` |
-# | Il merge raddoppia le righe | chiave non univoca |
-# | La PCA "dice" solo una variabile | non avete standardizzato |
-# | Accuratezza 100 % | avete valutato sul train, o l'etichetta è finita in `X`, o selezione fuori dalla CV |
-#
-# ### Assistenti automatici per il codice
-#
-# Non li abbiamo usati, di proposito. Ora però avete l'unica cosa che serve per usarli bene:
-# saper leggere il codice che producono e verificarlo, con un test piccolo, un output
-# atteso, un grafico di controllo. Un assistente che vi scrive `read_csv` con i parametri
-# giusti vi fa risparmiare cinque minuti; uno che vi scrive una CV con la selezione fuori dalla
-# pipeline vi fa pubblicare un risultato falso, e lo fa con molta sicurezza. Usateli come un
-# collega veloce e distratto: utile, mai da fidarsi sulla parola.
-#
-# ---
-# Grazie. In questi quattro giorni avete scritto codice che legge file, pulisce dati, fa figure
-# da rivista, rette di taratura con le incertezze, PCA e un classificatore validato.
-#
 # ---
 # *Materiali del corso rilasciati con licenza CC-BY 4.0. Contenuti ispirati a Software Carpentry,
 # Aalto Scientific Computing e Scientific Python Lectures (tutti CC-BY 4.0).*
