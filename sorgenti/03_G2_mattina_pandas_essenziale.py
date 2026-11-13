@@ -1,7 +1,9 @@
 # %% [markdown]
 # # Giorno 2, mattina: pandas essenziale
 #
-# Obiettivo di oggi: sostituire un intero foglio Excel con quindici righe di codice.
+# Obiettivo di oggi: leggere, ispezionare, filtrare e trasformare una tabella con pandas.
+# Chi viene da Excel vedrà un foglio di lavoro diventare poche righe di codice; chi viene
+# da R ritroverà quasi tutto quello che fa con dplyr.
 #
 # Ieri avete costruito una tabella con liste e cicli, e l'avete salvata in CSV a mano.
 # Oggi vedrete che pandas fa tutto questo con una riga, e molto altro: filtri, colonne

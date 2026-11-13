@@ -9,15 +9,13 @@
 #
 # Alla fine di oggi ognuno di voi avrà scritto uno script che legge un file di dati
 # prodotto da uno strumento, ne estrae le informazioni utili e produce un grafico di
-# controllo. Domani sostituiremo un foglio Excel con quindici righe di codice; dopodomani
+# controllo. Domani sostituiremo un foglio Excel con qualche riga di codice; dopodomani
 # faremo una figura da rivista e una retta di taratura con le incertezze; l'ultimo giorno
 # PCA e un modello predittivo, e soprattutto impareremo a capire quando *non* fidarci del risultato.
 #
 # ### Una cosa da dire subito
 #
-# Tutti voi lavorate con i dati da anni. Sapete cosa sono un filtro, una media per gruppo, una
-# regressione. Non dovete imparare a ragionare sui dati, ma una **lingua nuova** per dire cose
-# che già sapete. Nei prossimi giorni vi capiterà di sapere esattamente cosa volete ottenere
+# Tutti voi lavorate con i dati da anni. Nei prossimi giorni vi capiterà di sapere esattamente cosa volete ottenere
 # e di non riuscire a scriverlo: è normale, e passa con la pratica. Per questo gran parte
 # del corso è fatta di esercizi.
 #
@@ -25,10 +23,9 @@
 #
 # | Escluso | Motivo |
 # |---|---|
-# | Reti neurali / deep learning | Non si insegna onestamente in 4 giorni; con 30 campioni è pericoloso |
-# | Assistenti LLM per il codice | Prima bisogna saper leggere e verificare il codice; ne riparliamo alla fine |
+# | Reti neurali / deep learning | Non si insegna onestamente in 4 giorni; con pochi campioni è pericoloso |
+# | Assistenti LLM per il codice | Prima bisogna saper leggere e verificare il codice.  |
 # | Git, VS Code | Restiamo su Jupyter tutti e quattro i giorni |
-# | Dati geospaziali, NetCDF | Non servono su matrici biologiche |
 # | Bioinformatica specifica (FASTA, VCF, Biopython, scanpy) | Ogni formato ha le sue librerie; pandas e NumPy di questi giorni sono la base comune |
 #
 # ### Python o R?
@@ -137,10 +134,10 @@ print(2 + 3)
 # - `int`: intero, `3`, `-12`
 # - `float`: numero decimale, scritto con il punto e non con la virgola: `25.4`, `1e-6`
 # - `str`: testo, tra virgolette: `"foglia"`, `'C001'`
-# - `bool`: vero/falso, `True`, `False`
+# - `bool`: vero/falso, `True`, `False` # mi raccomando la maiuscola
 #
 # La funzione `type()` vi dice il tipo. Gran parte degli errori del primo giorno è un
-# problema di tipo: un numero che in realtà è testo, un intero dove serve un decimale.
+# problema di tipo: un numero che in realtà è testo. Si converte con `int()`, `float()`, `str()`.
 
 # %%
 conc = 25.4              # µg/L
@@ -449,7 +446,7 @@ print(conc_nM)
 # |---|---|---|---|
 # | tenere un valore | cella `B3` | `conc <- 25.4` | `conc = 25.4` |
 # | una colonna di valori | colonna | `c(...)` | lista `[...]` (oggi pomeriggio: array NumPy) |
-# | il terzo valore | `B4` | `misure[3]` | `misure[2]` (si conta da 0) |
+# | il terzo valore | `B4` se intestazione in B1 | `misure[3]` | `misure[2]` (si conta da 0) |
 # | somma, media | `=SOMMA()`, `=MEDIA()` | `sum()`, `mean()` | `sum()`, `sum()/len()` |
 # | fare qualcosa per ogni elemento | trascinare la formula | `for (x in v) {...}` | `for x in lista:` |
 # | solo se… | `=SE()` | `if (...) {...}` | `if condizione:` |
@@ -459,15 +456,18 @@ print(conc_nM)
 #
 # ### Trappole per chi viene da R
 #
-# - Si conta da 0, e `v[1:4]` prende gli elementi 1, 2, 3 (l'estremo finale è escluso). In R `v[1:4]`
+# - Si conta da 0, e `v[1:4]` prende le posizioni 1, 2, 3, cioè il secondo, il terzo e il quarto elemento (l'estremo finale è escluso). In R `v[1:4]`
 #   prende i primi quattro.
+# - `v[-1]` è l'**ultimo** elemento. In R `v[-1]` toglie il primo.
+# - Le liste non sono vettori: `[1, 2, 3] * 2` dà `[1, 2, 3, 1, 2, 3]`, e `+` concatena.
+#   Il calcolo elemento per elemento, come in R, si ha con NumPy.
 # - I blocchi non hanno graffe: li decide l'indentazione.
 # - `b = a` con una lista **non fa una copia**: `a` e `b` sono la stessa lista, e modificarne una
 #   modifica l'altra. Per una copia: `b = a.copy()`. In R ogni modifica crea una copia, quindi non
 #   ve lo aspettate.
 # - I tipi non si convertono da soli: `"3" + 2` è un errore (come in R), ma `"3" * 2` dà `"33"` senza nessun avviso.
 #
-# Gli errori che farete tutti questa settimana (ed è normale):
+# Errori che potranno capitare (ed è normale):
 # 1. `=` al posto di `==`
 # 2. dimenticare i `:` a fine riga di `for` / `if`, o sbagliare l'indentazione
 # 3. un numero che in realtà è una stringa (`"25.4"`)
