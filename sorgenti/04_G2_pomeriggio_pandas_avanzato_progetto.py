@@ -181,7 +181,7 @@ print(mancanti["analita"].value_counts())
 # ---
 # ## 3. `groupby`: dividi, applica, ricombina
 #
-# Fa quello che fa la tabella pivot di Excel, ma in modo esplicito e ripetibile. Tre fasi:
+# È la tabella pivot di Excel, o `group_by() %>% summarise()` in dplyr. Tre fasi:
 #
 # ![groupby](../img/groupby.png)
 #

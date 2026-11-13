@@ -5,8 +5,8 @@
 # intervalli di confidenza e di predizione, e un fit non lineare di cui sapete dire quanto
 # fidarvi. Poi t-test, ANOVA e cosa significa davvero un p-value.
 #
-# È la parte più vicina al vostro lavoro quotidiano. Queste cose le conoscete già: oggi
-# imparate a scriverle in Python, e a non fidarvi di un R² da solo.
+# Gli strumenti sono generali: una retta di taratura, una curva dose-risposta o un confronto
+# fra gruppi si trattano allo stesso modo, e in tutti i casi un R² da solo non basta.
 #
 # ## 0. Cella di avvio
 

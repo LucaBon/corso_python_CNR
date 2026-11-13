@@ -126,7 +126,7 @@ Nota: l'esercizio 1.3 (nel §4) usa `for`/`if`, che il notebook introduce solo n
 
 ### §5 `for` e `if` (prime tre celle), poi Esercizio 1.3
 **Cosa dire**
-- "Il `for` fa quello che in Excel fate trascinando una formula. La riga finisce con i due punti, il blocco è rientrato di 4 spazi."
+- "Il `for` di Python è il `for` di R senza parentesi graffe: il blocco lo decide il rientro di 4 spazi, e la riga finisce con i due punti. Per chi viene da Excel, è il trascinare una formula."
 - "In Python l'indentazione **è** la sintassi: decide cosa sta dentro il ciclo." Per chi usa R e per chi conosce Perl/PHP: "Niente graffe."
 
 **Demo live**: togli i `:` dal `for` e leggi il `SyntaxError: expected ':'`. Poi togli l'indentazione da `print(c)` e leggi l'`IndentationError: expected an indented block after 'for' statement on line ...`.
@@ -296,7 +296,7 @@ Nel notebook della mattina non ci sono blocchi marcati *Facoltativo*. Gli eserci
 **Cosa dire**
 - "Picco netto = massimo meno fondo. Il fondo è la media della corrente lontano dal picco, per E < −0.45 V: una maschera e una media."
 - Box sulla semplificazione: "Il fondo sale, quindi questo metodo sovrastima ogni picco di circa 0.12–0.13 µA. È un errore costante: pesa sui picchi piccoli e finisce nell'intercetta della retta di taratura, non nella pendenza. Chi vuole fa il metodo con la retta nell'estensione 3."
-- "Qui si vede a cosa serve Python: dodici file, un ciclo, una tabella. A mano sarebbero dodici copia-incolla in Excel."
+- "Dodici file, un ciclo, una tabella. In R lo fareste con `list.files()` e `lapply()`: qui vediamo come si scrive in Python."
 
 **Esercizi**
 - **2.4** (livello 2, con `____`). Prima di partire: "Chi ha saltato 2.3 esegua la cella con `leggi_dpv` pronta (eseguirla non fa danni a nessuno)." Output: 12 righe da `S01,tampone,0.5,-0.225,0.499` a `S12,estratto foglia,50,-0.225,21.147`.

@@ -9,7 +9,7 @@
 #
 # Alla fine di oggi ognuno di voi avrà scritto uno script che legge un file di dati
 # prodotto da uno strumento, ne estrae le informazioni utili e produce un grafico di
-# controllo. Domani sostituiremo un foglio Excel con qualche riga di codice; dopodomani
+# controllo. Domani leggeremo, puliremo e riassumeremo tabelle con pandas; dopodomani
 # faremo una figura da rivista e una retta di taratura con le incertezze; l'ultimo giorno
 # PCA e un modello predittivo, e soprattutto impareremo a capire quando *non* fidarci del risultato.
 #
@@ -121,14 +121,14 @@ print(2 + 3)
 # ---
 # ## 2. Variabili e tipi
 #
-# Una variabile è un nome attaccato a un valore. In Excel scrivete un valore in una cella
-# e la chiamate `B3`; qui scegliete voi il nome.
+# Una variabile è un nome attaccato a un valore. In R si scrive `conc <- 25.4`, in Python
+# `conc = 25.4`; per chi viene da Excel, è come una cella a cui date voi il nome invece di `B3`.
 #
-# | In Excel | In Python |
-# |---|---|
-# | Cella B3 = 25.4 | `conc = 25.4` |
-# | `=B3*2` | `conc * 2` |
-# | Formato cella "Numero" / "Testo" | il **tipo** del valore: `float`, `int`, `str` |
+# | In Excel | In R | In Python |
+# |---|---|---|
+# | Cella B3 = 25.4 | `conc <- 25.4` | `conc = 25.4` |
+# | `=B3*2` | `conc * 2` | `conc * 2` |
+# | Formato cella "Numero" / "Testo" | `numeric`, `character` (`class()`) | il **tipo** del valore: `float`, `int`, `str` (`type()`) |
 #
 # I tipi che useremo di continuo:
 # - `int`: intero, `3`, `-12`

@@ -43,8 +43,8 @@ print("Cartella dati:", DATI.resolve())
 # - il corpo è indentato
 # - `return` restituisce il risultato. Senza `return`, la funzione restituisce `None`.
 #
-# In Excel è come definire una formula personalizzata. Le funzioni le usate già tutti i giorni:
-# `=MEDIA(B2:B9)` è una chiamata di funzione con un argomento.
+# Le funzioni le usate già: `=MEDIA(B2:B9)` in Excel o `mean(x)` in R. Chi usa R le definisce
+# con `function()`; in Python si usa `def`.
 
 # %%
 def media(valori):
@@ -479,8 +479,9 @@ print(f"fondo = {fondo:.3f} µA, picco netto = {i_picco:.3f} µA")
 # %% [markdown]
 # ### Esercizio 2.4: ciclo su una cartella e tabella riassuntiva (livello 2)
 #
-# Qui si vede a cosa serve Python. A mano fareste: apri il file, leggi il massimo, copia in
-# Excel, ripeti dodici volte. Qui:
+# Lo stesso lavoro su dodici file (o su mille), scritto una volta sola. Chi usa R lo fa con
+# `list.files()` e un ciclo o `lapply()`; in Python lo schema è identico: `glob` per elencare
+# i file, `for` per ripetere. I passi:
 #
 # 1. per ogni file `DPV_S*.txt` della cartella `DATI / "strumento"`, leggetelo con `leggi_dpv`;
 # 2. calcolate il picco netto come nella cella qui sopra (massimo meno la media della corrente per E < −0.45 V);
