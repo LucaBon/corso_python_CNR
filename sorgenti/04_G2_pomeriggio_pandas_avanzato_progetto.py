@@ -1,9 +1,9 @@
 # %% [markdown]
 # # Giorno 2, pomeriggio: pulizia, raggruppamenti, unioni e il progetto
 #
-# Obiettivo: dal file grezzo alla tabella pulita e aggregata, con un breve report di
-# quanti dati sono stati scartati e perché. È quello che fate ogni volta che vi arriva
-# un export dallo strumento, ma questa volta scritto, ripetibile e verificabile.
+# Obiettivo: dal file grezzo alla tabella pulita e aggregata, con un report di quanti
+# dati sono stati scartati e perché. Ogni scelta di pulizia resta nel codice, insieme ai
+# numeri che la documentano.
 #
 # ## 0. Cella di avvio
 
