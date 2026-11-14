@@ -1,6 +1,6 @@
 # Guida del docente: Python e Analisi Dati per Ricercatori CNR
 
-4 giorni × 6 ore · 20 partecipanti · settimana del 16/11/2026
+4 giorni × 6 ore · 20 partecipanti · da martedì 17/11/2026
 
 Come usare questa guida: la **Parte A** si legge una volta questa settimana. Le **Parti G1-G4** si
 stampano e si tengono sul leggio, una per giorno. Gli orari sono quelli del corso (10:00-13:00
@@ -141,7 +141,7 @@ dati, non di elettrochimica**. È una posizione legittima: dichiarala il primo g
 | Sei in ritardo di 30' o più | Applica la lista "Se sei in ritardo" del giorno, senza esitare. Gli esercizi per casa esistono apposta |
 | Il proiettore non va | Fai fare ai partecipanti l'esercizio successivo mentre sistemi: ognuno ha il notebook |
 
-## A9. Da sistemare prima di lunedì (aggiornato il 14/11)
+## A9. Da sistemare prima di martedì 17/11 (aggiornato il 14/11)
 
 **Già corretto nei sorgenti il 14/11** (notebook 01, 02, 05, 07, 08 ricompilati)
 - Il risultato del progetto finale non è più nel `README.md`; la conclusione d'esempio è solo nella versione docente. Restano gli "Output attesi" del progetto nel notebook studenti del giorno 4.
