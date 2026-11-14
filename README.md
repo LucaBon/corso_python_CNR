@@ -89,7 +89,7 @@ notebook, quindi si vedono anche lì).
 | `confronto_gruppi.csv` | G3 | 3 trattamenti × 8 repliche (t-test, ANOVA) |
 | `sensori_matrice.csv` | G3, G4 | 60 campioni × (15 correnti + 5 chimico-fisiche) + sito; deriva strumentale su PC1; CV RF ≈ 0.92 ± 0.09 |
 | `rumore_puro.csv` | G4 | 30 × 200 variabili casuali + etichetta 15/15 senza legame con le variabili: la demo dell'overfitting |
-| `dataset_features_campioni.csv` | G4 (es. 7.2 facoltativo, progetto finale) | derivato da un dataset reale (nomi anonimizzati): 36 campioni × 3 repliche (108 righe), 45 variabili `feature_01..45`, 3 classi da 12 campioni. **Non** è generato da `genera_dati.py`: non cancellatelo. numeri trasformati colonna per colonna (non corrispondono a misure reali). CV per campione (`StratifiedGroupKFold`) ≈ 0.44 ± 0.09, non distinguibile dal caso (p ≈ 0.25); CV che ignora le repliche ≈ 0.65 |
+| `dataset_features_campioni.csv` | G4 (es. 7.2 facoltativo, progetto finale) | derivato da un dataset reale (nomi anonimizzati): 36 campioni × 3 repliche (108 righe), 45 variabili `feature_01..45`, 3 classi da 12 campioni. **Non** è generato da `genera_dati.py`: non cancellatelo. numeri trasformati colonna per colonna (non corrispondono a misure reali). |
 
 Tutti gli altri file sono sintetici e si rigenerano con `genera_dati.py`.
 
