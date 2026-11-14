@@ -5,7 +5,7 @@
 - Stamattina: dalla tabella a una **figura pronta per la sottomissione** (PDF vettoriale, larghezza di colonna, font e linee a norma, leggibile in b/n).
 - Oggi pomeriggio: la retta di taratura **con le incertezze**, fit non lineari, residui, t-test/ANOVA fatti bene (niente pseudo-repliche, niente caccia al p < 0.05).
 
-File: `sorgenti/05_G3_mattina_grafici_pubblicazione.py` (+ `materiali/figure_pubblicazione.py`, `materiali/personalizzazione_grafici.ipynb` = "la scheda") e `sorgenti/06_G3_pomeriggio_scipy_statistica.py`. I notebook non indicano tempi: quelli sotto sono una proposta.
+File: `sorgenti/05_G3_mattina_grafici_pubblicazione.py` (+ `materiali/figure_pubblicazione.py`, `materiali/personalizzazione_grafici.ipynb` = "la scheda") e `sorgenti/06_G3_pomeriggio_scipy_statistica.py`. I notebook non indicano tempi: quelli sotto sono costruiti sull'orario 10:00–13:00 e 14:00–17:00. Rispetto alla versione su 9:00–12:30: l'Es. 5.1 dura 12' (ha solo due buchi), l'Es. 5.3 è guidato, seaborn è una demo di 5'. Nel pomeriggio l'anomalo nascosto diventa un lavoro in coppia e l'Es. 6.1 parte prima della pausa, così la sala non resta 85' a guardare.
 
 ---
 
@@ -15,18 +15,19 @@ File: `sorgenti/05_G3_mattina_grafici_pubblicazione.py` (+ `materiali/figure_pub
 
 | orario | sezione | modalità | min |
 |---|---|---|---|
-| 9:00 | Apertura + § 0 cella di avvio, dati di oggi | discorso + esecuzione | 10 |
-| 9:10 | § 1 Anatomia (Figure/Axes, solo API a oggetti) | lezione + demo | 15 |
-| 9:25 | § 2 Tipi fondamentali + box plot con punti | demo | 20 |
-| 9:45 | **Es. 5.1** box plot taratura (liv. 1) | esercizio | 20 |
-| 10:05 | § 3 Barre d'errore (sd vs sem), `fill_between` | demo + discussione | 15 |
-| 10:20 | § 4 Personalizzazione + giro nella scheda + Okabe-Ito | demo | 20 |
-| 10:40 | *pausa* | | 15 |
-| 10:55 | **Es. 5.2** da grezza a pubblicabile (liv. 2) | esercizio | 30 |
-| 11:25 | § 5 Pannelli multipli, lettere (a)(b)(c) | demo | 10 |
-| 11:35 | § 6 Standard rivista: `stile_rivista`, `salva_figura`, `verifica_figura`, controllo in grigi | demo | 20 |
-| 11:55 | **Es. 5.3** figura multipannello PDF/TIF (liv. 3) | esercizio | 25 |
-| 12:20 | § 7 Seaborn (facoltativo) / Riepilogo | demo | 10 |
+| 10:00 | Apertura + § 0 cella di avvio, dati di oggi | discorso + esecuzione | 8 |
+| 10:08 | § 1 Anatomia (Figure/Axes, solo API a oggetti) | lezione + demo | 12 |
+| 10:20 | § 2 Tipi fondamentali + box plot con punti | demo | 18 |
+| 10:38 | **Es. 5.1** box plot taratura (liv. 1) | esercizio | 12 |
+| 10:50 | § 3 Barre d'errore (sd vs sem), `fill_between` | demo + discussione | 13 |
+| 11:03 | § 4 Personalizzazione + giro nella scheda + Okabe-Ito | demo | 15 |
+| 11:18 | *pausa* | | 15 |
+| 11:33 | **Es. 5.2** da grezza a pubblicabile (liv. 2) | esercizio | 30 |
+| 12:03 | § 5 Pannelli multipli: solo mostrare la figura 1×3 | demo | 5 |
+| 12:08 | § 6 Standard rivista: `stile_rivista`, `salva_figura`, `verifica_figura`, controllo in grigi | demo | 20 |
+| 12:28 | **Es. 5.3 guidato**: il pannello (a) lo fai tu dal vivo, loro fanno (b) e il salvataggio | esercizio | 22 |
+| 12:50 | § 7 Seaborn: esegui le due celle come esempio | demo | 5 |
+| 12:55 | Riepilogo | discorso | 5 |
 
 ### 2. Sezioni
 
@@ -58,7 +59,7 @@ File: `sorgenti/05_G3_mattina_grafici_pubblicazione.py` (+ `materiali/figure_pub
 **§ 3 Barre d'errore**
 - Cosa dire: "Una barra d'errore senza didascalia non significa niente: scrivete sempre se è sd, sem o IC, e n." "La sd descrive la dispersione dei dati; il sem descrive l'incertezza sulla media e si restringe con √n." "Con n = 3 il sem è piccolo e rassicurante: per mostrare la variabilità delle repliche usate la sd."
 - R: `geom_errorbar(aes(ymin=, ymax=))`, `geom_ribbon()` ≈ `fill_between`.
-- Demo live: i due pannelli sd vs sem con `sharey=True`; poi la banda ± 0.4 µA, dicendo chiaramente che è **finta**: la banda vera la calcoliamo **oggi pomeriggio** (il commento nel codice dice "domani": vedi "Da verificare").
+- Demo live: i due pannelli sd vs sem con `sharey=True`; poi la banda ± 0.4 µA, dicendo chiaramente che è **finta**: la banda vera la calcoliamo **oggi pomeriggio**.
 
 **§ 4 Personalizzazione**
 - Cosa dire: "Nessuno ricorda tutte queste opzioni: per questo c'è la scheda con 33 casi, ognuno con la riga che lo risolve." "La palette Okabe-Ito si imposta una volta in cima e vale per tutte le figure." "Colore + tratteggio diverso: la figura sopravvive alla stampa in b/n e a chi è daltonico (circa 1 uomo su 12)."
@@ -95,7 +96,7 @@ File: `sorgenti/05_G3_mattina_grafici_pubblicazione.py` (+ `materiali/figure_pub
 
 **Es. 5.3 (livello 3)** — due pannelli, doppia colonna Elsevier (`LARGHEZZE["elsevier_doppia"]` = 7.48 in = 19 cm), altezza `7 * CM`; (a) voltammogrammi distinguibili in b/n, (b) taratura con equazione; PDF + TIF a 600 dpi.
 - Errori tipici:
-  - `verifica_figura(fig)` come scritto nel testo → **"ATTENZIONE: larghezza oltre 7.0 in"**: il default è il limite ACS; per Elsevier passare `larghezza_max=7.5` (la soluzione lo fa). Avvisarli **prima**;
+  - `verifica_figura(fig)` senza argomenti → **"ATTENZIONE: larghezza oltre 7.0 in"**: il default è il limite ACS; il testo dell'esercizio ora indica `larghezza_max=7.5` (corretto il 14/11);
   - `figsize=(19, 7)` → figura di 19 *pollici*: serve `7 * CM` (e `LARGHEZZE` è già in pollici: non moltiplicarlo per `CM`);
   - `NameError: r2` (o `m`, `stat`, `x`) se hanno riavviato il kernel o chiamato diversamente l'R² in 5.2 → "Run all above";
   - dopo un riavvio senza rieseguire la cella di § 6 manca `stile_rivista()` → niente `constrained_layout`, etichette che si sovrappongono, font grandi;
@@ -134,17 +135,18 @@ File: `sorgenti/05_G3_mattina_grafici_pubblicazione.py` (+ `materiali/figure_pub
 
 | orario | sezione | modalità | min |
 |---|---|---|---|
-| 14:00 | § 0 avvio, aggancio alla mattina | esecuzione | 5 |
-| 14:05 | § 1 `linregress`, errori standard, IC 95 %, Anscombe | lezione + demo | 20 |
-| 14:25 | § 2 Bande di confidenza e predizione | lezione + demo | 20 |
-| 14:45 | Dimostrazione: report di regressione + anomalo nascosto | demo + discussione | 15 |
-| 15:00 | § 3 `curve_fit`: decadimento e sigmoide a 4 parametri | demo | 20 |
-| 15:20 | § 4 Residui | demo | 10 |
+| 14:00 | § 0 avvio + § 1 `linregress`, errori standard, IC 95 %, Anscombe | lezione + demo | 20 |
+| 14:20 | § 2 Bande di confidenza e predizione | lezione + demo | 15 |
+| 14:35 | Report di regressione + anomalo nascosto: **le tre domande in coppia**, poi discussione | lavoro in coppia | 15 |
+| 14:50 | § 3 `curve_fit`: solo la sigmoide a 4 parametri | demo | 12 |
+| 15:02 | § 4 Residui | demo | 8 |
+| 15:10 | **Es. 6.1 ridotto**: R² dei due modelli e figura dei residui | esercizio | 20 |
 | 15:30 | *pausa* | | 15 |
-| 15:45 | **Es. 6.1** sigmoide vs retta-log, residui (liv. 2) | esercizio | 25 |
-| 16:10 | § 5 Shapiro, t-test Welch, p-value, ANOVA + Tukey, confronti multipli | lezione + demo | 20 |
-| 16:30 | **Es. 6.2** Cu nelle tre matrici, fatto bene (liv. 2) | esercizio | 25 |
-| 16:55 | Riepilogo: tabella R ↔ Python | discorso | 5 |
+| 15:45 | Correzione dell'Es. 6.1 | discorso | 5 |
+| 15:50 | § 5 t-test Welch, p-value, ANOVA + Tukey, confronti multipli (Shapiro in una frase) | lezione + demo | 20 |
+| 16:10 | **Es. 6.2** Cu nelle tre matrici, fatto bene (liv. 2) | esercizio | 30 |
+| 16:40 | Correzione + riepilogo: tabella R ↔ Python | discorso | 10 |
+| 16:50 | Margine | | 10 |
 
 Il pomeriggio è pieno: parte del pubblico conosce già la statistica meglio di voi. Strategia: "La statistica la conoscete; oggi vediamo **come si scrive in Python** e **dove scipy si comporta diversamente da R**."
 
@@ -286,8 +288,8 @@ Frase onesta quando non sapete: *"Non sono uno statistico: so dirvi cosa calcola
 - Unità: nell'Es. 6.2 le concentrazioni di foglia/frutto/suolo sono in µg/L. Un chimico potrebbe obiettare che per un solido si usa mg/kg: risposta onesta "sono dati sintetici; si immagina la misura sull'estratto/digerito".
 
 ### Da verificare prima del corso (non corretti, solo segnalati)
-1. `sorgenti/05_G3_mattina_grafici_pubblicazione.py:190` — il commento dice "domani calcoleremo la banda vera", ma le bande vere sono nel nb 06 **dello stesso pomeriggio** (lo conferma la riga 451). A voce: "oggi pomeriggio".
-2. `sorgenti/05_G3_mattina_grafici_pubblicazione.py:368-369` — il testo dell'Es. 5.3 dice di chiamare `verifica_figura(fig)` con la larghezza doppia Elsevier (7.48 in), che supera il default `larghezza_max=7.0` (`materiali/figure_pubblicazione.py:208`) → tutti vedono "ATTENZIONE: larghezza oltre 7.0 in". La soluzione (riga 394) usa `larghezza_max=7.5`. Avvisare gli studenti.
+1. *(Risolto il 14/11.)* Il commento nel nb 05 ora dice "oggi pomeriggio calcoleremo la banda vera".
+2. *(Risolto il 14/11.)* Il testo dell'Es. 5.3 ora chiede `verifica_figura(fig, larghezza_max=7.5)`, come la soluzione.
 3. `sorgenti/05_G3_mattina_grafici_pubblicazione.py:301` vs `materiali/figure_pubblicazione.py:208` — "Font ≥ 6-8 pt" nel testo, ma `verifica_figura` segnala solo sotto 4.5 pt: un testo a 5 pt passa il controllo pur essendo fuori norma per Elsevier.
 4. `sorgenti/06_G3_pomeriggio_scipy_statistica.py:242` — "tempo di dimezzamento = τ·ln2" è il dimezzamento della **parte sopra il plateau**, non il tempo in cui la concentrazione residua passa dal valore iniziale (~90.8 %) alla metà (che, con plateau 10.5 %, è più lungo). Inoltre `C0` (riga 234) è l'ampiezza, non la concentrazione iniziale. Precisarlo a voce se un chimico lo chiede.
 5. `sorgenti/06_G3_pomeriggio_scipy_statistica.py:103-104` — "dove sta la retta vera … con il 95 % di probabilità": formulazione semplificata (IC frequentista, banda puntuale e non simultanea). Va bene per la classe; uno statistico può obiettare → risposta nel glossario.

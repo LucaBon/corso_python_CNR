@@ -337,7 +337,8 @@ for k in (0, 1):
 # > al 48 %: è lo stesso spostamento comune visto prima, ancora più dominante senza le variabili
 # > chimico-fisiche. Succede spesso con segnali multicanale (spettri, sensori, array), e la soluzione
 # > tipica è una **normalizzazione per campione**: sottrarre a ogni riga la sua media (centering per
-# > riga) prima della PCA. La provate nell'esercizio per casa C7.1: `X_c.sub(X_c.mean(axis=1), axis=0)`.
+# > riga) prima della PCA. La provate nell'esercizio per casa C7.1
+# > (il centering si fa sulle correnti non ancora standardizzate; poi si standardizza).
 
 # %% [markdown]
 # ---

@@ -187,7 +187,7 @@ a1.set_ylabel("i$_p$ / µA")
 plt.show()
 
 # %%
-# Banda di incertezza attorno a un modello (retta di taratura; domani calcoleremo la banda vera)
+# Banda di incertezza attorno a un modello (retta di taratura; oggi pomeriggio calcoleremo la banda vera)
 m, q = np.polyfit(tar["conc_uM"], tar["i_uA"], 1)
 x = np.linspace(0, 52, 100)
 fig, ax = plt.subplots(figsize=(5, 3.3))
@@ -366,7 +366,8 @@ plt.show()
 # - lettere (a), (b); etichette con unità; legende senza riquadro.
 #
 # Salvate con `salva_figura(fig, "figura_1", formati=("pdf", "tif"), dpi=600)`, poi
-# `verifica_figura(fig)`. Aprite il PDF e il TIFF e confrontateli.
+# `verifica_figura(fig, larghezza_max=7.5)` (il limite predefinito, 7.0 in, è quello ACS; la doppia
+# colonna Elsevier è 7.48 in). Aprite il PDF e il TIFF e confrontateli.
 
 # %%
 # ESERCIZIO 5.3 (livello 3)

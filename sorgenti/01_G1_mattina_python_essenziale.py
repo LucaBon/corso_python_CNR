@@ -284,30 +284,6 @@ print(list(metadati.keys()))
 print(metadati.get("temperatura", "non registrata"))
 
 # %% [markdown]
-# ### Esercizio 1.3: contare con un dizionario (livello 1)
-#
-# Contate quante misure ci sono per ogni matrice. È il `CONTA.SE` di Excel, o la tabella pivot
-# più semplice. Lo facciamo a mano una volta, così domani si capisce cosa fa `groupby`.
-
-# %%
-# ESERCIZIO 1.3 (livello 1)
-matrici = ["foglia", "suolo", "foglia", "frutto", "foglia", "suolo"]
-conteggi = {}
-#> for m in matrici:
-#>     if m in conteggi:
-#>         conteggi[m] = conteggi[m] + ____
-#>     else:
-#>         conteggi[m] = ____
-#> print(conteggi)
-# --- SOLUZIONE ---
-for m in matrici:
-    if m in conteggi:
-        conteggi[m] = conteggi[m] + 1
-    else:
-        conteggi[m] = 1
-print(conteggi)
-
-# %% [markdown]
 # ---
 # ## 5. Ripetere e decidere: `for` e `if`
 #
@@ -337,6 +313,30 @@ for c in correnti:
     if c <= soglia:
         buone.append(c)
 print(buone, len(buone))
+
+# %% [markdown]
+# ### Esercizio 1.3: contare con un dizionario (livello 1)
+#
+# Un `for` con un `if` dentro, e un dizionario che fa da contatore. Contate quante misure ci
+# sono per ogni matrice. È il `CONTA.SE` di Excel, o la tabella pivot più semplice. Lo facciamo a mano una volta, così domani si capisce cosa fa `groupby`.
+
+# %%
+# ESERCIZIO 1.3 (livello 1)
+matrici = ["foglia", "suolo", "foglia", "frutto", "foglia", "suolo"]
+conteggi = {}
+#> for m in matrici:
+#>     if m in conteggi:
+#>         conteggi[m] = conteggi[m] + ____
+#>     else:
+#>         conteggi[m] = ____
+#> print(conteggi)
+# --- SOLUZIONE ---
+for m in matrici:
+    if m in conteggi:
+        conteggi[m] = conteggi[m] + 1
+    else:
+        conteggi[m] = 1
+print(conteggi)
 
 # %% [markdown]
 # ### Confronti e condizioni

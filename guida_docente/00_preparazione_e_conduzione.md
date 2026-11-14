@@ -3,8 +3,8 @@
 4 giorni × 6 ore · 20 partecipanti · settimana del 16/11/2026
 
 Come usare questa guida: la **Parte A** si legge una volta questa settimana. Le **Parti G1-G4** si
-stampano e si tengono sul leggio, una per giorno. Gli orari sono indicativi (9:00-12:30 e
-14:00-17:00, con 15' di pausa): adattali all'orario reale dell'aula.
+stampano e si tengono sul leggio, una per giorno. Gli orari sono quelli del corso (10:00-13:00
+e 14:00-17:00, con 15' di pausa per mezza giornata: 165' netti). Dalle 9:00 alle 10:00 prepari l'aula.
 
 ---
 
@@ -13,8 +13,8 @@ stampano e si tengono sul leggio, una per giorno. Gli orari sono indicativi (9:0
 ## A1. Checklist della settimana prima
 
 **Materiali**
-- [ ] **Rigenera gli zip.** I notebook sono stati ricompilati il 12/11 alle 17:14, mentre gli zip in
-      `dist/` sono dell'11/11 alle 18:13, quindi sono vecchi:
+- [ ] **Rigenera gli zip.** I notebook 01, 02, 05, 07 e 08 sono stati ricompilati il 14/11, quindi gli zip in
+      `dist/` sono vecchi:
       `uv run python strumenti/nb_tools.py pacchetto`. Poi apri lo zip dei partecipanti e controlla
       che **non** contenga `docente/` né `sorgenti/`.
 - [ ] Copia `corso_python_CNR_partecipanti.zip` su una **chiavetta USB** (meglio due) e su un link
@@ -141,36 +141,27 @@ dati, non di elettrochimica**. È una posizione legittima: dichiarala il primo g
 | Sei in ritardo di 30' o più | Applica la lista "Se sei in ritardo" del giorno, senza esitare. Gli esercizi per casa esistono apposta |
 | Il proiettore non va | Fai fare ai partecipanti l'esercizio successivo mentre sistemi: ognuno ha il notebook |
 
-## A9. Da sistemare prima di lunedì (raccolto rileggendo i notebook)
+## A9. Da sistemare prima di lunedì (aggiornato il 14/11)
 
-**Priorità alta**
-1. **Il risultato del progetto finale è già nello zip dei partecipanti.** `README.md` (riga 92, tabella
-   dataset) e la conclusione d'esempio con l'"Output atteso" del progetto in `sorgenti/08…py` (righe
-   492-545) contengono 0.44 / p≈0.25 / 0.65 senza gruppi. Chi ha fornito i dati può leggerli prima
-   del giorno 4. Decidi se togliere quei numeri dalla versione studenti (tag `solo-docente`) oppure
-   accettarlo e parlarne con quella persona prima del corso.
-2. **Rigenera gli zip** (`pacchetto`): quelli in `dist/` sono precedenti all'ultima build.
-3. **Es. 5.3** (`05…py:368-369`): `verifica_figura(fig)` su una figura larga 7.48 in segnala un
-   avviso a tutti, perché il limite di default è 7.0 (`figure_pubblicazione.py:208`); la soluzione
-   usa `larghezza_max=7.5`. Avvisa la sala o aggiungi il parametro alla traccia.
-4. **Suggerimento di C7.1 / es. 7.2** (`07…py:340`): centra per riga `X_c`, che è già standardizzato,
-   mentre la soluzione (`:511-513`) centra i dati grezzi. Il risultato non coincide con l'output
-   atteso (ARI ≈ 0.95 contro 0.86).
+**Già corretto nei sorgenti il 14/11** (notebook 01, 02, 05, 07, 08 ricompilati)
+- Il risultato del progetto finale non è più nel `README.md`; la conclusione d'esempio è solo nella versione docente. Restano gli "Output attesi" del progetto nel notebook studenti del giorno 4.
+- Es. 5.3: il testo chiede `verifica_figura(fig, larghezza_max=7.5)`.
+- Suggerimento di C7.1 allineato alla soluzione.
+- Segno meno tipografico nelle soglie del notebook 02 sostituito con `-`.
+- Esercizio 1.3 spostato dopo le prime tre celle su `for` e `if`.
+- "domani" → "oggi pomeriggio" nel notebook 05.
+- Leave-one-out nel notebook 08: ora rimanda alla k-fold ripetuta.
 
-**Priorità media**
-5. Segno meno tipografico "−" nelle soglie `E < −0.45 V` (`02…py:463, 486, 557`): chi lo copia nel
-   codice ottiene `SyntaxError: invalid character '−'`. Dillo in aula o sostituiscilo con "-".
-6. L'es. 1.3 (`01…py:296-311`) usa `for`/`if` prima del §5, dove vengono spiegati: anticipali a voce.
-7. `05…py:190` dice "domani calcoleremo la banda vera", ma la banda arriva lo stesso pomeriggio (nb 06).
-8. Formulazioni statistiche del nb 06 da limare: la banda di confidenza descritta come "probabilità
+**Ancora da fare**
+1. **Rigenera gli zip** (`uv run python strumenti/nb_tools.py pacchetto`) dopo queste correzioni, e controlla che lo zip dei partecipanti non contenga `docente/` né `sorgenti/`.
+2. Formulazioni statistiche del nb 06 da limare a voce: la banda di confidenza descritta come "probabilità
    95 %" (`:103-104`), dove è frequentista e punto per punto; il tempo di dimezzamento τ·ln2 (`:242`),
    che vale solo per la parte sopra il plateau; l'ANOVA presentata come obbligatoria prima di Tukey
    (`:418-419`).
-9. `08…py:134-135`: il leave-one-out è descritto come "spesso l'unica scelta" con 20-30 campioni.
-   È discutibile e contraddice il k-fold ripetuto usato poco dopo (`:205`).
-10. Prova i tempi di `permutation_test_score` e del punto 5 del progetto su un portatile Windows
-    medio: su una macchina potente ci vogliono 11 s e 1 minuto, sui portatili potrebbero volerci 3-8 minuti.
-11. `requests` (sezione API, solo con `USA_RETE = True`) non è dichiarato in `environment.yml`:
-    controllalo sull'ambiente Miniforge.
-12. Windows, "Estrai tutto": lo zip dei partecipanti può finire in una cartella annidata invece di
-    unirsi a quella dell'installazione. Prevedilo nelle istruzioni del giorno 1.
+3. Tempi di calcolo del giorno 4: su una macchina a 2 core il test di permutazione della §4 richiede circa 30 s e il punto 5 del progetto circa 1,5 minuti. Sui portatili dei partecipanti saranno simili o inferiori; il punto 5 resta comunque solo proiettato.
+4. `requests` (sezione API, solo con `USA_RETE = True`) non è dichiarato in `environment.yml`:
+   controllalo sull'ambiente Miniforge.
+5. Windows, "Estrai tutto": lo zip dei partecipanti può finire in una cartella annidata invece di
+   unirsi a quella dell'installazione. Prevedilo nelle istruzioni del giorno 1.
+6. Costrutti usati senza spiegazione, da dire a voce: `elif` e `continue` (in `leggi_dpv`, giorno 1), la somma senza parentesi quadre in `dev_std` (giorno 1), `lambda` in `anomali_iqr` (giorno 2).
+7. Gli output dei notebook `docente/` mostrano il percorso della cartella in cui sono stati compilati: se ti dà fastidio, ricompila dalla tua cartella definitiva prima di distribuirli.

@@ -132,7 +132,8 @@ print(f"media {np.mean(acc):.3f}, min {np.min(acc):.3f}, max {np.max(acc):.3f}")
 # Come si sceglie k con pochi campioni: $k = 5$ è il default ragionevole: ogni fold di test
 # ha ancora abbastanza campioni (12 su 60) per dare un numero sensato. $k = 10$ quando i
 # campioni sono più di ~100. *Leave-one-out* ($k = n$) usa quasi tutti i dati per addestrare ma
-# dà stime molto variabili e costa $n$ addestramenti; con 20-30 campioni è spesso l'unica scelta.
+# dà stime molto variabili, non si può stratificare e costa $n$ addestramenti; con 20-30 campioni
+# di solito conviene una k-fold ripetuta (la usiamo nella sezione 4).
 # Con classi piccole (< 5 campioni per classe) nessuna CV è affidabile: ditelo, non nascondetelo.
 # Qualunque $k$: se il risultato cambia molto cambiando `random_state`, riportate la media su
 # più ripetizioni (`RepeatedStratifiedKFold`), come faremo fra poco.
@@ -530,6 +531,16 @@ ax.set_xlabel("accuratezza in CV"); ax.set_ylabel("conteggio"); ax.legend(frameo
 plt.show()
 
 # %% [markdown]
+# **6) Conclusione.** Scrivetela in una cella Markdown qui sotto, in tre o quattro frasi: quale
+# accuratezza riportate e con quale validazione, come si confronta con il caso, quale dei due
+# numeri non va usato e perché, cosa servirebbe per rispondere meglio alla domanda.
+#
+# > Estensioni facoltative: (1) fate la media delle 3 repliche per campione (`groupby` sul campione,
+# > 36 righe) e rifate la CV normale: torna un numero simile alla CV per gruppi? (2) importanza
+# > delle variabili: alla luce del vostro risultato, ha senso guardarla? (3) provate un
+# > secondo modello (`LogisticRegression` con scaler) con la CV per gruppi.
+
+# %% [markdown] tags=["solo-docente"]
 # **6) Conclusione** (un esempio di come può essere scritta):
 #
 # > Con la validazione per campione (5 fold, le repliche di un campione sempre dalla stessa parte)
@@ -543,11 +554,6 @@ plt.show()
 # > La domanda resta aperta: 12 campioni per classe sono pochi per vedere un effetto moderato,
 # > e le repliche non contano come campioni nuovi. Per rispondere servirebbero più campioni
 # > indipendenti per classe e, idealmente, un gruppo di campioni tenuto da parte come test finale.
-#
-# > Estensioni facoltative: (1) fate la media delle 3 repliche per campione (`groupby` sul campione,
-# > 36 righe) e rifate la CV normale: torna un numero simile alla CV per gruppi? (2) importanza
-# > delle variabili: con un modello non distinguibile dal caso, ha senso guardarla? (3) provate un
-# > secondo modello (`LogisticRegression` con scaler) con la CV per gruppi.
 
 # %% [markdown] tags=["solo-docente"]
 # #### Nota per il docente: come presentare il risultato

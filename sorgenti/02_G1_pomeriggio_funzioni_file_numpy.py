@@ -405,7 +405,7 @@ ax.set_title(f"{file.stem}: grafico di controllo")
 plt.show()
 
 # %% [markdown]
-# Ecco il picco di cui parlavamo: una gobba attorno a −0.2 V, sopra un fondo. Tutto quello che
+# Ecco il picco di cui parlavamo: una gobba attorno a -0.2 V, sopra un fondo. Tutto quello che
 # segue è un modo di descrivere questa curva con dei numeri. Cominciamo dal punto più alto.
 
 # %%
@@ -460,7 +460,7 @@ print(v[~np.isnan(v)])              # tenere solo i validi
 # ### Altezza di picco corretta per la linea di base
 #
 # L'altezza "vera" del picco è il massimo meno il fondo (la linea di base). Stimiamo il fondo
-# come la media della corrente nella zona lontana dal picco (E < −0.45 V): una maschera e una media.
+# come la media della corrente nella zona lontana dal picco (E < -0.45 V): una maschera e una media.
 
 # %%
 fondo = i[E < -0.45].mean()
@@ -483,7 +483,7 @@ print(f"fondo = {fondo:.3f} µA, picco netto = {i_picco:.3f} µA")
 # Excel, ripeti dodici volte. Qui:
 #
 # 1. per ogni file `DPV_S*.txt` della cartella `DATI / "strumento"`, leggetelo con `leggi_dpv`;
-# 2. calcolate il picco netto come nella cella qui sopra (massimo meno la media della corrente per E < −0.45 V);
+# 2. calcolate il picco netto come nella cella qui sopra (massimo meno la media della corrente per E < -0.45 V);
 # 3. raccogliete in una lista di righe: campione, matrice, concentrazione nominale (così come
 #    è scritta nel file), potenziale di picco e corrente di picco netta (questi due con 3 decimali:
 #    `f"{x:.3f}"`);
@@ -554,7 +554,7 @@ print("\n".join(righe_csv))
 # > dentro il ciclo, poi `ax.legend()`).
 # >
 # > *Estensione facoltativa 3*: stimate il fondo con una retta invece che con una media. Calcolate il
-# > punto medio (E medio, i media) della zona a sinistra del picco (E < −0.45 V), chiamatelo `(x1, y1)`,
+# > punto medio (E medio, i media) della zona a sinistra del picco (E < -0.45 V), chiamatelo `(x1, y1)`,
 # > e quello della zona a destra (E > 0 V), `(x2, y2)`. Il fondo sotto il picco è il valore della retta
 # > che passa per i due punti, calcolato al potenziale del picco: `fondo = y1 + (y2 - y1) / (x2 - x1) * (E[k] - x1)`.
 # > Il picco netto è `i[k] - fondo`. Controllo: per S01 dovreste ottenere 0.380 µA invece di 0.499, per

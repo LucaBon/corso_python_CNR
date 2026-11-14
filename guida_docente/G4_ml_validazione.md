@@ -15,17 +15,21 @@ Numeri citati sotto = output reali della versione `docente/` (scikit-learn 1.9.0
 
 ### Scaletta con orari
 
+Orario del corso: 10:00–13:00 e 14:00–17:00. La mattina ha un margine di 8'; il pomeriggio non ne ha.
+
 | Orario | Sezione | Note |
 |---|---|---|
-| 9:00–9:10 | Apertura, cella di avvio | controllare che tutti stampino `scikit-learn 1.x` |
-| 9:10–9:25 | §1 Flusso di lavoro, dataset `sensori_matrice.csv` | schema `workflow_ml.png` |
-| 9:25–9:45 | §2 `X`/`y`, mancanti, `SimpleImputer` | |
-| 9:45–10:30 | §3 richiamo NumPy (`axis`, broadcasting), `StandardScaler`, `fit`/`transform`, demo senza scaling | sezione più "lenta" per i principianti |
-| 10:30–10:45 | Pausa | |
-| 10:45–11:25 | §4 PCA: varianza spiegata, scores, loadings, biplot | il cuore della mattina |
-| 11:25–11:50 | Esercizio 7.1 (PCA sulle sole correnti) | |
-| 11:50–12:15 | §5 k-means (+ gerarchico, facoltativo) | |
-| 12:15–12:30 | Es. 7.2 (facoltativo, meglio come demo) + riepilogo | ponte verso il progetto finale |
+| 10:00–10:15 | Apertura, cella di avvio, §1 Flusso di lavoro, dataset `sensori_matrice.csv` | controllare che tutti stampino `scikit-learn 1.x`; schema `workflow_ml.png` |
+| 10:15–10:30 | §2 `X`/`y`, mancanti, `SimpleImputer` | |
+| 10:30–10:42 | §3 richiamo NumPy (`axis`, broadcasting) | **prova loro**: cambiare `axis=0` in `axis=1` e prevedere la forma |
+| 10:42–11:02 | §3 `StandardScaler`, `fit`/`transform`, demo senza scaling | |
+| 11:02–11:17 | Pausa | |
+| 11:17–11:52 | §4 PCA: varianza spiegata, scores, loadings (biplot: una frase) | il cuore della mattina |
+| 11:52–12:17 | Esercizio 7.1 (PCA sulle sole correnti) | |
+| 12:17–12:37 | §5 k-means: tabella incrociata e ARI | gerarchico fuori scaletta |
+| 12:37–12:45 | Es. 7.2 come demo | ponte verso il progetto finale |
+| 12:45–12:52 | Riepilogo | |
+| 12:52–13:00 | Margine | |
 
 ### §1 Flusso di lavoro
 
@@ -86,7 +90,7 @@ Numeri citati sotto = output reali della versione `docente/` (scikit-learn 1.9.0
 - Gomito e silhouette: "Sono indizi, non verdetti. Il k 'giusto' secondo la silhouette non è detto che sia 3."
 - R: `kmeans(x, centers = 3, nstart = 10)` ≈ `KMeans(n_clusters=3, n_init=10)`; `hclust(dist(x), method = "ward.D2")` ≈ `linkage(..., "ward")`.
 
-**Demo live**: gomito/silhouette, crosstab, ARI. Gerarchico (facoltativo): mostrare il dendrogramma con le foglie colorate e saltare se sono le 12:10 passate.
+**Demo live**: gomito/silhouette, crosstab, ARI. Gerarchico (facoltativo): mostrare il dendrogramma con le foglie colorate e nella scaletta 10–13 è fuori: mostrarlo solo se alle 12:30 il k-means è già finito.
 
 ### Esercizio 7.2 (facoltativo) — ponte verso il progetto
 
@@ -97,7 +101,7 @@ Numeri citati sotto = output reali della versione `docente/` (scikit-learn 1.9.0
 - Errori tipici (se lo fanno da soli): `____` di `D[____ & ~stesso_camp]` riempito con `stesso_camp` (dà array vuoto → `nan`); passare `dr` intero allo scaler (colonne `campione`/`classe` di testo → `ValueError`).
 - Non dire ancora da dove viene il dataset (vedi sezione dedicata).
 
-### Riepilogo mattina (12:20–12:30)
+### Riepilogo mattina (12:45–12:52)
 - Far leggere i 7 punti del riepilogo; insistere sul 7: "Una PCA che separa bene non è una prova."
 
 ---
@@ -106,20 +110,22 @@ Numeri citati sotto = output reali della versione `docente/` (scikit-learn 1.9.0
 
 ### Scaletta con orari
 
+Orario del corso: 10:00–13:00 e 14:00–17:00. La mattina ha un margine di 8'; il pomeriggio non ne ha.
+
 | Orario | Sezione | Note |
 |---|---|---|
-| 14:00–14:10 | §1 Supervisionato, random forest in due paragrafi | |
-| 14:10–14:30 | §2 Train/test, 10 semi | |
-| 14:30–14:50 | §3 k-fold + Esercizio 8.1 (5') | |
-| 14:50–15:20 | §4 **Overfitting dal vivo** su rumore puro | non tagliare mai |
-| 15:20–15:30 | §5 Metriche e matrice di confusione | |
-| 15:30–15:40 | §6 Pipeline + importanza per impurità (il resto è facoltativo) | |
-| 15:40–15:50 | Pausa | spostarla se serve, ma prima del progetto |
-| 15:50–16:40 | §7 **Progetto finale** (lancio 5' + lavoro 45') | checkpoint 16:05, 16:20, 16:35 |
-| 16:40–16:45 | Debrief del progetto | vedi sezione "Come presentare" |
+| 14:00–14:08 | §1 Supervisionato, random forest in due paragrafi | |
+| 14:08–14:26 | §2 Train/test, 10 semi | |
+| 14:26–14:46 | §3 k-fold + Esercizio 8.1 (5') | |
+| 14:46–15:16 | §4 **Overfitting dal vivo** su rumore puro | non tagliare mai; al passo 3 chiedi alla sala, in coppia, dov'è l'errore prima di spiegarlo |
+| 15:16–15:31 | Pausa | |
+| 15:31–15:39 | §5 Metriche e matrice di confusione | |
+| 15:39–15:47 | §6 Pipeline + importanza per impurità (il resto è facoltativo) | |
+| 15:47–16:37 | §7 **Progetto finale** (lancio 5' + lavoro 45') | checkpoint 16:07, 16:22, 16:32; punto 5 solo proiettato |
+| 16:37–16:45 | Debrief del progetto | vedi sezione "Come presentare" |
 | 16:45–17:00 | §8 Chiusura del corso | |
 
-Regola della nota docente nel notebook: **se alle 15:30 la §4 non è finita, si va dritti al progetto** (la §5 si recupera a voce al punto 4 del progetto). In quel caso la pausa va alle 15:30.
+Regola della nota docente nel notebook, adattata all'orario: **se alla pausa delle 15:16 la §4 non è finita, la si chiude dopo la pausa e si va dritti al progetto** (la §5 si recupera a voce al punto 4 del progetto).
 
 ### §1 Supervisionato e random forest
 
@@ -196,9 +202,9 @@ Preparazione: eseguire la cella del permutation test **prima** di arrivarci se l
 - Lavoro da soli o in coppia, a scelta. Chi vuole la sfida cancella la traccia.
 
 **Checkpoint**
-- **+15' (16:05)**: tutti hanno `(108, 45)`, 0 mancanti, 12/12/12 campioni, `[3]` repliche. Giro tra i banchi: chi ha incluso `replica` o `campione` in `X`?
-- **+30' (16:20)**: tutti hanno le due CV. Dire ad alta voce: "Chi ha due numeri molto diversi? Bene, è quello che deve succedere." (senza gruppi 0.645 ± 0.146; per campione 0.437 ± 0.093; caso 0.33).
-- **+45' (16:35)**: stop al codice, 5' per la conclusione in Markdown (punto 6). Il punto 5 (permutazioni) solo per chi è avanti, o lo si mostra proiettato dalla versione docente.
+- **+15' (16:07)**: tutti hanno `(108, 45)`, 0 mancanti, 12/12/12 campioni, `[3]` repliche. Giro tra i banchi: chi ha incluso `replica` o `campione` in `X`?
+- **+30' (16:22)**: tutti hanno le due CV. Dire ad alta voce: "Chi ha due numeri molto diversi? Bene, è quello che deve succedere." (senza gruppi 0.645 ± 0.146; per campione 0.437 ± 0.093; caso 0.33).
+- **+40' (16:32)**: stop al codice, 5' per la conclusione in Markdown (punto 6). Il punto 5 (permutazioni) solo per chi è avanti, o lo si mostra proiettato dalla versione docente.
 
 **Errori tipici e aiuti**
 - `startswith("feature")` dimenticato → in `X` entra `campione` (testo → `ValueError: could not convert string to float`) o `replica` (0/1/2, nessun errore ma variabile spuria). Aiuto: "Stampate `Xp.columns[:5]`."
@@ -208,7 +214,7 @@ Preparazione: eseguire la cella del permutation test **prima** di arrivarci se l
 - Scaler dimenticato nella PCA (`("scaler", ____)`) → PCA dominata da una feature (scale fino a migliaia). Aiuto: "Rileggete la sezione 3 di stamattina."
 - Lentezza al punto 5: dire subito `n=20`.
 
-**Debrief (16:40–16:45)**: vedi sezione successiva. Proiettare la soluzione docente con il grafico del punto 5 (due istogrammi): "La CV senza gruppi arriva a 0.62 **anche con le classi mescolate**: quel numero misura quanto si somigliano le repliche, non le classi."
+**Debrief (16:37–16:45)**: vedi sezione successiva. Proiettare la soluzione docente con il grafico del punto 5 (due istogrammi): "La CV senza gruppi arriva a 0.62 **anche con le classi mescolate**: quel numero misura quanto si somigliano le repliche, non le classi."
 
 ---
 
@@ -217,7 +223,7 @@ Preparazione: eseguire la cella del permutation test **prima** di arrivarci se l
 **Prima del giorno 4 (entro il giorno 2-3, in privato, 10 minuti)**
 - Parlare con la persona che ha fornito i dati. Punti da concordare:
   - **Se e come** citare la provenienza: (a) la persona lo dice lei stessa, (b) "un dataset pilota reale, trasformato e anonimizzato, gentilmente fornito da un collega" senza nome, (c) nessuna menzione. Default se non c'è accordo: (c).
-  - Mostrarle **prima** il risultato (0.44 per campione, p ≈ 0.25; 0.65 ignorando le repliche) così non lo scopre davanti a 20 persone. Nota: il README e il notebook studenti contengono già questi numeri (vedi "Da verificare"), quindi potrebbe averli già letti.
+  - Mostrarle **prima** il risultato (0.44 per campione, p ≈ 0.25; 0.65 ignorando le repliche) così non lo scopre davanti a 20 persone. Nota: dal 14/11 il README e la conclusione d'esempio non contengono più questi numeri; restano negli "Output attesi" del progetto nel notebook studenti del giorno 4, che servono per controllare il codice.
   - Chiedere se vuole intervenire nel debrief (es. "quali variabili ci aspettavamo che contassero").
   - Se la sua analisi originale usava una CV per riga: "È il default di quasi tutti i tutorial e di molti software; succede a chiunque. Se ti va, dopo il corso la riguardiamo insieme." Non chiederlo in pubblico, non insistere.
   - Rassicurare: i numeri sono trasformati colonna per colonna, nomi anonimi; non esistono in aula valori riconducibili alle misure originali. Non citare mai dominio, variabili, laboratorio, né valori originali (il docente stesso non li proietta né li nomina).
@@ -281,12 +287,12 @@ Mattina:
 2. Biplot (§4): basta dire "esiste, è nel notebook".
 3. Gomito/silhouette di k-means: mostrare solo crosstab + ARI.
 4. Esercizio 7.1 ridotto a 10' (solo scores, niente loadings) o fatto come demo.
-5. Esercizio 7.2: da tenere come demo di 5' se possibile; tagliarlo solo se si è oltre le 12:25.
+5. Esercizio 7.2: da tenere come demo di 5' se possibile; tagliarlo solo se si è oltre le 12:50.
 
 Pomeriggio:
 1. §6: importanza per permutazione, box plot, "campione nuovo" (facoltativi).
 2. §6 intera (solo una frase sulla Pipeline).
-3. §5 metriche: recuperarla a voce al punto 4 del progetto (regola delle 15:30).
+3. §5 metriche: recuperarla a voce al punto 4 del progetto (regola della pausa delle 15:16).
 4. Esercizio 8.1 come demo (2').
 5. Progetto: punto 5 (permutazioni) solo proiettato; punto 2 (PCA) facoltativo.
 6. Chiusura: tagliare la discussione Python/R, mai il riepilogo e il feedback.
@@ -320,7 +326,6 @@ Pomeriggio:
 - **Semi casuali**: chi cambia `random_state` o omette un seme vede numeri diversi dall'"Output atteso". Dirlo prima: "Se il vostro numero differisce alla seconda cifra decimale, va bene; conta il confronto." Con Miniforge le ultime cifre possono differire (README).
 - `n_jobs=-1` su Windows può dare avvisi di joblib o rallentare per l'overhead dei processi: se un portatile si blocca, `n_jobs=1`.
 - Accuratezza **test = 1.000** al primo split di §2: rischio che passi il messaggio "il modello è perfetto". Arrivare subito alla cella dei 10 semi.
-- §3 cita *leave-one-out* come "spesso l'unica scelta" con 20-30 campioni, mentre §4 usa k-fold ripetuta su 30 campioni: preparare la risposta (sopra) se qualcuno nota la contraddizione.
 - Varianza 1.02 dopo lo scaler (§3): anticiparla, sembra un errore.
 - Leakage "lieve" (imputer/scaler fuori pipeline) vs "grave" (selezione con le etichette): non drammatizzare il primo, sennò i principianti concludono che la mattina era tutta sbagliata. Frase: "Stamattina non c'era un test da proteggere."
 - L'estensione 1 del progetto (media delle repliche + CV normale) è corretta; chi invece fa la media **dopo** aver standardizzato su tutto non sbaglia in modo grave: non fermarsi su questo.
@@ -332,7 +337,7 @@ Pomeriggio:
 
 ## Da verificare prima del corso
 
-- **`README.md:92` (incluso in `dist/corso_python_CNR_partecipanti.zip`)** e **`sorgenti/08_G4_pomeriggio_random_forest_validazione.py:492-545`** (non marcati `solo-docente`, quindi presenti nel notebook studenti, oltre agli "Output attesi" del progetto): il risultato del progetto (0.44 ± 0.09, p ≈ 0.25, 0.65 senza gruppi) e la conclusione di esempio sono già leggibili dai partecipanti, inclusa la persona che ha fornito i dati, prima del giorno 4. Verificare che sia voluto (spoiler del progetto + aspetto sensibile) e tenerne conto nel colloquio privato.
-- **`sorgenti/07_G4_mattina_preprocessing_PCA.py:340`**: il suggerimento `X_c.sub(X_c.mean(axis=1), axis=0)` applica il centering per riga a `X_c` già **standardizzato per colonna**, mentre la soluzione di C7.1 (`:511-513`) centra le correnti grezze e poi standardizza. Ordine diverso, risultati diversi: seguendo il suggerimento si ottiene ARI ≈ 0.95 (verificato) invece dell'output atteso di C7.1 (ARI 0.86). Nessuna delle due è sbagliata, ma lo studente penserà di aver sbagliato.
-- **`sorgenti/08_G4_pomeriggio_random_forest_validazione.py:134-135`**: "leave-one-out … con 20-30 campioni è spesso l'unica scelta" è discutibile (alta varianza, niente stratificazione) e in contrasto con l'uso di `RepeatedStratifiedKFold` su n = 30 in §4 (`:205`). Non è un bug, ma conviene avere pronta la sfumatura a voce.
+- *(Risolto il 14/11.)* Il risultato del progetto è stato tolto dal `README.md` e la conclusione d'esempio è ora solo nella versione docente. Gli "Output attesi" del progetto nel notebook studenti contengono ancora i numeri (0.44, 0.65, p): servono ai partecipanti per controllare il codice. Tenerne conto nel colloquio privato.
+- *(Risolto il 14/11.)* Il suggerimento per C7.1 nel nb 07 non indica più il centering su `X_c` già standardizzato: ora dice di centrare le correnti non standardizzate, come la soluzione (ARI 0.86).
+- *(Risolto il 14/11.)* Il testo sul leave-one-out nel nb 08 ora dice che con 20-30 campioni di solito conviene una k-fold ripetuta, in accordo con la §4.
 - **`sorgenti/08_G4_pomeriggio_random_forest_validazione.py:241` e `:517`** (`n_jobs=-1`): verificare i tempi su un portatile tipo dei partecipanti (Windows) prima del giorno 4.
