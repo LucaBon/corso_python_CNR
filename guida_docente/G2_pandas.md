@@ -9,27 +9,27 @@ Notebook: `studenti/03_G2_mattina_pandas_essenziale.ipynb` (mattina), `studenti/
 
 ---
 
-## MATTINA — `03_G2_mattina_pandas_essenziale` (9:00–12:30)
+## MATTINA — `03_G2_mattina_pandas_essenziale` (10:00–13:00)
 
-Il notebook non indica tempi per sezione: la scaletta qui sotto è una proposta.
+Il notebook non indica tempi per sezione: la scaletta qui sotto è costruita sull'orario 10:00–13:00. Rispetto alla versione su 9:00–12:30: l'esercizio 3.3 è per casa, §5 e §7 sono accorciati, e nella lunga parte di demo iniziale ci sono due momenti in cui lavora la sala (la prova su `decimal` e la previsione su `alto.loc[0]`).
 
 ### 1. Scaletta
 
 | orario | sezione | modalità | min |
 |---|---|---|---|
-| 9:00–9:10 | Apertura + §0 cella di avvio (tutti vedono `pandas 3.x`?) | spiego | 10 |
-| 9:10–9:20 | §1 DataFrame e Series | demo live | 10 |
-| 9:20–9:25 | §2 leggere il file di ieri | demo live | 5 |
-| 9:25–9:50 | §3 `read_csv` sul CSV sporco (errore vero → parametri) | demo live | 25 |
-| 9:50–10:10 | §4 ispezione (shape/info/describe/value_counts), rename, date | demo live | 20 |
-| 10:10–10:20 | §5 `read_excel` e scrittura | demo live | 10 |
-| 10:20–10:45 | §6 selezione: `[]`, `loc`/`iloc`, filtri booleani | spiego + demo live | 25 |
-| 10:45–11:00 | Esercizio 3.1 | esercizio | 15 |
-| 11:00–11:15 | Pausa | | 15 |
-| 11:15–11:40 | §7 colonne derivate, `map`, `.str`, `.dt`, `apply`/`pd.cut`/`np.where` | demo live | 25 |
-| 11:40–12:00 | Esercizio 3.2 | esercizio | 20 |
-| 12:00–12:20 | Esercizio 3.3 (livello 3, da zero) | esercizio | 20 |
-| 12:20–12:30 | Grafico di controllo + riepilogo + trappole per chi viene da R | spiego | 10 |
+| 10:00–10:20 | Apertura + §0 cella di avvio, §1 DataFrame e Series, §2 il file di ieri | spiego + demo live | 20 |
+| 10:20–10:45 | §3 `read_csv` sul CSV sporco (errore vero → parametri) + **prova loro**: togliere `decimal=","` e rifare `info()` | demo live + prova | 25 |
+| 10:45–11:03 | §4 ispezione (shape/info/describe/value_counts), rename, date | demo live | 18 |
+| 11:03–11:08 | §5 `read_excel` e scrittura (solo `index=False`) | demo live | 5 |
+| 11:08–11:23 | §6 selezione: `[]`, filtri booleani | spiego + demo live | 15 |
+| 11:23–11:38 | Pausa | | 15 |
+| 11:38–11:45 | §6 `loc`/`iloc` dopo un filtro (**prevedi, poi esegui**: `alto.loc[0]`) | demo live | 7 |
+| 11:45–11:58 | Esercizio 3.1 | esercizio | 13 |
+| 11:58–12:18 | §7 colonne derivate, `map`, `.str`, `pd.cut`, `np.where` (senza `apply`) | demo live | 20 |
+| 12:18–12:38 | Esercizio 3.2 | esercizio | 20 |
+| 12:38–12:45 | Correzione + grafico di controllo | demo live | 7 |
+| 12:45–12:55 | Riepilogo + trappole per chi viene da R; Esercizio 3.3 assegnato per casa | spiego | 10 |
+| 12:55–13:00 | Margine | | 5 |
 
 ### 2. Sezioni
 
@@ -126,7 +126,7 @@ Il notebook non indica tempi per sezione: la scaletta qui sotto è una proposta.
   - `notna()` dimenticato → **39 righe** invece di 37 (Pb in frutto ha 2 mancanti), con la stessa media perché `mean()` ignora i NaN. Suggerimento: "Il testo dice *non mancante*: quale metodo avete visto per i mancanti?"
 - Chi finisce presto: estensione con i 9 file `{analita}_{matrice}.csv`.
 
-**Grafico di controllo + riepilogo (12:20)**
+**Grafico di controllo + riepilogo (12:38)**
 - Demo: scatter Cu nel tempo → "i punti impazziti si vedono subito". `.plot()` di pandas va bene per guardare, per pubblicare c'è domani.
 - Trappole per chi viene da R (leggile dalla tabella del notebook):
   - `mean()` di pandas **ignora i NaN in silenzio** (R restituisce `NA` senza `na.rm = TRUE`); NumPy invece dà `nan`, come R.
@@ -147,23 +147,24 @@ Il notebook non indica tempi per sezione: la scaletta qui sotto è una proposta.
 
 ## POMERIGGIO — `04_G2_pomeriggio_pandas_avanzato_progetto` (14:00–17:00)
 
-Il notebook indica due tempi: **API UniProt circa 30', facoltativo** e **Progetto 60'**. Con 165' utili il pomeriggio è il più denso del corso. La scaletta qui sotto contiene l'API in versione compressa (25'). **Se alle 15:15 sei già in ritardo di più di 10', salta l'API.**
+Il notebook indica due tempi: **API UniProt circa 30', facoltativo** e **Progetto 60'**. Con 165' utili il pomeriggio è il più denso del corso. Nella scaletta qui sotto l'API è **solo una demo di 5'**: esegui le celle per mostrare che con Python si scaricano dati da una banca dati e si uniscono ai propri; l'esercizio 4.3 resta per casa. **Se alle 15:22 sei in ritardo, salta anche la demo.** Attenzione: il grafico dopo l'esercizio 4.3 usa `unito_api` e dà `NameError` a chi non ha fatto il 4.3: di' di saltare quella cella.
 
 ### 1. Scaletta
 
 | orario | sezione | modalità | min |
 |---|---|---|---|
-| 14:00–14:05 | §0 cella di avvio (`carica_misure`: la mattina in una funzione) | spiego | 5 |
-| 14:05–14:15 | §1 mancanti: individuare, capire, decidere | demo live | 10 |
-| 14:15–14:30 | §2 duplicati e anomali (IQR per gruppo, sui log) | demo live | 15 |
-| 14:30–14:40 | Esercizio 4.1 | esercizio | 10 |
-| 14:40–14:55 | §3 `groupby` / `agg` / `transform` | spiego + demo live | 15 |
-| 14:55–15:05 | Esercizio 4.2 | esercizio | 10 |
-| 15:05–15:15 | §4 `merge` con i metadati | demo live | 10 |
-| 15:15–15:30 | Pausa | | 15 |
-| 15:30–15:55 | API UniProt → JSON → merge + Esercizio 4.3 (**facoltativo**) | demo live + esercizio | 25 |
-| 15:55–16:00 | §5 pivot / melt | demo live | 5 |
-| 16:00–17:00 | §6 Progetto wrangling (incluso 10' di chiusura) | progetto | 60 |
+| 14:00–14:15 | §0 cella di avvio (`carica_misure`) + §1 mancanti: individuare, capire, decidere | spiego + demo live | 15 |
+| 14:15–14:32 | §2 duplicati e anomali (IQR per gruppo, sui log) | demo live | 17 |
+| 14:32–14:42 | Esercizio 4.1 | esercizio | 10 |
+| 14:42–15:00 | §3 `groupby` / `agg` / `transform` | spiego + demo live | 18 |
+| 15:00–15:10 | Esercizio 4.2 | esercizio | 10 |
+| 15:10–15:22 | §4 `merge` con i metadati | demo live | 12 |
+| 15:22–15:27 | API UniProt: **solo demo**, esegui le celle e mostri il risultato (Esercizio 4.3 per casa) | demo live | 5 |
+| 15:27–15:42 | Pausa | | 15 |
+| 15:42–15:46 | §5 pivot (solo `pivot_table`) | demo live | 4 |
+| 15:46–16:46 | §6 Progetto wrangling (lancio 3' + lavoro; checkpoint 16:06 e 16:26) | progetto | 60 |
+| 16:46–16:58 | Report di un volontario + chiusura | spiego | 12 |
+| 16:58–17:00 | Margine | | 2 |
 
 ### 2. Sezioni
 
@@ -244,7 +245,7 @@ Il notebook indica due tempi: **API UniProt circa 30', facoltativo** e **Progett
 - Cosa dire: "Lungo per analizzare, largo per leggere. `pivot_table` = `pivot_wider()`, `melt` = `pivot_longer()`." Aggiungi: "`margins=True` ha senso per i conteggi; una media 'All' che mescola Cd e Cu pandas la calcola lo stesso, tocca a voi non usarla."
 - Demo: tabella larga matrice × analita; conteggi con totale 291.
 
-### 3. Progetto data wrangling (60', 16:00–17:00)
+### 3. Progetto data wrangling (60', 15:46–16:46)
 
 **Lancio (primi 2 minuti, da dire così)**
 - "Avete tutti i pezzi: ora li mettete in fila, in **una cella**, partendo dal file grezzo. Da soli o in coppia, come preferite."
@@ -253,7 +254,7 @@ Il notebook indica due tempi: **API UniProt circa 30', facoltativo** e **Progett
 - "C'è una traccia con i `____`. Chi vuole la sfida cancella la traccia e scrive da zero. Il controllo finale è il report: **311 / 10 / 6 / 4 / 25 / 291**." (Scrivi questi numeri alla lavagna.)
 
 **Girare fra i banchi**
-- Primo giro (16:02–16:10): solo per verificare che tutti abbiano **eseguito la cella di avvio e quella di `anomali_iqr`** (sono necessarie; chi ha riavviato il kernel dopo la pausa non ha `carica_misure` né `anomali_iqr` → `NameError`).
+- Primo giro (15:48–15:56): solo per verificare che tutti abbiano **eseguito la cella di avvio e quella di `anomali_iqr`** (sono necessarie; chi ha riavviato il kernel dopo la pausa non ha `carica_misure` né `anomali_iqr` → `NameError`).
 - Poi rispondi a chi alza la mano; dai priorità a chi non ha mai programmato. Con chi viene da R chiedi: "Come lo scriveresti in dplyr?" e traduci passo per passo.
 - Domanda da fare a chi è bloccato: "Quante righe hai adesso? Quante te ne aspetti?" (stampare `len(d)` dopo ogni passo).
 
@@ -266,16 +267,16 @@ Il notebook indica due tempi: **API UniProt circa 30', facoltativo** e **Progett
 - `riassunto` senza le righe con sito NaN: hanno tolto `dropna=False` dal `groupby` (le 25 misure spariscono dal riassunto senza avviso).
 - `{v:5d}` con un valore float → `ValueError: Unknown format code 'd' for object of type 'float'` (succede se qualcuno salva una percentuale nel report).
 
-**Checkpoint a 20' (16:20)**
+**Checkpoint a 20' (16:06)**
 - Ad alta voce: "A che punto siete? Dovreste avere almeno i passi 1-4: righe lette, senza valore, duplicati, anomali. Se il report dice 311, 10, 6, 4, siete in linea."
 - Chi è indietro: mostra sul proiettore solo i passi 1-3 della traccia compilati (non la soluzione intera).
 
-**Checkpoint a 40' (16:40)**
+**Checkpoint a 40' (16:26)**
 - "Ora dovreste avere il merge (25 senza sito) e `misure_pulite.csv` salvato. Chi ha finito passa alle estensioni, nell'ordine: mediana e CV, Excel con un foglio per analita, funzione `pulisci`, grafico."
 - Chi è ancora fermo al merge: "Fate il riassunto anche senza `pct_fuori_limite`, poi lo aggiungete."
 
-**Chiusura (16:50–17:00)**
-- 16:50: chiedi a **un volontario** (meglio uno che ha usato la traccia, non il più veloce) di proiettare il suo report. Confronto con 311/10/6/4/25/291. Se qualcuno ha numeri diversi, è materiale prezioso: "Quale scelta avete fatto diversamente?"
+**Chiusura (16:46–16:58)**
+- 16:46: chiedi a **un volontario** (meglio uno che ha usato la traccia, non il più veloce) di proiettare il suo report. Confronto con 311/10/6/4/25/291. Se qualcuno ha numeri diversi, è materiale prezioso: "Quale scelta avete fatto diversamente?"
 - Se qualcuno ha fatto l'estensione 3 (`pulisci`), fagliela mostrare in 1 minuto: è il messaggio del giorno ("domani lo applicate al prossimo export").
 - Debrief (5'):
   - "Ogni scelta di pulizia è scritta nel codice e nel report: fra sei mesi la rifate identica."

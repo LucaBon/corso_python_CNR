@@ -3,8 +3,8 @@
 4 giorni × 6 ore · 20 partecipanti · settimana del 16/11/2026
 
 Come usare questa guida: la **Parte A** si legge una volta questa settimana. Le **Parti G1-G4** si
-stampano e si tengono sul leggio, una per giorno. Gli orari sono indicativi (9:00-12:30 e
-14:00-17:00, con 15' di pausa): adattali all'orario reale dell'aula.
+stampano e si tengono sul leggio, una per giorno. Gli orari sono quelli del corso (10:00-13:00
+e 14:00-17:00, con 15' di pausa per mezza giornata: 165' netti). Dalle 9:00 alle 10:00 prepari l'aula.
 
 ---
 
@@ -13,8 +13,8 @@ stampano e si tengono sul leggio, una per giorno. Gli orari sono indicativi (9:0
 ## A1. Checklist della settimana prima
 
 **Materiali**
-- [ ] **Rigenera gli zip.** I notebook sono stati ricompilati il 12/11 alle 17:14, mentre gli zip in
-      `dist/` sono dell'11/11 alle 18:13, quindi sono vecchi:
+- [ ] **Rigenera gli zip.** I notebook 01, 02, 05, 07 e 08 sono stati ricompilati il 14/11, quindi gli zip in
+      `dist/` sono vecchi:
       `uv run python strumenti/nb_tools.py pacchetto`. Poi apri lo zip dei partecipanti e controlla
       che **non** contenga `docente/` né `sorgenti/`.
 - [ ] Copia `corso_python_CNR_partecipanti.zip` su una **chiavetta USB** (meglio due) e su un link
@@ -141,39 +141,30 @@ dati, non di elettrochimica**. È una posizione legittima: dichiarala il primo g
 | Sei in ritardo di 30' o più | Applica la lista "Se sei in ritardo" del giorno, senza esitare. Gli esercizi per casa esistono apposta |
 | Il proiettore non va | Fai fare ai partecipanti l'esercizio successivo mentre sistemi: ognuno ha il notebook |
 
-## A9. Da sistemare prima di lunedì (raccolto rileggendo i notebook)
+## A9. Da sistemare prima di lunedì (aggiornato il 14/11)
 
-**Priorità alta**
-1. **Il risultato del progetto finale è già nello zip dei partecipanti.** `README.md` (riga 92, tabella
-   dataset) e la conclusione d'esempio con l'"Output atteso" del progetto in `sorgenti/08…py` (righe
-   492-545) contengono 0.44 / p≈0.25 / 0.65 senza gruppi. Chi ha fornito i dati può leggerli prima
-   del giorno 4. Decidi se togliere quei numeri dalla versione studenti (tag `solo-docente`) oppure
-   accettarlo e parlarne con quella persona prima del corso.
-2. **Rigenera gli zip** (`pacchetto`): quelli in `dist/` sono precedenti all'ultima build.
-3. **Es. 5.3** (`05…py:368-369`): `verifica_figura(fig)` su una figura larga 7.48 in segnala un
-   avviso a tutti, perché il limite di default è 7.0 (`figure_pubblicazione.py:208`); la soluzione
-   usa `larghezza_max=7.5`. Avvisa la sala o aggiungi il parametro alla traccia.
-4. **Suggerimento di C7.1 / es. 7.2** (`07…py:340`): centra per riga `X_c`, che è già standardizzato,
-   mentre la soluzione (`:511-513`) centra i dati grezzi. Il risultato non coincide con l'output
-   atteso (ARI ≈ 0.95 contro 0.86).
+**Già corretto nei sorgenti il 14/11** (notebook 01, 02, 05, 07, 08 ricompilati)
+- Il risultato del progetto finale non è più nel `README.md`; la conclusione d'esempio è solo nella versione docente. Restano gli "Output attesi" del progetto nel notebook studenti del giorno 4.
+- Es. 5.3: il testo chiede `verifica_figura(fig, larghezza_max=7.5)`.
+- Suggerimento di C7.1 allineato alla soluzione.
+- Segno meno tipografico nelle soglie del notebook 02 sostituito con `-`.
+- Esercizio 1.3 spostato dopo le prime tre celle su `for` e `if`.
+- "domani" → "oggi pomeriggio" nel notebook 05.
+- Leave-one-out nel notebook 08: ora rimanda alla k-fold ripetuta.
 
-**Priorità media**
-5. Segno meno tipografico "−" nelle soglie `E < −0.45 V` (`02…py:463, 486, 557`): chi lo copia nel
-   codice ottiene `SyntaxError: invalid character '−'`. Dillo in aula o sostituiscilo con "-".
-6. L'es. 1.3 (`01…py:296-311`) usa `for`/`if` prima del §5, dove vengono spiegati: anticipali a voce.
-7. `05…py:190` dice "domani calcoleremo la banda vera", ma la banda arriva lo stesso pomeriggio (nb 06).
-8. Formulazioni statistiche del nb 06 da limare: la banda di confidenza descritta come "probabilità
+**Ancora da fare**
+1. **Rigenera gli zip** (`uv run python strumenti/nb_tools.py pacchetto`) dopo queste correzioni, e controlla che lo zip dei partecipanti non contenga `docente/` né `sorgenti/`.
+2. Formulazioni statistiche del nb 06 da limare a voce: la banda di confidenza descritta come "probabilità
    95 %" (`:103-104`), dove è frequentista e punto per punto; il tempo di dimezzamento τ·ln2 (`:242`),
    che vale solo per la parte sopra il plateau; l'ANOVA presentata come obbligatoria prima di Tukey
    (`:418-419`).
-9. `08…py:134-135`: il leave-one-out è descritto come "spesso l'unica scelta" con 20-30 campioni.
-   È discutibile e contraddice il k-fold ripetuto usato poco dopo (`:205`).
-10. Prova i tempi di `permutation_test_score` e del punto 5 del progetto su un portatile Windows
-    medio: su una macchina potente ci vogliono 11 s e 1 minuto, sui portatili potrebbero volerci 3-8 minuti.
-11. `requests` (sezione API, solo con `USA_RETE = True`) non è dichiarato in `environment.yml`:
-    controllalo sull'ambiente Miniforge.
-12. Windows, "Estrai tutto": lo zip dei partecipanti può finire in una cartella annidata invece di
-    unirsi a quella dell'installazione. Prevedilo nelle istruzioni del giorno 1.
+3. Tempi di calcolo del giorno 4: su una macchina a 2 core il test di permutazione della §4 richiede circa 30 s e il punto 5 del progetto circa 1,5 minuti. Sui portatili dei partecipanti saranno simili o inferiori; il punto 5 resta comunque solo proiettato.
+4. `requests` (sezione API, solo con `USA_RETE = True`) non è dichiarato in `environment.yml`:
+   controllalo sull'ambiente Miniforge.
+5. Windows, "Estrai tutto": lo zip dei partecipanti può finire in una cartella annidata invece di
+   unirsi a quella dell'installazione. Prevedilo nelle istruzioni del giorno 1.
+6. Costrutti usati senza spiegazione, da dire a voce: `elif` e `continue` (in `leggi_dpv`, giorno 1), la somma senza parentesi quadre in `dev_std` (giorno 1), `lambda` in `anomali_iqr` (giorno 2).
+7. Gli output dei notebook `docente/` mostrano il percorso della cartella in cui sono stati compilati: se ti dà fastidio, ricompila dalla tua cartella definitiva prima di distribuirli.
 
 
 ---
@@ -184,13 +175,15 @@ dati, non di elettrochimica**. È una posizione legittima: dichiarala il primo g
 
 Notebook: `studenti/01_G1_mattina_python_essenziale.ipynb` (mattina), `studenti/02_G1_pomeriggio_funzioni_file_numpy.ipynb` (pomeriggio).
 Sorgenti con le soluzioni: `sorgenti/01_G1_...py`, `sorgenti/02_G1_...py`. Proietta solo i notebook di `studenti/`, mai quelli di `docente/`.
-I notebook non danno orari, a parte "Prova tu (2')" nel §1 della mattina: gli orari qui sotto sono una proposta su 9:00–12:30 e 14:00–17:00.
+I notebook non danno orari, a parte "Prova tu (2')" nel §1 della mattina: gli orari qui sotto sono costruiti sull'orario del corso, 10:00–13:00 e 14:00–17:00 (165' netti per mezza giornata, con 15' di pausa).
 
 Obiettivo da ripetere a fine giornata: *"Oggi avete scritto uno script che apre 12 file di uno strumento, estrae un numero da ciascuno e salva una tabella. Domani la apriamo con pandas in una riga."*
 
 ---
 
-## Primi 15 minuti del corso (9:00–9:15)
+## Primi 20 minuti del corso (10:00–10:20)
+
+Chi non ha mandato l'output di `verifica_ambiente.py` può arrivare alle 9:30: sei già in aula per la preparazione.
 
 **Prima che entrino**: JupyterLab aperto sul tuo portatile in `studenti/`, font grande (Ctrl/Cmd +), tema chiaro. Il notebook 01 già aperto, kernel pulito. La chiavetta USB con lo zip pronta.
 
@@ -215,29 +208,33 @@ Obiettivo da ripetere a fine giornata: *"Oggi avete scritto uno script che apre 
 
 ---
 
-# MATTINA (9:00–12:30): Python essenziale
+# MATTINA (10:00–13:00): Python essenziale
 
 ## 1. Scaletta
 
 | orario | sezione del notebook | modalità | min |
 |---|---|---|---|
-| 9:00 | Primi 15 minuti (vedi sopra) | spiego | 15 |
-| 9:15 | Benvenuti: "Cosa NON faremo", "Python o R?" | spiego | 15 |
-| 9:30 | §0 Cella di avvio + §1 JupyterLab (+ "Prova tu" 2') | demo live | 15 |
-| 9:45 | §2 Variabili e tipi, conversioni, f-string | demo live | 20 |
-| 10:05 | Esercizio 1.1 | esercizio | 10 |
-| 10:15 | §3 Liste, slicing, tuple | demo live | 15 |
-| 10:30 | Esercizio 1.2 | esercizio | 15 |
-| 10:45 | Pausa | | 15 |
-| 11:00 | §4 Dizionari | demo live | 10 |
-| 11:10 | §5 prime tre celle (`for`, `for` + `if`, filtro con `append`) | demo live | 10 |
-| 11:20 | Esercizio 1.3 (torna su al §4) | esercizio | 10 |
-| 11:30 | §5 Confronti, `range` / `enumerate` / `zip` | demo live | 15 |
-| 11:45 | Esercizio 1.4 | esercizio | 20 |
-| 12:05 | §6 List comprehension + Esercizio 1.5 | demo + esercizio | 15 |
-| 12:20 | Riepilogo + "Trappole per chi viene da R" | spiego | 10 |
+| 10:00 | Primi 20 minuti (vedi sopra) | spiego | 20 |
+| 10:20 | Benvenuti: "Cosa NON faremo", "Python o R?" (due frasi ciascuno) | spiego | 8 |
+| 10:28 | §0 Cella di avvio + §1 JupyterLab (+ "Prova tu" 2') | demo live | 15 |
+| 10:43 | §2 Variabili e tipi, conversioni, f-string | demo live | 20 |
+| 11:03 | Esercizio 1.1 | esercizio | 10 |
+| 11:13 | §3 Liste, slicing (tuple: una frase) | demo live | 12 |
+| 11:25 | Pausa | | 15 |
+| 11:40 | Esercizio 1.2 | esercizio | 15 |
+| 11:55 | §4 Dizionari | demo live | 8 |
+| 12:03 | §5 prime tre celle (`for`, `for` + `if`, filtro con `append`) + accumulatore dal vivo | demo live | 10 |
+| 12:13 | Esercizio 1.3 | esercizio | 8 |
+| 12:21 | §5 Confronti, `range` / `enumerate` / `zip` | demo live | 12 |
+| 12:33 | Esercizio 1.4 | esercizio | 17 |
+| 12:50 | §6 List comprehension: solo demo, l'esercizio 1.5 lo fai tu dal vivo | demo live | 5 |
+| 12:55 | Riepilogo: i tre errori della settimana | spiego | 5 |
 
-Nota: l'esercizio 1.3 (nel §4) usa `for`/`if`, che il notebook introduce solo nel §5. Per questo la scaletta mostra prima le tre celle del §5 e poi torna a 1.3. In alternativa fai 1.3 insieme, alla lavagna, come anteprima del `for`.
+Note:
+- L'esercizio 1.3 ora sta nel §5, dopo le prime tre celle su `for` e `if` (spostato nei sorgenti il 14/11).
+- Prima dell'esercizio 1.4 mostra dal vivo lo schema dell'accumulatore, che nessuna demo contiene: `n = 0`, poi `for c in correnti:` / `if c > soglia:` / `n = n + 1`. L'esercizio 1.4 chiede lo stesso schema per la somma.
+- Il notebook 01 non ha estensioni facoltative: chi finisce presto (utenti R, Perl/PHP) fa C1.1 e C1.2 in fondo al notebook.
+- Rispetto alla versione su 9:00–12:30 sono compressi: Benvenuti, tuple, comprehension (l'esercizio 1.5 diventa demo) e riepilogo.
 
 ## 2. Sezioni
 
@@ -379,15 +376,17 @@ Nel notebook della mattina non ci sono blocchi marcati *Facoltativo*. Gli eserci
 |---|---|---|---|
 | 14:00 | §0 Cella di avvio + §1 Funzioni (default, più valori di ritorno) | demo live | 20 |
 | 14:20 | Esercizio 2.1 | esercizio | 10 |
-| 14:30 | §2 Import e librerie | demo live | 10 |
-| 14:40 | §3 Traceback, i 6 errori, `try`/`except` | demo live | 15 |
-| 14:55 | Esercizio 2.2 Caccia al bug | esercizio | 20 |
-| 15:15 | §4 `pathlib`, `read_text`, metodi delle stringhe | demo live | 15 |
-| 15:30 | Pausa | | 15 |
-| 15:45 | Esercizio 2.3 (**facoltativo**) | esercizio | 15 |
-| 16:00 | §5 NumPy: array, `loadtxt`, primo grafico, maschere, NaN | demo live | 25 |
-| 16:25 | §6 Picco netto + Esercizio 2.4 | demo + esercizio | 25 |
-| 16:50 | Grafico di controllo sulla tabella + Riepilogo del giorno 1 | demo live | 10 |
+| 14:30 | §2 Import e librerie | demo live | 8 |
+| 14:38 | §3 Traceback, i 6 errori, `try`/`except` | demo live | 15 |
+| 14:53 | Esercizio 2.2 Caccia al bug | esercizio | 20 |
+| 15:13 | §4 `pathlib`, `read_text`, metodi delle stringhe | demo live | 15 |
+| 15:28 | Pausa | | 15 |
+| 15:43 | `leggi_dpv`: spieghi tu la versione pronta (Esercizio 2.3 per casa) | demo live | 7 |
+| 15:50 | §5 NumPy: array, `loadtxt`, primo grafico, maschere, NaN | demo live | 25 |
+| 16:15 | §6 Picco netto | demo live | 8 |
+| 16:23 | Esercizio 2.4 | esercizio | 22 |
+| 16:45 | Grafico di controllo sulla tabella + Riepilogo del giorno 1 | demo live | 10 |
+| 16:55 | Margine | | 5 |
 
 ## 2. Sezioni
 
@@ -449,6 +448,7 @@ Nel notebook della mattina non ci sono blocchi marcati *Facoltativo*. Gli eserci
 - Box "E `with open`?": leggilo in 30 secondi. "Lo incontrerete nel codice degli altri; noi usiamo `read_text`."
 
 ### Esercizio 2.3 (facoltativo): `leggi_dpv`
+- **Nella scaletta 10–13/14–17 è per casa**: mostra tu la versione pronta (la cella prima dell'esercizio 2.4) e spiegala in 7 minuti. Di' una frase su `elif` ("altrimenti, se") e `continue` ("salta al giro successivo"): compaiono qui per la prima volta. Quanto segue vale se decidi di farlo fare in aula (conta 25', non 15').
 - Livello 2. Lo studente trova lo scheletro della funzione con i commenti-guida. Chi lo salta ha la versione pronta prima di 2.4. Output: il dizionario dei metadati, `161 punti; primo: -0.6 0.8094 ; ultimo: 0.2 1.0901`, `corrente massima: 1.3289`.
 - Errori tipici:
   - Non saltare `E(V)\ti(uA)` dà `ValueError: could not convert string to float: 'E(V)'`.
@@ -522,15 +522,15 @@ Taglia in quest'ordine:
 - **Colab**: il notebook va caricato con *File → Carica notebook*. Se lo zip non è stato scompattato in `/content`, la cella di avvio dà `FileNotFoundError: Cartella 'dati' non trovata`. Su Colab `pd.__version__` (§2) stampa 2.x: è normale.
 - **Ordine di esecuzione**: se uno studente riesegue la cella 2.3 *dopo* `np.loadtxt`, `E` e `i` tornano liste e `i.min()` fallisce. Rimedio: rieseguire la cella `loadtxt`.
 - **Nomi riusati**: `i`, `E`, `meta`, `file`, `misure`, `metadati` vengono ridefiniti più volte. Dopo il ciclo 2.4, `E` e `i` sono quelli di S12.
-- **Il segno meno tipografico `−`** nel markdown (02: righe 408, 463, 486, 557). Copiandolo nel codice: `SyntaxError: invalid character '−' (U+2212)`.
+- **Il segno meno tipografico `−`** nel markdown del notebook 02 è stato sostituito con `-` (14/11). Se qualcuno lo copia da altre fonti: `SyntaxError: invalid character '−' (U+2212)`.
 - **Windows**: `read_text`/`write_text` hanno `encoding="utf-8"` esplicito, quindi non ci sono problemi. Se qualcuno scrive il proprio codice senza encoding e mette `µ` nel CSV, su Windows può comparire testo illeggibile. Dì: "indicate sempre l'encoding".
 - `np.loadtxt(file, skiprows=9)` funziona per S01–S12 (header di 7 righe). Il file S13 ha 6 righe di header (manca "Scan rate"), ma il notebook non lo legge mai con `loadtxt`.
 
 ---
 
 ## Da verificare prima del corso
-1. **`sorgenti/01_G1_mattina_python_essenziale.py:296-311`**: l'esercizio 1.3 (§4) usa `for`/`if`/`else` prima che vengano introdotti nel §5 (riga 315). Lo scaffold `#>` dà la struttura, ma i principianti non l'hanno ancora vista. Decidi se cambiare l'ordine in aula (come nella scaletta sopra) o presentarlo come anteprima.
-2. **`sorgenti/02_G1_pomeriggio_funzioni_file_numpy.py:463, 486, 557`**: soglie scritte con `−` (U+2212) nel testo. Non è un bug del codice, ma è una trappola di copia-incolla per l'esercizio 2.4.
+1. *(Risolto il 14/11.)* L'esercizio 1.3 è stato spostato nel §5, dopo le prime tre celle su `for` e `if`.
+2. *(Risolto il 14/11.)* Le soglie nel testo del notebook 02 ora usano il trattino normale `-`: copiarle nel codice non dà più `SyntaxError`.
 3. **`sorgenti/02_G1_pomeriggio_funzioni_file_numpy.py:473`**: "circa 0.13 µA" come sovrastima costante. Dall'estensione 3 risulta 0.119 per S01 e 0.134 per S08. Va bene come "circa", ma se qualcuno fa il conto, ti conviene dire "0.12–0.13".
 4. **Zip dei partecipanti (`dist/corso_python_CNR_partecipanti.zip`)**: contiene la cartella `corso_python_CNR/`. Le istruzioni chiedono di scompattarlo "nello stesso posto" della cartella di installazione, ma su Windows "Estrai tutto" propone una sottocartella. Prepara una frase precisa da dire o da scrivere alla lavagna (es. "estraete in Documenti, non in Documenti\corso_python_CNR_partecipanti").
 5. Fai girare su Colab, almeno una volta, i due notebook `studenti/` del giorno 1 con lo zip dei partecipanti, per controllare che la cella di avvio trovi `corso_python_CNR/dati` dopo `!unzip`.
@@ -549,27 +549,27 @@ Notebook: `studenti/03_G2_mattina_pandas_essenziale.ipynb` (mattina), `studenti/
 
 ---
 
-## MATTINA — `03_G2_mattina_pandas_essenziale` (9:00–12:30)
+## MATTINA — `03_G2_mattina_pandas_essenziale` (10:00–13:00)
 
-Il notebook non indica tempi per sezione: la scaletta qui sotto è una proposta.
+Il notebook non indica tempi per sezione: la scaletta qui sotto è costruita sull'orario 10:00–13:00. Rispetto alla versione su 9:00–12:30: l'esercizio 3.3 è per casa, §5 e §7 sono accorciati, e nella lunga parte di demo iniziale ci sono due momenti in cui lavora la sala (la prova su `decimal` e la previsione su `alto.loc[0]`).
 
 ### 1. Scaletta
 
 | orario | sezione | modalità | min |
 |---|---|---|---|
-| 9:00–9:10 | Apertura + §0 cella di avvio (tutti vedono `pandas 3.x`?) | spiego | 10 |
-| 9:10–9:20 | §1 DataFrame e Series | demo live | 10 |
-| 9:20–9:25 | §2 leggere il file di ieri | demo live | 5 |
-| 9:25–9:50 | §3 `read_csv` sul CSV sporco (errore vero → parametri) | demo live | 25 |
-| 9:50–10:10 | §4 ispezione (shape/info/describe/value_counts), rename, date | demo live | 20 |
-| 10:10–10:20 | §5 `read_excel` e scrittura | demo live | 10 |
-| 10:20–10:45 | §6 selezione: `[]`, `loc`/`iloc`, filtri booleani | spiego + demo live | 25 |
-| 10:45–11:00 | Esercizio 3.1 | esercizio | 15 |
-| 11:00–11:15 | Pausa | | 15 |
-| 11:15–11:40 | §7 colonne derivate, `map`, `.str`, `.dt`, `apply`/`pd.cut`/`np.where` | demo live | 25 |
-| 11:40–12:00 | Esercizio 3.2 | esercizio | 20 |
-| 12:00–12:20 | Esercizio 3.3 (livello 3, da zero) | esercizio | 20 |
-| 12:20–12:30 | Grafico di controllo + riepilogo + trappole per chi viene da R | spiego | 10 |
+| 10:00–10:20 | Apertura + §0 cella di avvio, §1 DataFrame e Series, §2 il file di ieri | spiego + demo live | 20 |
+| 10:20–10:45 | §3 `read_csv` sul CSV sporco (errore vero → parametri) + **prova loro**: togliere `decimal=","` e rifare `info()` | demo live + prova | 25 |
+| 10:45–11:03 | §4 ispezione (shape/info/describe/value_counts), rename, date | demo live | 18 |
+| 11:03–11:08 | §5 `read_excel` e scrittura (solo `index=False`) | demo live | 5 |
+| 11:08–11:23 | §6 selezione: `[]`, filtri booleani | spiego + demo live | 15 |
+| 11:23–11:38 | Pausa | | 15 |
+| 11:38–11:45 | §6 `loc`/`iloc` dopo un filtro (**prevedi, poi esegui**: `alto.loc[0]`) | demo live | 7 |
+| 11:45–11:58 | Esercizio 3.1 | esercizio | 13 |
+| 11:58–12:18 | §7 colonne derivate, `map`, `.str`, `pd.cut`, `np.where` (senza `apply`) | demo live | 20 |
+| 12:18–12:38 | Esercizio 3.2 | esercizio | 20 |
+| 12:38–12:45 | Correzione + grafico di controllo | demo live | 7 |
+| 12:45–12:55 | Riepilogo + trappole per chi viene da R; Esercizio 3.3 assegnato per casa | spiego | 10 |
+| 12:55–13:00 | Margine | | 5 |
 
 ### 2. Sezioni
 
@@ -666,7 +666,7 @@ Il notebook non indica tempi per sezione: la scaletta qui sotto è una proposta.
   - `notna()` dimenticato → **39 righe** invece di 37 (Pb in frutto ha 2 mancanti), con la stessa media perché `mean()` ignora i NaN. Suggerimento: "Il testo dice *non mancante*: quale metodo avete visto per i mancanti?"
 - Chi finisce presto: estensione con i 9 file `{analita}_{matrice}.csv`.
 
-**Grafico di controllo + riepilogo (12:20)**
+**Grafico di controllo + riepilogo (12:38)**
 - Demo: scatter Cu nel tempo → "i punti impazziti si vedono subito". `.plot()` di pandas va bene per guardare, per pubblicare c'è domani.
 - Trappole per chi viene da R (leggile dalla tabella del notebook):
   - `mean()` di pandas **ignora i NaN in silenzio** (R restituisce `NA` senza `na.rm = TRUE`); NumPy invece dà `nan`, come R.
@@ -687,23 +687,24 @@ Il notebook non indica tempi per sezione: la scaletta qui sotto è una proposta.
 
 ## POMERIGGIO — `04_G2_pomeriggio_pandas_avanzato_progetto` (14:00–17:00)
 
-Il notebook indica due tempi: **API UniProt circa 30', facoltativo** e **Progetto 60'**. Con 165' utili il pomeriggio è il più denso del corso. La scaletta qui sotto contiene l'API in versione compressa (25'). **Se alle 15:15 sei già in ritardo di più di 10', salta l'API.**
+Il notebook indica due tempi: **API UniProt circa 30', facoltativo** e **Progetto 60'**. Con 165' utili il pomeriggio è il più denso del corso. Nella scaletta qui sotto l'API è **solo una demo di 5'**: esegui le celle per mostrare che con Python si scaricano dati da una banca dati e si uniscono ai propri; l'esercizio 4.3 resta per casa. **Se alle 15:22 sei in ritardo, salta anche la demo.** Attenzione: il grafico dopo l'esercizio 4.3 usa `unito_api` e dà `NameError` a chi non ha fatto il 4.3: di' di saltare quella cella.
 
 ### 1. Scaletta
 
 | orario | sezione | modalità | min |
 |---|---|---|---|
-| 14:00–14:05 | §0 cella di avvio (`carica_misure`: la mattina in una funzione) | spiego | 5 |
-| 14:05–14:15 | §1 mancanti: individuare, capire, decidere | demo live | 10 |
-| 14:15–14:30 | §2 duplicati e anomali (IQR per gruppo, sui log) | demo live | 15 |
-| 14:30–14:40 | Esercizio 4.1 | esercizio | 10 |
-| 14:40–14:55 | §3 `groupby` / `agg` / `transform` | spiego + demo live | 15 |
-| 14:55–15:05 | Esercizio 4.2 | esercizio | 10 |
-| 15:05–15:15 | §4 `merge` con i metadati | demo live | 10 |
-| 15:15–15:30 | Pausa | | 15 |
-| 15:30–15:55 | API UniProt → JSON → merge + Esercizio 4.3 (**facoltativo**) | demo live + esercizio | 25 |
-| 15:55–16:00 | §5 pivot / melt | demo live | 5 |
-| 16:00–17:00 | §6 Progetto wrangling (incluso 10' di chiusura) | progetto | 60 |
+| 14:00–14:15 | §0 cella di avvio (`carica_misure`) + §1 mancanti: individuare, capire, decidere | spiego + demo live | 15 |
+| 14:15–14:32 | §2 duplicati e anomali (IQR per gruppo, sui log) | demo live | 17 |
+| 14:32–14:42 | Esercizio 4.1 | esercizio | 10 |
+| 14:42–15:00 | §3 `groupby` / `agg` / `transform` | spiego + demo live | 18 |
+| 15:00–15:10 | Esercizio 4.2 | esercizio | 10 |
+| 15:10–15:22 | §4 `merge` con i metadati | demo live | 12 |
+| 15:22–15:27 | API UniProt: **solo demo**, esegui le celle e mostri il risultato (Esercizio 4.3 per casa) | demo live | 5 |
+| 15:27–15:42 | Pausa | | 15 |
+| 15:42–15:46 | §5 pivot (solo `pivot_table`) | demo live | 4 |
+| 15:46–16:46 | §6 Progetto wrangling (lancio 3' + lavoro; checkpoint 16:06 e 16:26) | progetto | 60 |
+| 16:46–16:58 | Report di un volontario + chiusura | spiego | 12 |
+| 16:58–17:00 | Margine | | 2 |
 
 ### 2. Sezioni
 
@@ -784,7 +785,7 @@ Il notebook indica due tempi: **API UniProt circa 30', facoltativo** e **Progett
 - Cosa dire: "Lungo per analizzare, largo per leggere. `pivot_table` = `pivot_wider()`, `melt` = `pivot_longer()`." Aggiungi: "`margins=True` ha senso per i conteggi; una media 'All' che mescola Cd e Cu pandas la calcola lo stesso, tocca a voi non usarla."
 - Demo: tabella larga matrice × analita; conteggi con totale 291.
 
-### 3. Progetto data wrangling (60', 16:00–17:00)
+### 3. Progetto data wrangling (60', 15:46–16:46)
 
 **Lancio (primi 2 minuti, da dire così)**
 - "Avete tutti i pezzi: ora li mettete in fila, in **una cella**, partendo dal file grezzo. Da soli o in coppia, come preferite."
@@ -793,7 +794,7 @@ Il notebook indica due tempi: **API UniProt circa 30', facoltativo** e **Progett
 - "C'è una traccia con i `____`. Chi vuole la sfida cancella la traccia e scrive da zero. Il controllo finale è il report: **311 / 10 / 6 / 4 / 25 / 291**." (Scrivi questi numeri alla lavagna.)
 
 **Girare fra i banchi**
-- Primo giro (16:02–16:10): solo per verificare che tutti abbiano **eseguito la cella di avvio e quella di `anomali_iqr`** (sono necessarie; chi ha riavviato il kernel dopo la pausa non ha `carica_misure` né `anomali_iqr` → `NameError`).
+- Primo giro (15:48–15:56): solo per verificare che tutti abbiano **eseguito la cella di avvio e quella di `anomali_iqr`** (sono necessarie; chi ha riavviato il kernel dopo la pausa non ha `carica_misure` né `anomali_iqr` → `NameError`).
 - Poi rispondi a chi alza la mano; dai priorità a chi non ha mai programmato. Con chi viene da R chiedi: "Come lo scriveresti in dplyr?" e traduci passo per passo.
 - Domanda da fare a chi è bloccato: "Quante righe hai adesso? Quante te ne aspetti?" (stampare `len(d)` dopo ogni passo).
 
@@ -806,16 +807,16 @@ Il notebook indica due tempi: **API UniProt circa 30', facoltativo** e **Progett
 - `riassunto` senza le righe con sito NaN: hanno tolto `dropna=False` dal `groupby` (le 25 misure spariscono dal riassunto senza avviso).
 - `{v:5d}` con un valore float → `ValueError: Unknown format code 'd' for object of type 'float'` (succede se qualcuno salva una percentuale nel report).
 
-**Checkpoint a 20' (16:20)**
+**Checkpoint a 20' (16:06)**
 - Ad alta voce: "A che punto siete? Dovreste avere almeno i passi 1-4: righe lette, senza valore, duplicati, anomali. Se il report dice 311, 10, 6, 4, siete in linea."
 - Chi è indietro: mostra sul proiettore solo i passi 1-3 della traccia compilati (non la soluzione intera).
 
-**Checkpoint a 40' (16:40)**
+**Checkpoint a 40' (16:26)**
 - "Ora dovreste avere il merge (25 senza sito) e `misure_pulite.csv` salvato. Chi ha finito passa alle estensioni, nell'ordine: mediana e CV, Excel con un foglio per analita, funzione `pulisci`, grafico."
 - Chi è ancora fermo al merge: "Fate il riassunto anche senza `pct_fuori_limite`, poi lo aggiungete."
 
-**Chiusura (16:50–17:00)**
-- 16:50: chiedi a **un volontario** (meglio uno che ha usato la traccia, non il più veloce) di proiettare il suo report. Confronto con 311/10/6/4/25/291. Se qualcuno ha numeri diversi, è materiale prezioso: "Quale scelta avete fatto diversamente?"
+**Chiusura (16:46–16:58)**
+- 16:46: chiedi a **un volontario** (meglio uno che ha usato la traccia, non il più veloce) di proiettare il suo report. Confronto con 311/10/6/4/25/291. Se qualcuno ha numeri diversi, è materiale prezioso: "Quale scelta avete fatto diversamente?"
 - Se qualcuno ha fatto l'estensione 3 (`pulisci`), fagliela mostrare in 1 minuto: è il messaggio del giorno ("domani lo applicate al prossimo export").
 - Debrief (5'):
   - "Ogni scelta di pulizia è scritta nel codice e nel report: fra sei mesi la rifate identica."
@@ -904,7 +905,7 @@ Non sono il tuo campo: rispondi su ciò che è dati e codice, e rimanda il resto
 - Stamattina: dalla tabella a una **figura pronta per la sottomissione** (PDF vettoriale, larghezza di colonna, font e linee a norma, leggibile in b/n).
 - Oggi pomeriggio: la retta di taratura **con le incertezze**, fit non lineari, residui, t-test/ANOVA fatti bene (niente pseudo-repliche, niente caccia al p < 0.05).
 
-File: `sorgenti/05_G3_mattina_grafici_pubblicazione.py` (+ `materiali/figure_pubblicazione.py`, `materiali/personalizzazione_grafici.ipynb` = "la scheda") e `sorgenti/06_G3_pomeriggio_scipy_statistica.py`. I notebook non indicano tempi: quelli sotto sono una proposta.
+File: `sorgenti/05_G3_mattina_grafici_pubblicazione.py` (+ `materiali/figure_pubblicazione.py`, `materiali/personalizzazione_grafici.ipynb` = "la scheda") e `sorgenti/06_G3_pomeriggio_scipy_statistica.py`. I notebook non indicano tempi: quelli sotto sono costruiti sull'orario 10:00–13:00 e 14:00–17:00. Rispetto alla versione su 9:00–12:30: l'Es. 5.1 dura 12' (ha solo due buchi), l'Es. 5.3 è guidato, seaborn è una demo di 5'. Nel pomeriggio l'anomalo nascosto diventa un lavoro in coppia e l'Es. 6.1 parte prima della pausa, così la sala non resta 85' a guardare.
 
 ---
 
@@ -914,18 +915,19 @@ File: `sorgenti/05_G3_mattina_grafici_pubblicazione.py` (+ `materiali/figure_pub
 
 | orario | sezione | modalità | min |
 |---|---|---|---|
-| 9:00 | Apertura + § 0 cella di avvio, dati di oggi | discorso + esecuzione | 10 |
-| 9:10 | § 1 Anatomia (Figure/Axes, solo API a oggetti) | lezione + demo | 15 |
-| 9:25 | § 2 Tipi fondamentali + box plot con punti | demo | 20 |
-| 9:45 | **Es. 5.1** box plot taratura (liv. 1) | esercizio | 20 |
-| 10:05 | § 3 Barre d'errore (sd vs sem), `fill_between` | demo + discussione | 15 |
-| 10:20 | § 4 Personalizzazione + giro nella scheda + Okabe-Ito | demo | 20 |
-| 10:40 | *pausa* | | 15 |
-| 10:55 | **Es. 5.2** da grezza a pubblicabile (liv. 2) | esercizio | 30 |
-| 11:25 | § 5 Pannelli multipli, lettere (a)(b)(c) | demo | 10 |
-| 11:35 | § 6 Standard rivista: `stile_rivista`, `salva_figura`, `verifica_figura`, controllo in grigi | demo | 20 |
-| 11:55 | **Es. 5.3** figura multipannello PDF/TIF (liv. 3) | esercizio | 25 |
-| 12:20 | § 7 Seaborn (facoltativo) / Riepilogo | demo | 10 |
+| 10:00 | Apertura + § 0 cella di avvio, dati di oggi | discorso + esecuzione | 8 |
+| 10:08 | § 1 Anatomia (Figure/Axes, solo API a oggetti) | lezione + demo | 12 |
+| 10:20 | § 2 Tipi fondamentali + box plot con punti | demo | 18 |
+| 10:38 | **Es. 5.1** box plot taratura (liv. 1) | esercizio | 12 |
+| 10:50 | § 3 Barre d'errore (sd vs sem), `fill_between` | demo + discussione | 13 |
+| 11:03 | § 4 Personalizzazione + giro nella scheda + Okabe-Ito | demo | 15 |
+| 11:18 | *pausa* | | 15 |
+| 11:33 | **Es. 5.2** da grezza a pubblicabile (liv. 2) | esercizio | 30 |
+| 12:03 | § 5 Pannelli multipli: solo mostrare la figura 1×3 | demo | 5 |
+| 12:08 | § 6 Standard rivista: `stile_rivista`, `salva_figura`, `verifica_figura`, controllo in grigi | demo | 20 |
+| 12:28 | **Es. 5.3 guidato**: il pannello (a) lo fai tu dal vivo, loro fanno (b) e il salvataggio | esercizio | 22 |
+| 12:50 | § 7 Seaborn: esegui le due celle come esempio | demo | 5 |
+| 12:55 | Riepilogo | discorso | 5 |
 
 ### 2. Sezioni
 
@@ -957,7 +959,7 @@ File: `sorgenti/05_G3_mattina_grafici_pubblicazione.py` (+ `materiali/figure_pub
 **§ 3 Barre d'errore**
 - Cosa dire: "Una barra d'errore senza didascalia non significa niente: scrivete sempre se è sd, sem o IC, e n." "La sd descrive la dispersione dei dati; il sem descrive l'incertezza sulla media e si restringe con √n." "Con n = 3 il sem è piccolo e rassicurante: per mostrare la variabilità delle repliche usate la sd."
 - R: `geom_errorbar(aes(ymin=, ymax=))`, `geom_ribbon()` ≈ `fill_between`.
-- Demo live: i due pannelli sd vs sem con `sharey=True`; poi la banda ± 0.4 µA, dicendo chiaramente che è **finta**: la banda vera la calcoliamo **oggi pomeriggio** (il commento nel codice dice "domani": vedi "Da verificare").
+- Demo live: i due pannelli sd vs sem con `sharey=True`; poi la banda ± 0.4 µA, dicendo chiaramente che è **finta**: la banda vera la calcoliamo **oggi pomeriggio**.
 
 **§ 4 Personalizzazione**
 - Cosa dire: "Nessuno ricorda tutte queste opzioni: per questo c'è la scheda con 33 casi, ognuno con la riga che lo risolve." "La palette Okabe-Ito si imposta una volta in cima e vale per tutte le figure." "Colore + tratteggio diverso: la figura sopravvive alla stampa in b/n e a chi è daltonico (circa 1 uomo su 12)."
@@ -994,7 +996,7 @@ File: `sorgenti/05_G3_mattina_grafici_pubblicazione.py` (+ `materiali/figure_pub
 
 **Es. 5.3 (livello 3)** — due pannelli, doppia colonna Elsevier (`LARGHEZZE["elsevier_doppia"]` = 7.48 in = 19 cm), altezza `7 * CM`; (a) voltammogrammi distinguibili in b/n, (b) taratura con equazione; PDF + TIF a 600 dpi.
 - Errori tipici:
-  - `verifica_figura(fig)` come scritto nel testo → **"ATTENZIONE: larghezza oltre 7.0 in"**: il default è il limite ACS; per Elsevier passare `larghezza_max=7.5` (la soluzione lo fa). Avvisarli **prima**;
+  - `verifica_figura(fig)` senza argomenti → **"ATTENZIONE: larghezza oltre 7.0 in"**: il default è il limite ACS; il testo dell'esercizio ora indica `larghezza_max=7.5` (corretto il 14/11);
   - `figsize=(19, 7)` → figura di 19 *pollici*: serve `7 * CM` (e `LARGHEZZE` è già in pollici: non moltiplicarlo per `CM`);
   - `NameError: r2` (o `m`, `stat`, `x`) se hanno riavviato il kernel o chiamato diversamente l'R² in 5.2 → "Run all above";
   - dopo un riavvio senza rieseguire la cella di § 6 manca `stile_rivista()` → niente `constrained_layout`, etichette che si sovrappongono, font grandi;
@@ -1033,17 +1035,18 @@ File: `sorgenti/05_G3_mattina_grafici_pubblicazione.py` (+ `materiali/figure_pub
 
 | orario | sezione | modalità | min |
 |---|---|---|---|
-| 14:00 | § 0 avvio, aggancio alla mattina | esecuzione | 5 |
-| 14:05 | § 1 `linregress`, errori standard, IC 95 %, Anscombe | lezione + demo | 20 |
-| 14:25 | § 2 Bande di confidenza e predizione | lezione + demo | 20 |
-| 14:45 | Dimostrazione: report di regressione + anomalo nascosto | demo + discussione | 15 |
-| 15:00 | § 3 `curve_fit`: decadimento e sigmoide a 4 parametri | demo | 20 |
-| 15:20 | § 4 Residui | demo | 10 |
+| 14:00 | § 0 avvio + § 1 `linregress`, errori standard, IC 95 %, Anscombe | lezione + demo | 20 |
+| 14:20 | § 2 Bande di confidenza e predizione | lezione + demo | 15 |
+| 14:35 | Report di regressione + anomalo nascosto: **le tre domande in coppia**, poi discussione | lavoro in coppia | 15 |
+| 14:50 | § 3 `curve_fit`: solo la sigmoide a 4 parametri | demo | 12 |
+| 15:02 | § 4 Residui | demo | 8 |
+| 15:10 | **Es. 6.1 ridotto**: R² dei due modelli e figura dei residui | esercizio | 20 |
 | 15:30 | *pausa* | | 15 |
-| 15:45 | **Es. 6.1** sigmoide vs retta-log, residui (liv. 2) | esercizio | 25 |
-| 16:10 | § 5 Shapiro, t-test Welch, p-value, ANOVA + Tukey, confronti multipli | lezione + demo | 20 |
-| 16:30 | **Es. 6.2** Cu nelle tre matrici, fatto bene (liv. 2) | esercizio | 25 |
-| 16:55 | Riepilogo: tabella R ↔ Python | discorso | 5 |
+| 15:45 | Correzione dell'Es. 6.1 | discorso | 5 |
+| 15:50 | § 5 t-test Welch, p-value, ANOVA + Tukey, confronti multipli (Shapiro in una frase) | lezione + demo | 20 |
+| 16:10 | **Es. 6.2** Cu nelle tre matrici, fatto bene (liv. 2) | esercizio | 30 |
+| 16:40 | Correzione + riepilogo: tabella R ↔ Python | discorso | 10 |
+| 16:50 | Margine | | 10 |
 
 Il pomeriggio è pieno: parte del pubblico conosce già la statistica meglio di voi. Strategia: "La statistica la conoscete; oggi vediamo **come si scrive in Python** e **dove scipy si comporta diversamente da R**."
 
@@ -1185,8 +1188,8 @@ Frase onesta quando non sapete: *"Non sono uno statistico: so dirvi cosa calcola
 - Unità: nell'Es. 6.2 le concentrazioni di foglia/frutto/suolo sono in µg/L. Un chimico potrebbe obiettare che per un solido si usa mg/kg: risposta onesta "sono dati sintetici; si immagina la misura sull'estratto/digerito".
 
 ### Da verificare prima del corso (non corretti, solo segnalati)
-1. `sorgenti/05_G3_mattina_grafici_pubblicazione.py:190` — il commento dice "domani calcoleremo la banda vera", ma le bande vere sono nel nb 06 **dello stesso pomeriggio** (lo conferma la riga 451). A voce: "oggi pomeriggio".
-2. `sorgenti/05_G3_mattina_grafici_pubblicazione.py:368-369` — il testo dell'Es. 5.3 dice di chiamare `verifica_figura(fig)` con la larghezza doppia Elsevier (7.48 in), che supera il default `larghezza_max=7.0` (`materiali/figure_pubblicazione.py:208`) → tutti vedono "ATTENZIONE: larghezza oltre 7.0 in". La soluzione (riga 394) usa `larghezza_max=7.5`. Avvisare gli studenti.
+1. *(Risolto il 14/11.)* Il commento nel nb 05 ora dice "oggi pomeriggio calcoleremo la banda vera".
+2. *(Risolto il 14/11.)* Il testo dell'Es. 5.3 ora chiede `verifica_figura(fig, larghezza_max=7.5)`, come la soluzione.
 3. `sorgenti/05_G3_mattina_grafici_pubblicazione.py:301` vs `materiali/figure_pubblicazione.py:208` — "Font ≥ 6-8 pt" nel testo, ma `verifica_figura` segnala solo sotto 4.5 pt: un testo a 5 pt passa il controllo pur essendo fuori norma per Elsevier.
 4. `sorgenti/06_G3_pomeriggio_scipy_statistica.py:242` — "tempo di dimezzamento = τ·ln2" è il dimezzamento della **parte sopra il plateau**, non il tempo in cui la concentrazione residua passa dal valore iniziale (~90.8 %) alla metà (che, con plateau 10.5 %, è più lungo). Inoltre `C0` (riga 234) è l'ampiezza, non la concentrazione iniziale. Precisarlo a voce se un chimico lo chiede.
 5. `sorgenti/06_G3_pomeriggio_scipy_statistica.py:103-104` — "dove sta la retta vera … con il 95 % di probabilità": formulazione semplificata (IC frequentista, banda puntuale e non simultanea). Va bene per la classe; uno statistico può obiettare → risposta nel glossario.
@@ -1212,17 +1215,21 @@ Numeri citati sotto = output reali della versione `docente/` (scikit-learn 1.9.0
 
 ### Scaletta con orari
 
+Orario del corso: 10:00–13:00 e 14:00–17:00. La mattina ha un margine di 8'; il pomeriggio non ne ha.
+
 | Orario | Sezione | Note |
 |---|---|---|
-| 9:00–9:10 | Apertura, cella di avvio | controllare che tutti stampino `scikit-learn 1.x` |
-| 9:10–9:25 | §1 Flusso di lavoro, dataset `sensori_matrice.csv` | schema `workflow_ml.png` |
-| 9:25–9:45 | §2 `X`/`y`, mancanti, `SimpleImputer` | |
-| 9:45–10:30 | §3 richiamo NumPy (`axis`, broadcasting), `StandardScaler`, `fit`/`transform`, demo senza scaling | sezione più "lenta" per i principianti |
-| 10:30–10:45 | Pausa | |
-| 10:45–11:25 | §4 PCA: varianza spiegata, scores, loadings, biplot | il cuore della mattina |
-| 11:25–11:50 | Esercizio 7.1 (PCA sulle sole correnti) | |
-| 11:50–12:15 | §5 k-means (+ gerarchico, facoltativo) | |
-| 12:15–12:30 | Es. 7.2 (facoltativo, meglio come demo) + riepilogo | ponte verso il progetto finale |
+| 10:00–10:15 | Apertura, cella di avvio, §1 Flusso di lavoro, dataset `sensori_matrice.csv` | controllare che tutti stampino `scikit-learn 1.x`; schema `workflow_ml.png` |
+| 10:15–10:30 | §2 `X`/`y`, mancanti, `SimpleImputer` | |
+| 10:30–10:42 | §3 richiamo NumPy (`axis`, broadcasting) | **prova loro**: cambiare `axis=0` in `axis=1` e prevedere la forma |
+| 10:42–11:02 | §3 `StandardScaler`, `fit`/`transform`, demo senza scaling | |
+| 11:02–11:17 | Pausa | |
+| 11:17–11:52 | §4 PCA: varianza spiegata, scores, loadings (biplot: una frase) | il cuore della mattina |
+| 11:52–12:17 | Esercizio 7.1 (PCA sulle sole correnti) | |
+| 12:17–12:37 | §5 k-means: tabella incrociata e ARI | gerarchico fuori scaletta |
+| 12:37–12:45 | Es. 7.2 come demo | ponte verso il progetto finale |
+| 12:45–12:52 | Riepilogo | |
+| 12:52–13:00 | Margine | |
 
 ### §1 Flusso di lavoro
 
@@ -1283,7 +1290,7 @@ Numeri citati sotto = output reali della versione `docente/` (scikit-learn 1.9.0
 - Gomito e silhouette: "Sono indizi, non verdetti. Il k 'giusto' secondo la silhouette non è detto che sia 3."
 - R: `kmeans(x, centers = 3, nstart = 10)` ≈ `KMeans(n_clusters=3, n_init=10)`; `hclust(dist(x), method = "ward.D2")` ≈ `linkage(..., "ward")`.
 
-**Demo live**: gomito/silhouette, crosstab, ARI. Gerarchico (facoltativo): mostrare il dendrogramma con le foglie colorate e saltare se sono le 12:10 passate.
+**Demo live**: gomito/silhouette, crosstab, ARI. Gerarchico (facoltativo): mostrare il dendrogramma con le foglie colorate e nella scaletta 10–13 è fuori: mostrarlo solo se alle 12:30 il k-means è già finito.
 
 ### Esercizio 7.2 (facoltativo) — ponte verso il progetto
 
@@ -1294,7 +1301,7 @@ Numeri citati sotto = output reali della versione `docente/` (scikit-learn 1.9.0
 - Errori tipici (se lo fanno da soli): `____` di `D[____ & ~stesso_camp]` riempito con `stesso_camp` (dà array vuoto → `nan`); passare `dr` intero allo scaler (colonne `campione`/`classe` di testo → `ValueError`).
 - Non dire ancora da dove viene il dataset (vedi sezione dedicata).
 
-### Riepilogo mattina (12:20–12:30)
+### Riepilogo mattina (12:45–12:52)
 - Far leggere i 7 punti del riepilogo; insistere sul 7: "Una PCA che separa bene non è una prova."
 
 ---
@@ -1303,20 +1310,22 @@ Numeri citati sotto = output reali della versione `docente/` (scikit-learn 1.9.0
 
 ### Scaletta con orari
 
+Orario del corso: 10:00–13:00 e 14:00–17:00. La mattina ha un margine di 8'; il pomeriggio non ne ha.
+
 | Orario | Sezione | Note |
 |---|---|---|
-| 14:00–14:10 | §1 Supervisionato, random forest in due paragrafi | |
-| 14:10–14:30 | §2 Train/test, 10 semi | |
-| 14:30–14:50 | §3 k-fold + Esercizio 8.1 (5') | |
-| 14:50–15:20 | §4 **Overfitting dal vivo** su rumore puro | non tagliare mai |
-| 15:20–15:30 | §5 Metriche e matrice di confusione | |
-| 15:30–15:40 | §6 Pipeline + importanza per impurità (il resto è facoltativo) | |
-| 15:40–15:50 | Pausa | spostarla se serve, ma prima del progetto |
-| 15:50–16:40 | §7 **Progetto finale** (lancio 5' + lavoro 45') | checkpoint 16:05, 16:20, 16:35 |
-| 16:40–16:45 | Debrief del progetto | vedi sezione "Come presentare" |
+| 14:00–14:08 | §1 Supervisionato, random forest in due paragrafi | |
+| 14:08–14:26 | §2 Train/test, 10 semi | |
+| 14:26–14:46 | §3 k-fold + Esercizio 8.1 (5') | |
+| 14:46–15:16 | §4 **Overfitting dal vivo** su rumore puro | non tagliare mai; al passo 3 chiedi alla sala, in coppia, dov'è l'errore prima di spiegarlo |
+| 15:16–15:31 | Pausa | |
+| 15:31–15:39 | §5 Metriche e matrice di confusione | |
+| 15:39–15:47 | §6 Pipeline + importanza per impurità (il resto è facoltativo) | |
+| 15:47–16:37 | §7 **Progetto finale** (lancio 5' + lavoro 45') | checkpoint 16:07, 16:22, 16:32; punto 5 solo proiettato |
+| 16:37–16:45 | Debrief del progetto | vedi sezione "Come presentare" |
 | 16:45–17:00 | §8 Chiusura del corso | |
 
-Regola della nota docente nel notebook: **se alle 15:30 la §4 non è finita, si va dritti al progetto** (la §5 si recupera a voce al punto 4 del progetto). In quel caso la pausa va alle 15:30.
+Regola della nota docente nel notebook, adattata all'orario: **se alla pausa delle 15:16 la §4 non è finita, la si chiude dopo la pausa e si va dritti al progetto** (la §5 si recupera a voce al punto 4 del progetto).
 
 ### §1 Supervisionato e random forest
 
@@ -1393,9 +1402,9 @@ Preparazione: eseguire la cella del permutation test **prima** di arrivarci se l
 - Lavoro da soli o in coppia, a scelta. Chi vuole la sfida cancella la traccia.
 
 **Checkpoint**
-- **+15' (16:05)**: tutti hanno `(108, 45)`, 0 mancanti, 12/12/12 campioni, `[3]` repliche. Giro tra i banchi: chi ha incluso `replica` o `campione` in `X`?
-- **+30' (16:20)**: tutti hanno le due CV. Dire ad alta voce: "Chi ha due numeri molto diversi? Bene, è quello che deve succedere." (senza gruppi 0.645 ± 0.146; per campione 0.437 ± 0.093; caso 0.33).
-- **+45' (16:35)**: stop al codice, 5' per la conclusione in Markdown (punto 6). Il punto 5 (permutazioni) solo per chi è avanti, o lo si mostra proiettato dalla versione docente.
+- **+15' (16:07)**: tutti hanno `(108, 45)`, 0 mancanti, 12/12/12 campioni, `[3]` repliche. Giro tra i banchi: chi ha incluso `replica` o `campione` in `X`?
+- **+30' (16:22)**: tutti hanno le due CV. Dire ad alta voce: "Chi ha due numeri molto diversi? Bene, è quello che deve succedere." (senza gruppi 0.645 ± 0.146; per campione 0.437 ± 0.093; caso 0.33).
+- **+40' (16:32)**: stop al codice, 5' per la conclusione in Markdown (punto 6). Il punto 5 (permutazioni) solo per chi è avanti, o lo si mostra proiettato dalla versione docente.
 
 **Errori tipici e aiuti**
 - `startswith("feature")` dimenticato → in `X` entra `campione` (testo → `ValueError: could not convert string to float`) o `replica` (0/1/2, nessun errore ma variabile spuria). Aiuto: "Stampate `Xp.columns[:5]`."
@@ -1405,7 +1414,7 @@ Preparazione: eseguire la cella del permutation test **prima** di arrivarci se l
 - Scaler dimenticato nella PCA (`("scaler", ____)`) → PCA dominata da una feature (scale fino a migliaia). Aiuto: "Rileggete la sezione 3 di stamattina."
 - Lentezza al punto 5: dire subito `n=20`.
 
-**Debrief (16:40–16:45)**: vedi sezione successiva. Proiettare la soluzione docente con il grafico del punto 5 (due istogrammi): "La CV senza gruppi arriva a 0.62 **anche con le classi mescolate**: quel numero misura quanto si somigliano le repliche, non le classi."
+**Debrief (16:37–16:45)**: vedi sezione successiva. Proiettare la soluzione docente con il grafico del punto 5 (due istogrammi): "La CV senza gruppi arriva a 0.62 **anche con le classi mescolate**: quel numero misura quanto si somigliano le repliche, non le classi."
 
 ---
 
@@ -1414,7 +1423,7 @@ Preparazione: eseguire la cella del permutation test **prima** di arrivarci se l
 **Prima del giorno 4 (entro il giorno 2-3, in privato, 10 minuti)**
 - Parlare con la persona che ha fornito i dati. Punti da concordare:
   - **Se e come** citare la provenienza: (a) la persona lo dice lei stessa, (b) "un dataset pilota reale, trasformato e anonimizzato, gentilmente fornito da un collega" senza nome, (c) nessuna menzione. Default se non c'è accordo: (c).
-  - Mostrarle **prima** il risultato (0.44 per campione, p ≈ 0.25; 0.65 ignorando le repliche) così non lo scopre davanti a 20 persone. Nota: il README e il notebook studenti contengono già questi numeri (vedi "Da verificare"), quindi potrebbe averli già letti.
+  - Mostrarle **prima** il risultato (0.44 per campione, p ≈ 0.25; 0.65 ignorando le repliche) così non lo scopre davanti a 20 persone. Nota: dal 14/11 il README e la conclusione d'esempio non contengono più questi numeri; restano negli "Output attesi" del progetto nel notebook studenti del giorno 4, che servono per controllare il codice.
   - Chiedere se vuole intervenire nel debrief (es. "quali variabili ci aspettavamo che contassero").
   - Se la sua analisi originale usava una CV per riga: "È il default di quasi tutti i tutorial e di molti software; succede a chiunque. Se ti va, dopo il corso la riguardiamo insieme." Non chiederlo in pubblico, non insistere.
   - Rassicurare: i numeri sono trasformati colonna per colonna, nomi anonimi; non esistono in aula valori riconducibili alle misure originali. Non citare mai dominio, variabili, laboratorio, né valori originali (il docente stesso non li proietta né li nomina).
@@ -1478,12 +1487,12 @@ Mattina:
 2. Biplot (§4): basta dire "esiste, è nel notebook".
 3. Gomito/silhouette di k-means: mostrare solo crosstab + ARI.
 4. Esercizio 7.1 ridotto a 10' (solo scores, niente loadings) o fatto come demo.
-5. Esercizio 7.2: da tenere come demo di 5' se possibile; tagliarlo solo se si è oltre le 12:25.
+5. Esercizio 7.2: da tenere come demo di 5' se possibile; tagliarlo solo se si è oltre le 12:50.
 
 Pomeriggio:
 1. §6: importanza per permutazione, box plot, "campione nuovo" (facoltativi).
 2. §6 intera (solo una frase sulla Pipeline).
-3. §5 metriche: recuperarla a voce al punto 4 del progetto (regola delle 15:30).
+3. §5 metriche: recuperarla a voce al punto 4 del progetto (regola della pausa delle 15:16).
 4. Esercizio 8.1 come demo (2').
 5. Progetto: punto 5 (permutazioni) solo proiettato; punto 2 (PCA) facoltativo.
 6. Chiusura: tagliare la discussione Python/R, mai il riepilogo e il feedback.
@@ -1517,7 +1526,6 @@ Pomeriggio:
 - **Semi casuali**: chi cambia `random_state` o omette un seme vede numeri diversi dall'"Output atteso". Dirlo prima: "Se il vostro numero differisce alla seconda cifra decimale, va bene; conta il confronto." Con Miniforge le ultime cifre possono differire (README).
 - `n_jobs=-1` su Windows può dare avvisi di joblib o rallentare per l'overhead dei processi: se un portatile si blocca, `n_jobs=1`.
 - Accuratezza **test = 1.000** al primo split di §2: rischio che passi il messaggio "il modello è perfetto". Arrivare subito alla cella dei 10 semi.
-- §3 cita *leave-one-out* come "spesso l'unica scelta" con 20-30 campioni, mentre §4 usa k-fold ripetuta su 30 campioni: preparare la risposta (sopra) se qualcuno nota la contraddizione.
 - Varianza 1.02 dopo lo scaler (§3): anticiparla, sembra un errore.
 - Leakage "lieve" (imputer/scaler fuori pipeline) vs "grave" (selezione con le etichette): non drammatizzare il primo, sennò i principianti concludono che la mattina era tutta sbagliata. Frase: "Stamattina non c'era un test da proteggere."
 - L'estensione 1 del progetto (media delle repliche + CV normale) è corretta; chi invece fa la media **dopo** aver standardizzato su tutto non sbaglia in modo grave: non fermarsi su questo.
@@ -1529,9 +1537,9 @@ Pomeriggio:
 
 ## Da verificare prima del corso
 
-- **`README.md:92` (incluso in `dist/corso_python_CNR_partecipanti.zip`)** e **`sorgenti/08_G4_pomeriggio_random_forest_validazione.py:492-545`** (non marcati `solo-docente`, quindi presenti nel notebook studenti, oltre agli "Output attesi" del progetto): il risultato del progetto (0.44 ± 0.09, p ≈ 0.25, 0.65 senza gruppi) e la conclusione di esempio sono già leggibili dai partecipanti, inclusa la persona che ha fornito i dati, prima del giorno 4. Verificare che sia voluto (spoiler del progetto + aspetto sensibile) e tenerne conto nel colloquio privato.
-- **`sorgenti/07_G4_mattina_preprocessing_PCA.py:340`**: il suggerimento `X_c.sub(X_c.mean(axis=1), axis=0)` applica il centering per riga a `X_c` già **standardizzato per colonna**, mentre la soluzione di C7.1 (`:511-513`) centra le correnti grezze e poi standardizza. Ordine diverso, risultati diversi: seguendo il suggerimento si ottiene ARI ≈ 0.95 (verificato) invece dell'output atteso di C7.1 (ARI 0.86). Nessuna delle due è sbagliata, ma lo studente penserà di aver sbagliato.
-- **`sorgenti/08_G4_pomeriggio_random_forest_validazione.py:134-135`**: "leave-one-out … con 20-30 campioni è spesso l'unica scelta" è discutibile (alta varianza, niente stratificazione) e in contrasto con l'uso di `RepeatedStratifiedKFold` su n = 30 in §4 (`:205`). Non è un bug, ma conviene avere pronta la sfumatura a voce.
+- *(Risolto il 14/11.)* Il risultato del progetto è stato tolto dal `README.md` e la conclusione d'esempio è ora solo nella versione docente. Gli "Output attesi" del progetto nel notebook studenti contengono ancora i numeri (0.44, 0.65, p): servono ai partecipanti per controllare il codice. Tenerne conto nel colloquio privato.
+- *(Risolto il 14/11.)* Il suggerimento per C7.1 nel nb 07 non indica più il centering su `X_c` già standardizzato: ora dice di centrare le correnti non standardizzate, come la soluzione (ARI 0.86).
+- *(Risolto il 14/11.)* Il testo sul leave-one-out nel nb 08 ora dice che con 20-30 campioni di solito conviene una k-fold ripetuta, in accordo con la §4.
 - **`sorgenti/08_G4_pomeriggio_random_forest_validazione.py:241` e `:517`** (`n_jobs=-1`): verificare i tempi su un portatile tipo dei partecipanti (Windows) prima del giorno 4.
 
 

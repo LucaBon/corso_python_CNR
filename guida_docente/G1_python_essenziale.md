@@ -4,13 +4,15 @@
 
 Notebook: `studenti/01_G1_mattina_python_essenziale.ipynb` (mattina), `studenti/02_G1_pomeriggio_funzioni_file_numpy.ipynb` (pomeriggio).
 Sorgenti con le soluzioni: `sorgenti/01_G1_...py`, `sorgenti/02_G1_...py`. Proietta solo i notebook di `studenti/`, mai quelli di `docente/`.
-I notebook non danno orari, a parte "Prova tu (2')" nel §1 della mattina: gli orari qui sotto sono una proposta su 9:00–12:30 e 14:00–17:00.
+I notebook non danno orari, a parte "Prova tu (2')" nel §1 della mattina: gli orari qui sotto sono costruiti sull'orario del corso, 10:00–13:00 e 14:00–17:00 (165' netti per mezza giornata, con 15' di pausa).
 
 Obiettivo da ripetere a fine giornata: *"Oggi avete scritto uno script che apre 12 file di uno strumento, estrae un numero da ciascuno e salva una tabella. Domani la apriamo con pandas in una riga."*
 
 ---
 
-## Primi 15 minuti del corso (9:00–9:15)
+## Primi 20 minuti del corso (10:00–10:20)
+
+Chi non ha mandato l'output di `verifica_ambiente.py` può arrivare alle 9:30: sei già in aula per la preparazione.
 
 **Prima che entrino**: JupyterLab aperto sul tuo portatile in `studenti/`, font grande (Ctrl/Cmd +), tema chiaro. Il notebook 01 già aperto, kernel pulito. La chiavetta USB con lo zip pronta.
 
@@ -35,29 +37,33 @@ Obiettivo da ripetere a fine giornata: *"Oggi avete scritto uno script che apre 
 
 ---
 
-# MATTINA (9:00–12:30): Python essenziale
+# MATTINA (10:00–13:00): Python essenziale
 
 ## 1. Scaletta
 
 | orario | sezione del notebook | modalità | min |
 |---|---|---|---|
-| 9:00 | Primi 15 minuti (vedi sopra) | spiego | 15 |
-| 9:15 | Benvenuti: "Cosa NON faremo", "Python o R?" | spiego | 15 |
-| 9:30 | §0 Cella di avvio + §1 JupyterLab (+ "Prova tu" 2') | demo live | 15 |
-| 9:45 | §2 Variabili e tipi, conversioni, f-string | demo live | 20 |
-| 10:05 | Esercizio 1.1 | esercizio | 10 |
-| 10:15 | §3 Liste, slicing, tuple | demo live | 15 |
-| 10:30 | Esercizio 1.2 | esercizio | 15 |
-| 10:45 | Pausa | | 15 |
-| 11:00 | §4 Dizionari | demo live | 10 |
-| 11:10 | §5 prime tre celle (`for`, `for` + `if`, filtro con `append`) | demo live | 10 |
-| 11:20 | Esercizio 1.3 (torna su al §4) | esercizio | 10 |
-| 11:30 | §5 Confronti, `range` / `enumerate` / `zip` | demo live | 15 |
-| 11:45 | Esercizio 1.4 | esercizio | 20 |
-| 12:05 | §6 List comprehension + Esercizio 1.5 | demo + esercizio | 15 |
-| 12:20 | Riepilogo + "Trappole per chi viene da R" | spiego | 10 |
+| 10:00 | Primi 20 minuti (vedi sopra) | spiego | 20 |
+| 10:20 | Benvenuti: "Cosa NON faremo", "Python o R?" (due frasi ciascuno) | spiego | 8 |
+| 10:28 | §0 Cella di avvio + §1 JupyterLab (+ "Prova tu" 2') | demo live | 15 |
+| 10:43 | §2 Variabili e tipi, conversioni, f-string | demo live | 20 |
+| 11:03 | Esercizio 1.1 | esercizio | 10 |
+| 11:13 | §3 Liste, slicing (tuple: una frase) | demo live | 12 |
+| 11:25 | Pausa | | 15 |
+| 11:40 | Esercizio 1.2 | esercizio | 15 |
+| 11:55 | §4 Dizionari | demo live | 8 |
+| 12:03 | §5 prime tre celle (`for`, `for` + `if`, filtro con `append`) + accumulatore dal vivo | demo live | 10 |
+| 12:13 | Esercizio 1.3 | esercizio | 8 |
+| 12:21 | §5 Confronti, `range` / `enumerate` / `zip` | demo live | 12 |
+| 12:33 | Esercizio 1.4 | esercizio | 17 |
+| 12:50 | §6 List comprehension: solo demo, l'esercizio 1.5 lo fai tu dal vivo | demo live | 5 |
+| 12:55 | Riepilogo: i tre errori della settimana | spiego | 5 |
 
-Nota: l'esercizio 1.3 (nel §4) usa `for`/`if`, che il notebook introduce solo nel §5. Per questo la scaletta mostra prima le tre celle del §5 e poi torna a 1.3. In alternativa fai 1.3 insieme, alla lavagna, come anteprima del `for`.
+Note:
+- L'esercizio 1.3 ora sta nel §5, dopo le prime tre celle su `for` e `if` (spostato nei sorgenti il 14/11).
+- Prima dell'esercizio 1.4 mostra dal vivo lo schema dell'accumulatore, che nessuna demo contiene: `n = 0`, poi `for c in correnti:` / `if c > soglia:` / `n = n + 1`. L'esercizio 1.4 chiede lo stesso schema per la somma.
+- Il notebook 01 non ha estensioni facoltative: chi finisce presto (utenti R, Perl/PHP) fa C1.1 e C1.2 in fondo al notebook.
+- Rispetto alla versione su 9:00–12:30 sono compressi: Benvenuti, tuple, comprehension (l'esercizio 1.5 diventa demo) e riepilogo.
 
 ## 2. Sezioni
 
@@ -199,15 +205,17 @@ Nel notebook della mattina non ci sono blocchi marcati *Facoltativo*. Gli eserci
 |---|---|---|---|
 | 14:00 | §0 Cella di avvio + §1 Funzioni (default, più valori di ritorno) | demo live | 20 |
 | 14:20 | Esercizio 2.1 | esercizio | 10 |
-| 14:30 | §2 Import e librerie | demo live | 10 |
-| 14:40 | §3 Traceback, i 6 errori, `try`/`except` | demo live | 15 |
-| 14:55 | Esercizio 2.2 Caccia al bug | esercizio | 20 |
-| 15:15 | §4 `pathlib`, `read_text`, metodi delle stringhe | demo live | 15 |
-| 15:30 | Pausa | | 15 |
-| 15:45 | Esercizio 2.3 (**facoltativo**) | esercizio | 15 |
-| 16:00 | §5 NumPy: array, `loadtxt`, primo grafico, maschere, NaN | demo live | 25 |
-| 16:25 | §6 Picco netto + Esercizio 2.4 | demo + esercizio | 25 |
-| 16:50 | Grafico di controllo sulla tabella + Riepilogo del giorno 1 | demo live | 10 |
+| 14:30 | §2 Import e librerie | demo live | 8 |
+| 14:38 | §3 Traceback, i 6 errori, `try`/`except` | demo live | 15 |
+| 14:53 | Esercizio 2.2 Caccia al bug | esercizio | 20 |
+| 15:13 | §4 `pathlib`, `read_text`, metodi delle stringhe | demo live | 15 |
+| 15:28 | Pausa | | 15 |
+| 15:43 | `leggi_dpv`: spieghi tu la versione pronta (Esercizio 2.3 per casa) | demo live | 7 |
+| 15:50 | §5 NumPy: array, `loadtxt`, primo grafico, maschere, NaN | demo live | 25 |
+| 16:15 | §6 Picco netto | demo live | 8 |
+| 16:23 | Esercizio 2.4 | esercizio | 22 |
+| 16:45 | Grafico di controllo sulla tabella + Riepilogo del giorno 1 | demo live | 10 |
+| 16:55 | Margine | | 5 |
 
 ## 2. Sezioni
 
@@ -269,6 +277,7 @@ Nel notebook della mattina non ci sono blocchi marcati *Facoltativo*. Gli eserci
 - Box "E `with open`?": leggilo in 30 secondi. "Lo incontrerete nel codice degli altri; noi usiamo `read_text`."
 
 ### Esercizio 2.3 (facoltativo): `leggi_dpv`
+- **Nella scaletta 10–13/14–17 è per casa**: mostra tu la versione pronta (la cella prima dell'esercizio 2.4) e spiegala in 7 minuti. Di' una frase su `elif` ("altrimenti, se") e `continue` ("salta al giro successivo"): compaiono qui per la prima volta. Quanto segue vale se decidi di farlo fare in aula (conta 25', non 15').
 - Livello 2. Lo studente trova lo scheletro della funzione con i commenti-guida. Chi lo salta ha la versione pronta prima di 2.4. Output: il dizionario dei metadati, `161 punti; primo: -0.6 0.8094 ; ultimo: 0.2 1.0901`, `corrente massima: 1.3289`.
 - Errori tipici:
   - Non saltare `E(V)\ti(uA)` dà `ValueError: could not convert string to float: 'E(V)'`.
@@ -342,15 +351,15 @@ Taglia in quest'ordine:
 - **Colab**: il notebook va caricato con *File → Carica notebook*. Se lo zip non è stato scompattato in `/content`, la cella di avvio dà `FileNotFoundError: Cartella 'dati' non trovata`. Su Colab `pd.__version__` (§2) stampa 2.x: è normale.
 - **Ordine di esecuzione**: se uno studente riesegue la cella 2.3 *dopo* `np.loadtxt`, `E` e `i` tornano liste e `i.min()` fallisce. Rimedio: rieseguire la cella `loadtxt`.
 - **Nomi riusati**: `i`, `E`, `meta`, `file`, `misure`, `metadati` vengono ridefiniti più volte. Dopo il ciclo 2.4, `E` e `i` sono quelli di S12.
-- **Il segno meno tipografico `−`** nel markdown (02: righe 408, 463, 486, 557). Copiandolo nel codice: `SyntaxError: invalid character '−' (U+2212)`.
+- **Il segno meno tipografico `−`** nel markdown del notebook 02 è stato sostituito con `-` (14/11). Se qualcuno lo copia da altre fonti: `SyntaxError: invalid character '−' (U+2212)`.
 - **Windows**: `read_text`/`write_text` hanno `encoding="utf-8"` esplicito, quindi non ci sono problemi. Se qualcuno scrive il proprio codice senza encoding e mette `µ` nel CSV, su Windows può comparire testo illeggibile. Dì: "indicate sempre l'encoding".
 - `np.loadtxt(file, skiprows=9)` funziona per S01–S12 (header di 7 righe). Il file S13 ha 6 righe di header (manca "Scan rate"), ma il notebook non lo legge mai con `loadtxt`.
 
 ---
 
 ## Da verificare prima del corso
-1. **`sorgenti/01_G1_mattina_python_essenziale.py:296-311`**: l'esercizio 1.3 (§4) usa `for`/`if`/`else` prima che vengano introdotti nel §5 (riga 315). Lo scaffold `#>` dà la struttura, ma i principianti non l'hanno ancora vista. Decidi se cambiare l'ordine in aula (come nella scaletta sopra) o presentarlo come anteprima.
-2. **`sorgenti/02_G1_pomeriggio_funzioni_file_numpy.py:463, 486, 557`**: soglie scritte con `−` (U+2212) nel testo. Non è un bug del codice, ma è una trappola di copia-incolla per l'esercizio 2.4.
+1. *(Risolto il 14/11.)* L'esercizio 1.3 è stato spostato nel §5, dopo le prime tre celle su `for` e `if`.
+2. *(Risolto il 14/11.)* Le soglie nel testo del notebook 02 ora usano il trattino normale `-`: copiarle nel codice non dà più `SyntaxError`.
 3. **`sorgenti/02_G1_pomeriggio_funzioni_file_numpy.py:473`**: "circa 0.13 µA" come sovrastima costante. Dall'estensione 3 risulta 0.119 per S01 e 0.134 per S08. Va bene come "circa", ma se qualcuno fa il conto, ti conviene dire "0.12–0.13".
 4. **Zip dei partecipanti (`dist/corso_python_CNR_partecipanti.zip`)**: contiene la cartella `corso_python_CNR/`. Le istruzioni chiedono di scompattarlo "nello stesso posto" della cartella di installazione, ma su Windows "Estrai tutto" propone una sottocartella. Prepara una frase precisa da dire o da scrivere alla lavagna (es. "estraete in Documenti, non in Documenti\corso_python_CNR_partecipanti").
 5. Fai girare su Colab, almeno una volta, i due notebook `studenti/` del giorno 1 con lo zip dei partecipanti, per controllare che la cella di avvio trovi `corso_python_CNR/dati` dopo `!unzip`.
