@@ -155,6 +155,8 @@ Il pomeriggio è pieno: parte del pubblico conosce già la statistica meglio di 
 - R: `summary(lm(i_uA ~ conc_uM))` → stessi numeri (m = 0.4195 ± 0.0023, q = 0.1428 ± 0.0514); `confint()` → stessi IC.
 - Demo live: output atteso → intercetta 0.14 µA, IC [0.03, 0.25] → **non** compatibile con zero. Domanda alla sala: "Cosa può voler dire in laboratorio?" (segnale del bianco, corrente di fondo, contaminazione).
 - Anscombe: quattro dataset, stessa retta e R² = 0.67. "L'R² non dice se il modello è giusto. Lo dicono il grafico e i residui."
+  - **Come presentarlo**: è un esempio classico, chi fa statistica lo conosce. Presentalo come promemoria, non come scoperta ("molti di voi lo conoscono, lo uso solo come promemoria"), **2 minuti**, poi avanti. Il tempo va al codice e alla dimostrazione dell'anomalo nascosto.
+  - Coinvolgi chi usa R invece di spiegargli cose note: "Chi usa R, come ottenete l'intervallo di predizione?" (risposta attesa: `predict(fit, newdata, interval = "prediction")`), poi mostra l'equivalente in Python nel § 2.
 
 **§ 2 Bande di confidenza e predizione**
 - Cosa dire: "Confidenza: dove sta la *retta* (la media di y a quella x). Si stringe aumentando i punti." "Predizione: dove cadrà la *prossima singola misura*. Contiene anche il rumore della misura, quindi non scende mai sotto ±t·s(y/x)." "Entrambe sono più strette al centro dei dati (x̄) e si allargano agli estremi: estrapolare costa."
