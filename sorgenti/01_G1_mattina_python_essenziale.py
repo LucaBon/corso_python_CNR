@@ -168,11 +168,14 @@ print(str(42) + " campioni")   # per attaccare testo e numeri serve che siano en
 #
 # Mettete una `f` prima delle virgolette e le variabili tra graffe. Dopo i due punti si
 # specifica il formato: `.2f` = due decimali, `.3g` = tre cifre significative, `.1%` = percentuale.
+# Un numero prima del tipo è la larghezza della colonna: `:5d` = intero in 5 caratteri, `:>5` allinea
+# a destra, `:<5` a sinistra. Serve solo a incolonnare le righe (lo rivedrete nel report del giorno 2).
 
 # %%
 print(f"Campione {analita}: {conc} µg/L in {volume_mL} mL")
 print(f"Massa: {massa_ug:.3f} µg")
 print(f"Concentrazione: {conc:.3g} µg/L, recupero {0.8734:.1%}")
+print(f"|{42:5d}|{42:<5d}|{42:^5d}|")        # larghezza 5: a destra, a sinistra, centrato
 
 # %% [markdown]
 # ### Esercizio 1.1: riscaldamento con le conversioni (livello 1)
