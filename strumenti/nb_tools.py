@@ -146,6 +146,35 @@ def esegui(nb, cwd):
                             resources={"metadata": {"path": str(cwd)}},
                             allow_errors=False)
     client.execute()
+    return anonimizza_percorsi(nb)
+
+
+def anonimizza_percorsi(nb):
+    """Toglie dagli output il percorso locale della macchina che ha eseguito il build
+    (es. /home/<utente>/...): resta solo '.../corso_python_CNR/...'."""
+    privati = sorted({str(RADICE.parent), str(Path.home())}, key=len, reverse=True)
+
+    def pulisci(testo):
+        for p in privati:
+            testo = testo.replace(p, "...")
+        return testo
+
+    def pulisci_valore(v):
+        if isinstance(v, str):
+            return pulisci(v)
+        if isinstance(v, list):
+            return [pulisci_valore(x) for x in v]
+        return v
+
+    for cell in nb.cells:
+        for out in cell.get("outputs", []):
+            if "text" in out:
+                out["text"] = pulisci_valore(out["text"])
+            if "traceback" in out:
+                out["traceback"] = pulisci_valore(out["traceback"])
+            for mime, val in out.get("data", {}).items():
+                if mime.startswith("text/") or mime.endswith("json"):
+                    out["data"][mime] = pulisci_valore(val)
     return nb
 
 
@@ -244,7 +273,8 @@ def build(filtro="", esegui_nb=True):
         print(f"   {len(nb.cells)} celle, {n_es} celle-esercizio con soluzione")
 
 
-ESCLUSI_SEMPRE = {".venv", "dist", "__pycache__", ".ipynb_checkpoints", ".omc", ".git", ".claude"}
+ESCLUSI_SEMPRE = {".venv", "dist", "__pycache__", ".ipynb_checkpoints", ".omc", ".git", ".claude",
+                  ".jupyter", ".jupyter_ystore.db"}   # stato locale di JupyterLab (collaborazione)
 
 
 def _da_includere(rel, per_studenti):

@@ -3,6 +3,8 @@
 __pycache__/
 .ipynb_checkpoints/
 .omc/
+.jupyter/
+.jupyter_ystore.db
 
 # pacchetti da distribuire (si rigenerano con: python strumenti/nb_tools.py pacchetto)
 dist/
