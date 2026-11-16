@@ -151,13 +151,15 @@ def esegui(nb, cwd):
 
 def anonimizza_percorsi(nb):
     """Toglie dagli output il percorso locale della macchina che ha eseguito il build
-    (es. /home/<utente>/...): resta solo '.../corso_python_CNR/...'."""
+    (es. /home/<utente>/...), anche se il build è stato fatto su un'altra macchina:
+    resta solo '.../corso_python_CNR/...'."""
     privati = sorted({str(RADICE.parent), str(Path.home())}, key=len, reverse=True)
+    altrove = re.compile(r"(?:[A-Za-z]:)?(?:[/\\][^/\\\s\"']+)+?[/\\](?=corso_python_cnr)", re.IGNORECASE)
 
     def pulisci(testo):
         for p in privati:
             testo = testo.replace(p, "...")
-        return testo
+        return altrove.sub(".../", testo)
 
     def pulisci_valore(v):
         if isinstance(v, str):
@@ -273,13 +275,12 @@ def build(filtro="", esegui_nb=True):
         print(f"   {len(nb.cells)} celle, {n_es} celle-esercizio con soluzione")
 
 
-ESCLUSI_SEMPRE = {".venv", "dist", "__pycache__", ".ipynb_checkpoints", ".omc", ".git", ".claude",
-                  ".jupyter", ".jupyter_ystore.db"}   # stato locale di JupyterLab (collaborazione)
+ESCLUSI_SEMPRE = {"dist", "__pycache__"}   # oltre a tutti i file e le cartelle nascosti (.venv, .git, .jupyter...)
 
 
 def _da_includere(rel, per_studenti):
     parti = rel.parts
-    if any(p in ESCLUSI_SEMPRE for p in parti):
+    if any(p in ESCLUSI_SEMPRE or p.startswith(".") for p in parti):
         return False
     if per_studenti and parti[0] in ("docente", "sorgenti", "guida_docente"):
         return False                       # soluzioni e guida del docente NON vanno ai partecipanti
