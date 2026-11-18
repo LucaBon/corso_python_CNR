@@ -426,6 +426,46 @@ SE QUALCOSA NON FUNZIONA
 In ogni caso mandate al docente il messaggio di errore COMPLETO (copia-incolla, non una foto).
 
 
+WINDOWS - COSE DA SAPERE
+------------------------
+Dove sta Python. uv non installa Python "nel sistema": l'interprete sta in una cartella
+di uv (%APPDATA%\\uv\\python) e le librerie nella cartella  .venv  dentro corso_python_CNR.
+Per questo:
+
+- Usate SEMPRE  uv run  davanti ai comandi:  uv run python ...,  uv run jupyter lab.
+  Scritto da solo,  python  non trova niente, oppure apre il Microsoft Store con il
+  messaggio "Python non e' stato trovato; eseguire senza argomenti per installare da
+  Microsoft Store...". Non installate niente dallo Store: scrivete  uv run python.
+
+- Dopo  uv sync  NON spostate e NON rinominate la cartella corso_python_CNR: i comandi
+  dentro .venv ricordano il percorso e smettono di funzionare. Se e' gia' successo:
+  cancellate la cartella  .venv  e, dalla nuova posizione, scrivete  uv sync --offline
+  (pochi secondi, senza rete; se da' errore usate  uv sync  con la rete).
+
+Il materiale del corso (zip dei partecipanti, a inizio corso) va scompattato in modo che
+si unisca alla cartella corso_python_CNR che avete gia'. Lo zip contiene anch'esso una
+cartella corso_python_CNR, e "Estrai tutto..." propone una cartella nuova con il nome
+dello zip: CAMBIATE la destinazione e scegliete la cartella che CONTIENE corso_python_CNR
+(per esempio Documenti, NON Documenti\\corso_python_CNR). Se Windows chiede di sostituire
+dei file, rispondete di si'.
+
+  Giusto:     Documenti\\corso_python_CNR\\.venv
+              Documenti\\corso_python_CNR\\studenti
+  Sbagliato:  Documenti\\corso_python_CNR_partecipanti\\corso_python_CNR\\studenti
+
+Se e' finito nel posto sbagliato: aprite  Documenti\\corso_python_CNR_partecipanti\\corso_python_CNR,
+selezionate tutto (Ctrl + A) e trascinatelo in  Documenti\\corso_python_CNR. Se li' dentro
+c'e' una cartella  .venv , NON spostatela (cancellatela). Poi cancellate la cartella
+corso_python_CNR_partecipanti, ormai vuota.
+
+Controllo: nella cartella corso_python_CNR (passo 3) scrivete  ls  e dovete vedere sia
+.venv  sia  studenti  e  dati.
+
+Chi usa VS Code invece di JupyterLab: File -> Apri cartella... e scegliete corso_python_CNR
+(non il singolo notebook). Poi, nel notebook, "Select Kernel" -> "Python Environments" ->
+.venv\\Scripts\\python.exe.
+
+
 PIANO B - Miniforge (solo se uv non funziona)
 ---------------------------------------------
 1. Scaricate e installate Miniforge per il vostro sistema da:

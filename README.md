@@ -37,9 +37,9 @@ corso_python_CNR/
 **Modificare SOLO `sorgenti/*.py`**, poi:
 
 ```bash
-python strumenti/nb_tools.py build          # tutti (esegue i notebook: ~3-4 minuti)
-python strumenti/nb_tools.py build 06       # solo il 06
-python strumenti/nb_tools.py build --no-exec  # senza eseguire (niente output atteso)
+uv run python strumenti/nb_tools.py build            # tutti (esegue i notebook: ~3-4 minuti)
+uv run python strumenti/nb_tools.py build 06         # solo il 06
+uv run python strumenti/nb_tools.py build --no-exec  # senza eseguire (niente output atteso)
 ```
 
 Il build esegue la versione docente (fallisce se una cella dà errore: è voluto), poi genera la
@@ -137,6 +137,43 @@ I due ambienti hanno le stesse librerie e le stesse versioni minime (pandas ≥ 
 "output attesi" sono prodotti con le versioni esatte di `uv.lock`; con Miniforge possono differire
 nelle ultime cifre. Su Colab (pandas 2.x) i tipi delle colonne di testo appaiono come `object`
 invece di `str`: `verifica_ambiente.py` lo segnala.
+
+### Windows: dove sta Python e dove vanno i materiali
+
+uv non installa Python "nel sistema": l'interprete sta in una cartella di uv
+(`%APPDATA%\uv\python`), le librerie in `.venv\` dentro `corso_python_CNR`, e `.venv\Scripts\python.exe`
+è solo un rimando all'interprete. Da qui le tre cause per cui "Python non si trova":
+
+1. **`python` scritto senza `uv run`.** PowerShell non lo trova, o apre il Microsoft Store
+   (*"Python non è stato trovato; eseguire senza argomenti per installare da Microsoft Store…"*).
+   Non installate niente dallo Store: scrivete sempre `uv run python …` e `uv run jupyter lab`.
+2. **Materiale scompattato in una cartella nuova.** Lo zip dei partecipanti contiene già una cartella
+   `corso_python_CNR`, ma "Estrai tutto…" propone una cartella con il nome dello zip. Il risultato è:
+
+   ```
+   Documenti\corso_python_CNR\.venv                                   <- ambiente installato
+   Documenti\corso_python_CNR_partecipanti\corso_python_CNR\studenti  <- notebook, senza .venv
+   ```
+
+   Come destinazione va scelta la cartella che **contiene** `corso_python_CNR` (es. `Documenti`).
+   Se è già successo: spostate tutto il contenuto di `...\corso_python_CNR_partecipanti\corso_python_CNR`
+   dentro `Documenti\corso_python_CNR` (i file in comune sono identici: sostituite pure), **senza**
+   portarvi un eventuale `.venv` creato lì (cancellatelo), poi cancellate la cartella vuota.
+   Controllo: in `Documenti\corso_python_CNR` devono esserci sia `.venv` sia `studenti` e `dati`.
+3. **Cartella del corso spostata o rinominata dopo `uv sync`.** I comandi in `.venv\Scripts`
+   (es. `jupyter.exe`) contengono il percorso vecchio e smettono di funzionare. Spostate i materiali
+   dentro la cartella, non la cartella. Se è già successo: cancellate `.venv` e lanciate
+   `uv sync --offline` (lo ricrea in pochi secondi dalla cache di uv; se dà errore, `uv sync` con la rete).
+
+Per capire quale dei tre, in PowerShell nella cartella del corso:
+
+```powershell
+ls .venv\Scripts\python.exe                           # non esiste -> caso 2
+uv run python -c "import sys; print(sys.executable)"  # funziona -> l'ambiente è a posto: caso 1
+```
+
+**VS Code** al posto di JupyterLab: *File → Apri cartella…* su `corso_python_CNR` (non il singolo
+`.ipynb`), poi nel notebook *Select Kernel → Python Environments → `.venv\Scripts\python.exe`*.
 
 ## Prima del corso (dalla guida operativa)
 
